@@ -1,0 +1,26 @@
+{
+  "name": "crm",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3002",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/ui": "*", "@repo/api": "*", "@repo/config": "*",
+    "@tanstack/react-query": "^5.75.5", "next": "^15.3.1",
+    "react": "^19.1.0", "react-dom": "^19.1.0", "recharts": "^2.15.3",
+    "lucide-react": "^0.513.0", "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1", "tailwind-merge": "^3.3.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*", "@repo/typescript-config": "*",
+    "@types/node": "^22.15.3", "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2", "autoprefixer": "^10.4.21",
+    "eslint": "^9.39.1", "postcss": "^8.5.4", "tailwindcss": "^3.4.17",
+    "typescript": "5.9.2"
+  }
+}

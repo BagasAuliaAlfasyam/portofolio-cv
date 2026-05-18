@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { @apply bg-background text-slate-100 font-sans; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { @apply bg-slate-700/50 rounded-full; }
+.glass { @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06]; }
