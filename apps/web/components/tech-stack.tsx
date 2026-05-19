@@ -1,7 +1,8 @@
 "use client";
 
-import { Cpu, Layers } from "lucide-react";
+import { Cpu } from "lucide-react";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 
 const skillsCategories = [
   {
@@ -87,7 +88,7 @@ const skillsCategories = [
   }
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -97,7 +98,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,

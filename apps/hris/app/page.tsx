@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
+import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 import {
   Users, DollarSign, CalendarCheck, TrendingUp, ArrowUpRight, ArrowDownRight,
   MoreHorizontal, UserPlus, Clock, Award,
@@ -80,6 +82,12 @@ function CustomTooltip({ active, payload, label }: any) {
 }
 
 export default function HRISDashboard() {
+  const [contactFeature, setContactFeature] = useState<string | null>(null);
+
+  const showContact = (feature: string) => {
+    setContactFeature(feature);
+  };
+
   return (
     <DashboardLayout>
       {/* Page header */}
@@ -89,11 +97,11 @@ export default function HRISDashboard() {
           <p className="text-sm text-slate-500 mt-1">Welcome back, Admin. Here&apos;s your HR overview.</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="px-4 py-2 text-sm text-slate-400 border border-white/[0.08] rounded-lg hover:text-white hover:bg-white/[0.03] transition-all">
+          <button onClick={() => showContact("Period filter")} className="px-4 py-2 text-sm text-slate-400 border border-white/[0.08] rounded-lg hover:text-white hover:bg-white/[0.03] transition-all">
             <Clock className="w-4 h-4 inline mr-1.5" />
             Nov 2025
           </button>
-          <button className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-brand-500 to-accent-violet rounded-lg shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all flex items-center gap-1.5">
+          <button onClick={() => showContact("Add Employee")} className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-brand-500 to-accent-violet rounded-lg shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all flex items-center gap-1.5">
             <UserPlus className="w-4 h-4" />
             Add Employee
           </button>
@@ -131,7 +139,7 @@ export default function HRISDashboard() {
               <h3 className="text-sm font-semibold text-white">Employee Growth & Payroll</h3>
               <p className="text-xs text-slate-500 mt-0.5">Monthly headcount and payroll trend</p>
             </div>
-            <button className="p-1.5 rounded-md hover:bg-white/[0.04] text-slate-500">
+            <button onClick={() => showContact("Chart options")} className="p-1.5 rounded-md hover:bg-white/[0.04] text-slate-500">
               <MoreHorizontal className="w-4 h-4" />
             </button>
           </div>
@@ -212,7 +220,7 @@ export default function HRISDashboard() {
               <h3 className="text-sm font-semibold text-white">Leave Requests</h3>
               <p className="text-xs text-slate-500 mt-0.5">Pending approvals</p>
             </div>
-            <a href="#" className="text-xs text-brand-400 hover:text-brand-300">View All</a>
+            <button onClick={() => showContact("View all leave requests")} className="text-xs text-brand-400 hover:text-brand-300">View All</button>
           </div>
           <div className="space-y-3">
             {leaveRequests.map((req, i) => (
@@ -247,9 +255,9 @@ export default function HRISDashboard() {
             <h3 className="text-sm font-semibold text-white">Recent Employees</h3>
             <p className="text-xs text-slate-500 mt-0.5">Latest additions to the team</p>
           </div>
-          <a href="/employees" className="text-xs text-brand-400 hover:text-brand-300 flex items-center gap-1">
+          <button onClick={() => showContact("View all employees")} className="text-xs text-brand-400 hover:text-brand-300 flex items-center gap-1">
             View All <ArrowUpRight className="w-3 h-3" />
-          </a>
+          </button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -291,6 +299,12 @@ export default function HRISDashboard() {
           </table>
         </div>
       </div>
+      <ContactPersonModal
+        open={Boolean(contactFeature)}
+        onClose={() => setContactFeature(null)}
+        featureName={contactFeature ?? undefined}
+        appName="HRIS System"
+      />
     </DashboardLayout>
   );
 }

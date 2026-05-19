@@ -1,8 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { Mail, MapPin, Phone, Send, ArrowRight } from "lucide-react";
+import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 
 export function Contact() {
+  const [contactFeature, setContactFeature] = useState<string | null>(null);
+
   return (
     <section id="contact" className="section-padding relative">
       {/* Background accent */}
@@ -86,6 +90,10 @@ export function Contact() {
               </p>
               <a
                 href="#"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setContactFeature("Schedule Meeting");
+                }}
                 className="inline-flex items-center gap-2 text-sm font-medium text-brand-400 hover:text-brand-300 transition-colors"
               >
                 Schedule Meeting <ArrowRight className="w-4 h-4" />
@@ -99,7 +107,10 @@ export function Contact() {
               <h3 className="text-lg font-bold text-white mb-6">
                 Send us a message
               </h3>
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-5" onSubmit={(e) => {
+                e.preventDefault();
+                setContactFeature("Contact form submission");
+              }}>
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs font-medium text-slate-400 mb-2">
@@ -172,6 +183,12 @@ export function Contact() {
           </div>
         </div>
       </div>
+      <ContactPersonModal
+        open={Boolean(contactFeature)}
+        onClose={() => setContactFeature(null)}
+        featureName={contactFeature ?? undefined}
+        appName="Catalyst Forge website"
+      />
     </section>
   );
 }

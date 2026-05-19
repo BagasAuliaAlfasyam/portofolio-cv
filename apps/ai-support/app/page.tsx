@@ -4,12 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import { MessageSquareText, Zap, Send, User, Bot, Sparkles, AlertCircle, CheckCircle2, ChevronRight, BarChart3, Settings } from "lucide-react";
 import { useAiChat } from "@repo/api/hooks";
 import { motion, AnimatePresence } from "framer-motion";
+import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 
 type Message = {
   id: string;
   role: "user" | "assistant";
   content: string;
-  timestamp: Date;
+  timestamp?: Date;
   status?: "sending" | "sent" | "error";
   actions?: { label: string; action: string }[];
 };
@@ -19,7 +20,6 @@ const initialMessages: Message[] = [
     id: "1",
     role: "assistant",
     content: "Hello! I'm the Catalyst Forge AI Support Agent. I can help you with technical support, account management, and product inquiries. How can I assist you today?",
-    timestamp: new Date(Date.now() - 60000),
     actions: [
       { label: "Check system status", action: "status" },
       { label: "Reset password", action: "reset" },
@@ -34,6 +34,11 @@ export default function AiSupportApp() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { mutate: sendMessage, isPending } = useAiChat();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [contactFeature, setContactFeature] = useState<string | null>(null);
+
+  const showContact = (feature: string) => {
+    setContactFeature(feature);
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -141,8 +146,8 @@ export default function AiSupportApp() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"><BarChart3 className="w-4 h-4" /></button>
-            <button className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"><Settings className="w-4 h-4" /></button>
+            <button onClick={() => showContact("Agent analytics")} className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"><BarChart3 className="w-4 h-4" /></button>
+            <button onClick={() => showContact("Agent settings")} className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"><Settings className="w-4 h-4" /></button>
           </div>
         </header>
 
@@ -171,7 +176,7 @@ export default function AiSupportApp() {
                         {msg.role === "user" ? "You" : "Nexus AI"}
                       </span>
                       <span className="text-[10px] text-slate-600">
-                        {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {msg.timestamp ? msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "Just now"}
                       </span>
                     </div>
 
@@ -197,7 +202,7 @@ export default function AiSupportApp() {
                         {msg.actions.map((action, i) => (
                           <button
                             key={i}
-                            onClick={() => handleSend(action.label)}
+                            onClick={() => showContact(action.label)}
                             className="px-3 py-1.5 text-xs font-medium rounded-lg bg-surface-50 border border-indigo-500/20 text-indigo-300 hover:bg-indigo-500/10 hover:border-indigo-500/40 transition-colors flex items-center gap-1.5"
                           >
                             {action.label}
@@ -232,7 +237,7 @@ export default function AiSupportApp() {
           <div className="max-w-3xl mx-auto relative group">
             <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 blur opacity-50 group-focus-within:opacity-100 transition duration-500" />
             <div className="relative flex items-end gap-2 bg-surface-50 border border-white/[0.08] rounded-xl p-2 shadow-2xl">
-              <button className="p-3 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-lg transition-colors shrink-0">
+              <button onClick={() => showContact("AI prompt enhancer")} className="p-3 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-lg transition-colors shrink-0">
                 <Sparkles className="w-5 h-5" />
               </button>
               
@@ -264,6 +269,12 @@ export default function AiSupportApp() {
           </div>
         </div>
       </main>
+      <ContactPersonModal
+        open={Boolean(contactFeature)}
+        onClose={() => setContactFeature(null)}
+        featureName={contactFeature ?? undefined}
+        appName="AI Support Hub"
+      />
     </div>
   );
 }

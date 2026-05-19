@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 import {
   LayoutDashboard, Users, Target, DollarSign, BarChart3, Mail,
   Settings, Bell, Search, Menu, Zap, ChevronDown, LogOut, User,
@@ -80,6 +81,11 @@ const stageColors: Record<string, string> = {
 
 export default function CRMDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [contactFeature, setContactFeature] = useState<string | null>(null);
+
+  const showContact = (feature: string) => {
+    setContactFeature(feature);
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -101,6 +107,12 @@ export default function CRMDashboard() {
         <nav className="flex-1 py-4 px-3 space-y-1">
           {sidebarLinks.map((link) => (
             <Link key={link.label} href={link.href}
+              onClick={(event) => {
+                if (!link.active) {
+                  event.preventDefault();
+                  showContact(link.label);
+                }
+              }}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${
                 link.active ? "bg-violet-500/10 text-violet-400 border border-violet-500/20" : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.03]"
               }`}>
@@ -124,7 +136,7 @@ export default function CRMDashboard() {
             <input type="text" placeholder="Search contacts, deals..." className="w-full h-9 pl-9 pr-4 rounded-lg bg-surface-50 border border-white/[0.06] text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-violet-500/40" />
           </div>
           <div className="flex items-center gap-3">
-            <button className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white transition-all">
+            <button onClick={() => showContact("Notifications")} className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white transition-all">
               <Bell className="w-4 h-4" /><span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-violet-500 text-[10px] text-white flex items-center justify-center">5</span>
             </button>
             <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg hover:bg-surface-50 transition-all cursor-pointer">
@@ -140,7 +152,7 @@ export default function CRMDashboard() {
               <h1 className="text-2xl font-bold text-white">CRM Dashboard</h1>
               <p className="text-sm text-slate-500 mt-1">Sales pipeline and customer insights</p>
             </div>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg shadow-lg shadow-violet-500/25 flex items-center gap-1.5">
+            <button onClick={() => showContact("New Deal")} className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg shadow-lg shadow-violet-500/25 flex items-center gap-1.5">
               <Plus className="w-4 h-4" />New Deal
             </button>
           </div>
@@ -210,7 +222,7 @@ export default function CRMDashboard() {
           <div className="glass rounded-xl p-5">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold text-white">Recent Deals</h3>
-              <a href="#" className="text-xs text-violet-400">View All</a>
+              <button onClick={() => showContact("View all deals")} className="text-xs text-violet-400">View All</button>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -239,6 +251,12 @@ export default function CRMDashboard() {
           </div>
         </main>
       </div>
+      <ContactPersonModal
+        open={Boolean(contactFeature)}
+        onClose={() => setContactFeature(null)}
+        featureName={contactFeature ?? undefined}
+        appName="CRM System"
+      />
     </div>
   );
 }

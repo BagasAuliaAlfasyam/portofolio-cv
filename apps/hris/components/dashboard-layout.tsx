@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 import {
   LayoutDashboard, Users, CalendarDays, DollarSign, BarChart3,
   Settings, Bell, Search, Menu, X, Zap, ChevronDown, LogOut, User,
@@ -19,6 +20,12 @@ const sidebarLinks = [
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [contactFeature, setContactFeature] = useState<string | null>(null);
+
+  const showContact = (feature: string) => {
+    setContactFeature(feature);
+    setProfileOpen(false);
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -49,6 +56,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <Link
               key={link.label}
               href={link.href}
+              onClick={(event) => {
+                if (!link.active) {
+                  event.preventDefault();
+                  showContact(link.label);
+                }
+              }}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 group ${
                 link.active
                   ? "bg-brand-500/10 text-brand-400 border border-brand-500/20"
@@ -92,7 +105,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           {/* Right actions */}
           <div className="flex items-center gap-3">
             {/* Notifications */}
-            <button className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-surface-100 transition-all">
+            <button onClick={() => showContact("Notifications")} className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-surface-100 transition-all">
               <Bell className="w-4 h-4" />
               <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-[10px] text-white flex items-center justify-center font-medium">3</span>
             </button>
@@ -115,16 +128,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
               {profileOpen && (
                 <div className="absolute right-0 top-12 w-48 py-2 rounded-xl bg-surface-100 border border-white/[0.08] shadow-2xl z-50">
-                  <a href="#" className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-white/[0.04]">
+                  <button onClick={() => showContact("Profile")} className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-400 hover:text-white hover:bg-white/[0.04]">
                     <User className="w-4 h-4" /> Profile
-                  </a>
-                  <a href="#" className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-white/[0.04]">
+                  </button>
+                  <button onClick={() => showContact("Settings")} className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-400 hover:text-white hover:bg-white/[0.04]">
                     <Settings className="w-4 h-4" /> Settings
-                  </a>
+                  </button>
                   <hr className="my-1 border-white/[0.06]" />
-                  <a href="#" className="flex items-center gap-2 px-4 py-2 text-sm text-rose-400 hover:bg-white/[0.04]">
+                  <button onClick={() => showContact("Logout")} className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-rose-400 hover:bg-white/[0.04]">
                     <LogOut className="w-4 h-4" /> Logout
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -136,6 +149,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           {children}
         </main>
       </div>
+      <ContactPersonModal
+        open={Boolean(contactFeature)}
+        onClose={() => setContactFeature(null)}
+        featureName={contactFeature ?? undefined}
+        appName="HRIS System"
+      />
     </div>
   );
 }

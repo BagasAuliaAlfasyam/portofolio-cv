@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   MessageSquareText,
   UserCog,
@@ -10,6 +11,7 @@ import {
   Brain,
   Sparkles,
 } from "lucide-react";
+import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 
 const aiProducts = [
   {
@@ -60,6 +62,8 @@ const aiProducts = [
 ];
 
 export function AiProducts() {
+  const [contactFeature, setContactFeature] = useState<string | null>(null);
+
   return (
     <section id="ai-products" className="section-padding relative">
       {/* Background accent */}
@@ -124,20 +128,24 @@ export function AiProducts() {
                 </div>
 
                 {/* CTA */}
-                <a
-                  href={product.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => setContactFeature(`${product.name} live demo`)}
                   className="inline-flex items-center gap-2 text-sm font-medium text-brand-400 hover:text-brand-300 transition-colors group/link"
                 >
                   Try Live Demo
                   <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                </a>
+                </button>
               </div>
             </div>
           ))}
         </div>
       </div>
+      <ContactPersonModal
+        open={Boolean(contactFeature)}
+        onClose={() => setContactFeature(null)}
+        featureName={contactFeature ?? undefined}
+        appName="AI Solutions showcase"
+      />
     </section>
   );
 }

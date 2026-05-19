@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { useState } from "react";
 import type { Variants } from "framer-motion";
+import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 import {
   ArrowRight,
   Award,
@@ -348,6 +350,8 @@ function Testimonials() {
 }
 
 function Contact() {
+  const [contactFeature, setContactFeature] = useState<string | null>(null);
+
   return (
     <section id="contact" className="bg-[#f8f4e9] py-28">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-2 lg:px-8">
@@ -374,7 +378,10 @@ function Contact() {
             ))}
           </div>
         </motion.div>
-        <motion.form initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="rounded-md border border-emerald-950/10 bg-white p-7 shadow-sm" onSubmit={(event) => event.preventDefault()}>
+        <motion.form initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="rounded-md border border-emerald-950/10 bg-white p-7 shadow-sm" onSubmit={(event) => {
+          event.preventDefault();
+          setContactFeature("Company profile inquiry form");
+        }}>
           <div className="grid gap-5">
             <label className="grid gap-2 text-sm font-bold text-[#17341f]">
               Nama Lengkap
@@ -394,6 +401,12 @@ function Contact() {
           </div>
         </motion.form>
       </div>
+      <ContactPersonModal
+        open={Boolean(contactFeature)}
+        onClose={() => setContactFeature(null)}
+        featureName={contactFeature ?? undefined}
+        appName="Company Profile Platform"
+      />
     </section>
   );
 }

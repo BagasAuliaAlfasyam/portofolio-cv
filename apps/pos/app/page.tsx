@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 import {
   LayoutDashboard, ShoppingCart, Package, Receipt, BarChart3,
   Settings, Bell, Search, Menu, Zap, Plus,
@@ -65,6 +66,11 @@ function CustomTooltip({ active, payload, label }: any) {
 
 export default function POSDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [contactFeature, setContactFeature] = useState<string | null>(null);
+
+  const showContact = (feature: string) => {
+    setContactFeature(feature);
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -80,6 +86,12 @@ export default function POSDashboard() {
         <nav className="flex-1 py-4 px-3 space-y-1">
           {sidebarLinks.map((link) => (
             <Link key={link.label} href={link.href}
+              onClick={(event) => {
+                if (!link.active) {
+                  event.preventDefault();
+                  showContact(link.label);
+                }
+              }}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${link.active ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.03]"}`}>
               <link.icon className="w-[18px] h-[18px] shrink-0" />{sidebarOpen && <span>{link.label}</span>}
             </Link>
@@ -99,7 +111,7 @@ export default function POSDashboard() {
             <input type="text" placeholder="Search products, transactions..." className="w-full h-9 pl-9 pr-4 rounded-lg bg-surface-50 border border-white/[0.06] text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500/40" />
           </div>
           <div className="flex items-center gap-3">
-            <button className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white"><Bell className="w-4 h-4" /></button>
+            <button onClick={() => showContact("Notifications")} className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white"><Bell className="w-4 h-4" /></button>
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold">CS</div>
           </div>
         </header>
@@ -107,7 +119,7 @@ export default function POSDashboard() {
         <main className="flex-1 overflow-y-auto p-6">
           <div className="flex items-center justify-between mb-8">
             <div><h1 className="text-2xl font-bold text-white">POS Dashboard</h1><p className="text-sm text-slate-500 mt-1">Today&apos;s sales overview</p></div>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg shadow-lg shadow-emerald-500/25 flex items-center gap-1.5"><Plus className="w-4 h-4" />New Sale</button>
+            <button onClick={() => showContact("New Sale")} className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg shadow-lg shadow-emerald-500/25 flex items-center gap-1.5"><Plus className="w-4 h-4" />New Sale</button>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -184,6 +196,12 @@ export default function POSDashboard() {
           </div>
         </main>
       </div>
+      <ContactPersonModal
+        open={Boolean(contactFeature)}
+        onClose={() => setContactFeature(null)}
+        featureName={contactFeature ?? undefined}
+        appName="POS System"
+      />
     </div>
   );
 }
