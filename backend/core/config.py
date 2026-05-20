@@ -24,12 +24,14 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     # Database
+    DATABASE_URL: str = ""
     POSTGRES_SERVER: str = "localhost"
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "postgres"
     POSTGRES_DB: str = "catalyst_forge"
     
     # AI Models
+    GEMINI_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
     
     class Config:
