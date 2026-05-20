@@ -9,8 +9,8 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0"
   },
-  "dependencies": {
-    "@tanstack/react-query": "^5.75.5"
+  "peerDependencies": {
+    "react": "^19.1.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "*",

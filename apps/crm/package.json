@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@repo/ui": "*", "@repo/api": "*", "@repo/config": "*",
-    "@tanstack/react-query": "^5.75.5", "next": "^15.3.1",
+    "next": "^15.3.1",
     "react": "^19.1.0", "react-dom": "^19.1.0", "recharts": "^2.15.3",
     "lucide-react": "^0.513.0", "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1", "tailwind-merge": "^3.3.0"

@@ -18,6 +18,11 @@ coverage
 # Turbo
 .turbo
 
+# Local dev artifacts
+.dev-logs/
+__pycache__/
+*.py[cod]
+
 # Vercel
 .vercel
 
