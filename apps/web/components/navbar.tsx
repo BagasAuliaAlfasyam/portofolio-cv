@@ -1,119 +1,75 @@
-"use client";
+import Image from "next/image";
+import { LanguageSwitcher } from "@repo/ui/language-switcher";
+import { type Locale, type Messages } from "@/lib/i18n";
+import { MobileMenu } from "./mobile-menu";
 
-import { useState, useEffect } from "react";
-import { Menu, X, Zap } from "lucide-react";
+type NavbarProps = {
+  messages: Messages;
+  locale: Locale;
+};
 
-const navLinks = [
-  { label: "Products", href: "#products" },
-  { label: "AI Solutions", href: "#ai-products" },
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Tech Stack", href: "#tech-stack" },
-  { label: "Contact", href: "#contact" },
-];
-
-export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+export function Navbar({ messages, locale }: NavbarProps) {
+  const navItems = [
+    { href: "#products", label: messages.navbar.products },
+    { href: "#how-we-work", label: messages.navbar.howWeWork },
+    { href: "#testimonials", label: messages.navbar.testimonials },
+    { href: "#contact", label: messages.navbar.contact },
+  ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-white/[0.06] shadow-lg shadow-black/20"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container-max mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 group">
-            <div className="relative">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-accent-violet flex items-center justify-center shadow-lg shadow-brand-500/25 group-hover:shadow-brand-500/40 transition-all duration-300">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <div className="absolute -inset-1 rounded-xl bg-gradient-to-br from-brand-500/20 to-accent-violet/20 blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight text-white">
-                Catalyst<span className="text-brand-400">Forge</span>
-              </span>
-              <span className="text-[10px] font-medium text-slate-500 tracking-widest uppercase -mt-1">
-                AI Engineering
-              </span>
-            </div>
-          </a>
+    <header className="relative sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur">
+      <div className="section-container flex min-h-20 items-center justify-between gap-5">
+        <a className="flex shrink-0 items-center gap-3" href="#top">
+          <span className="relative block h-12 w-12 overflow-hidden rounded-md">
+            <Image
+              alt={messages.brand.logoAlt}
+              className="object-cover"
+              fill
+              priority
+              sizes="48px"
+              src="/logo_icon_only.png"
+            />
+          </span>
+          <span className="leading-tight">
+            <span className="block text-2xl font-bold tracking-tight text-[#1B3A5C]">
+              {messages.brand.name}
+            </span>
+            <span className="hidden text-base font-semibold uppercase tracking-[0.18em] text-[#1A1A2E]/70 sm:block">
+              {messages.brand.tagline}
+            </span>
+          </span>
+        </a>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="px-4 py-2 text-sm text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04] transition-all duration-200"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <div className="hidden md:flex items-center gap-3">
+        <nav className="hidden items-center gap-8 lg:flex">
+          {navItems.map((item) => (
             <a
-              href="#products"
-              className="px-4 py-2 text-sm text-slate-300 hover:text-white transition-colors"
+              className="text-base font-semibold text-[#1A1A2E] transition-colors hover:text-[#E8531A]"
+              href={item.href}
+              key={item.href}
             >
-              Live Demos
+              {item.label}
             </a>
-            <a
-              href="#contact"
-              className="px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-brand-500 to-accent-violet rounded-lg shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-            >
-              Start Your Project
-            </a>
-          </div>
+          ))}
+        </nav>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher
+            ariaLabel={messages.language.label}
+            currentLocale={locale}
+            locales={[
+              { code: "id", href: "/", label: messages.language.id },
+              { code: "en", href: "/en", label: messages.language.en },
+            ]}
+          />
+          <a
+            className="hidden rounded-full bg-[#E8531A] px-5 py-3 text-base font-bold text-white shadow-md transition hover:bg-[#F4784A] md:inline-flex"
+            href="#contact"
           >
-            {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            {messages.navbar.cta}
+          </a>
+          <MobileMenu ctaLabel={messages.navbar.cta} items={navItems} />
         </div>
-
-        {/* Mobile Nav */}
-        {isMobileOpen && (
-          <div className="md:hidden pb-6 animate-slide-down">
-            <div className="flex flex-col gap-1 mt-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileOpen(false)}
-                  className="px-4 py-3 text-sm text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04] transition-all"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <div className="mt-4 pt-4 border-t border-white/[0.06] flex flex-col gap-2">
-                <a
-                  href="#contact"
-                  className="px-5 py-3 text-sm font-medium text-white bg-gradient-to-r from-brand-500 to-accent-violet rounded-lg text-center"
-                >
-                  Start Your Project
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
-    </nav>
+    </header>
   );
 }

@@ -1,0 +1,210 @@
+{
+  "locale": "id",
+  "brand": {
+    "name": "CatalystForge",
+    "tagline": "Building Digital Solutions",
+    "logoAlt": "Logo CatalystForge"
+  },
+  "metadata": {
+    "title": "CatalystForge - Solusi Digital Terpadu untuk Bisnis",
+    "description": "CatalystForge membangun sistem enterprise, aplikasi bisnis, dan solusi digital untuk perusahaan Indonesia."
+  },
+  "language": {
+    "label": "Bahasa",
+    "id": "ID",
+    "en": "EN"
+  },
+  "error": {
+    "retry": "Coba Lagi"
+  },
+  "navbar": {
+    "products": "Produk",
+    "howWeWork": "Cara Kerja",
+    "testimonials": "Project",
+    "contact": "Kontak",
+    "cta": "Hubungi Kami"
+  },
+  "hero": {
+    "headline": "Solusi Digital Terpadu untuk Pertumbuhan Bisnis Anda",
+    "subheadline": "Kami membantu perusahaan membangun sistem enterprise yang stabil, aman, dan mudah berkembang dengan pemahaman mendalam terhadap kebutuhan bisnis lokal Indonesia.",
+    "primaryCta": "Lihat Portfolio",
+    "secondaryCta": "Hubungi Kami",
+    "trustIndicators": [
+      "Enterprise Workflow",
+      "AI & Automation",
+      "Web & Dashboard",
+      "VPS Deployment Ready"
+    ]
+  },
+  "trustBar": {
+    "items": [
+      { "value": "AI", "label": "Automation & Chatbot" },
+      { "value": "ERP", "label": "Workflow & Procurement" },
+      { "value": "Web", "label": "Company Profile & Dashboard" },
+      { "value": "VPS", "label": "Docker & Nginx Deployment" }
+    ]
+  },
+  "products": {
+    "eyebrow": "Produk & Solusi",
+    "title": "Solusi untuk Bisnis Anda",
+    "description": "Portofolio solusi digital yang dirancang untuk meningkatkan efisiensi operasional, pengalaman pelanggan, dan pengambilan keputusan perusahaan.",
+    "learnMore": "Buka Demo",
+    "items": [
+      {
+        "name": "AI Support",
+        "description": "Layanan AI & Chatbot Cerdas untuk menjawab pelanggan lebih cepat dan konsisten.",
+        "href": "http://localhost:3004",
+        "cta": "Buka Demo AI Support"
+      },
+      {
+        "name": "CRM",
+        "description": "Manajemen Hubungan Pelanggan untuk memperkuat pipeline, follow-up, dan retensi.",
+        "href": "http://localhost:3002",
+        "cta": "Buka Demo CRM"
+      },
+      {
+        "name": "HRIS",
+        "description": "Sistem HR & Kepegawaian Terintegrasi untuk data karyawan, absensi, dan administrasi.",
+        "href": "http://localhost:3001",
+        "cta": "Buka Demo HRIS"
+      },
+      {
+        "name": "POS",
+        "description": "Sistem Kasir & Penjualan Modern untuk transaksi, stok, dan laporan cabang.",
+        "href": "http://localhost:3003",
+        "cta": "Buka Demo POS"
+      },
+      {
+        "name": "Company Profile",
+        "description": "Website Korporat Profesional yang membangun kredibilitas dan kepercayaan pasar.",
+        "href": "http://localhost:3005",
+        "cta": "Buka Demo Company Profile"
+      }
+    ]
+  },
+  "whyChooseUs": {
+    "eyebrow": "Mengapa Memilih Kami",
+    "title": "Mitra teknologi yang memahami kebutuhan perusahaan",
+    "description": "Kami menggabungkan pendekatan konsultatif, rekayasa perangkat lunak, dan dukungan jangka panjang agar solusi digital benar-benar berjalan di operasional bisnis.",
+    "items": [
+      {
+        "heading": "Pengembangan End-to-End",
+        "paragraph": "Kami mendampingi dari strategi, desain, pengembangan, deployment, hingga peningkatan berkelanjutan."
+      },
+      {
+        "heading": "Tim Lokal, Standar Global",
+        "paragraph": "Tim Indonesia dengan standar kualitas internasional, komunikasi jelas, dan pemahaman konteks bisnis lokal."
+      },
+      {
+        "heading": "Dukungan Purna Jual",
+        "paragraph": "Pendampingan setelah peluncuran untuk menjaga sistem tetap stabil, relevan, dan siap berkembang."
+      },
+      {
+        "heading": "Keamanan Enterprise",
+        "paragraph": "Arsitektur yang disiapkan untuk keamanan data, kontrol akses, audit, dan kebutuhan kepatuhan perusahaan."
+      }
+    ]
+  },
+  "howWeWork": {
+    "eyebrow": "Cara Kerja",
+    "title": "Proses terstruktur dari kebutuhan bisnis hingga operasional",
+    "description": "Setiap proyek dimulai dengan pemahaman yang jelas, dilanjutkan desain sistem, pembangunan bertahap, dan dukungan setelah go-live.",
+    "steps": [
+      {
+        "title": "Discovery",
+        "description": "Memahami kebutuhan bisnis, proses internal, dan indikator keberhasilan."
+      },
+      {
+        "title": "Design",
+        "description": "Merancang UX/UI, arsitektur sistem, alur data, dan prioritas pengembangan."
+      },
+      {
+        "title": "Build",
+        "description": "Mengembangkan solusi secara agile dengan review berkala dan kontrol kualitas."
+      },
+      {
+        "title": "Support",
+        "description": "Menjaga sistem melalui maintenance, monitoring, dan peningkatan berkelanjutan."
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Testimoni & Project Highlights",
+    "title": "Pengalaman dari proyek perusahaan, riset, dan healthcare",
+    "description": "Beberapa project berikut menunjukkan pengalaman CatalystForge dalam membangun solusi pengadaan, sistem pakar, dan chatbot operasional.",
+    "ratingLabel": "5 dari 5 bintang",
+    "items": [
+      {
+        "avatar": "https://i.pravatar.cc/100?img=1",
+        "name": "PT Patra Drilling Contractor",
+        "title": "Procurement HTE",
+        "company": "Subholding Pertamina",
+        "quote": "Project Procurement HTE membantu proses pengadaan menjadi lebih efisien dengan fitur utama untuk memudahkan generate dokumen di setiap pengadaan."
+      },
+      {
+        "avatar": "https://i.pravatar.cc/100?img=3",
+        "name": "Al Hilal Hamzi",
+        "title": "Mahasiswa Universitas Malikussaleh",
+        "company": "Sistem Pakar Udang Vaname",
+        "quote": "Sistem pakar untuk mendiagnosa penyakit udang vaname menggunakan metode Naive Bayes dan Certainty Factor sebagai pendukung analisis berbasis pengetahuan."
+      },
+      {
+        "avatar": "https://i.pravatar.cc/100?img=5",
+        "name": "Silfa",
+        "title": "RS Prima Inti Medika",
+        "company": "Pomeng Chatbot",
+        "quote": "Pomeng Chatbot dikembangkan sebagai asisten guide untuk membantu pengguna mendapatkan arahan dan informasi layanan RS Prima Inti Medika dengan lebih mudah."
+      }
+    ]
+  },
+  "caseStudies": {
+    "eyebrow": "Project Experience",
+    "title": "Studi kasus dari kebutuhan bisnis nyata",
+    "description": "Setiap project diringkas berdasarkan konteks masalah, solusi yang dibangun, dan dampak operasional yang dituju.",
+    "problemLabel": "Problem",
+    "solutionLabel": "Solution",
+    "impactLabel": "Impact",
+    "items": [
+      {
+        "project": "Procurement HTE",
+        "client": "PT Patra Drilling Contractor",
+        "context": "Subholding Pertamina",
+        "problem": "Proses pengadaan membutuhkan dokumen yang konsisten dan mudah disiapkan di setiap tahapan.",
+        "solution": "Sistem procurement dengan fitur generate dokumen untuk setiap pengadaan.",
+        "impact": "Tim dapat menyusun dokumen pengadaan lebih cepat, rapi, dan terstandar."
+      },
+      {
+        "project": "Sistem Pakar Udang Vaname",
+        "client": "Al Hilal Hamzi",
+        "context": "Mahasiswa Universitas Malikussaleh",
+        "problem": "Diagnosa penyakit udang vaname membutuhkan pendekatan berbasis gejala dan tingkat keyakinan.",
+        "solution": "Sistem pakar menggunakan metode Naive Bayes dan Certainty Factor.",
+        "impact": "Analisis diagnosa menjadi lebih terstruktur sebagai pendukung penelitian dan pengambilan keputusan."
+      },
+      {
+        "project": "Pomeng Chatbot",
+        "client": "Silfa",
+        "context": "RS Prima Inti Medika",
+        "problem": "Pengguna membutuhkan panduan cepat untuk memahami informasi dan arahan layanan rumah sakit.",
+        "solution": "Chatbot assistant guide untuk menjawab kebutuhan informasi pengguna.",
+        "impact": "Akses informasi layanan menjadi lebih mudah, cepat, dan ramah pengguna."
+      }
+    ]
+  },
+  "cta": {
+    "headline": "Siap Membawa Bisnis Anda ke Level Berikutnya?",
+    "subtext": "Konsultasikan kebutuhan digital perusahaan Anda bersama tim kami",
+    "button": "Diskusi Kebutuhan Sistem"
+  },
+  "whatsapp": {
+    "label": "Konsultasi via WhatsApp",
+    "message": "Halo CatalystForge, saya ingin diskusi kebutuhan sistem digital."
+  },
+  "footer": {
+    "contactTitle": "Kontak",
+    "contactEmail": "catalystforgetechnology@gmail.com",
+    "contactPhone": "085121379282",
+    "contactAddress": "Buah Batu, Kota Bandung",
+    "copyright": "© 2025 CatalystForge. All rights reserved."
+  }
+}

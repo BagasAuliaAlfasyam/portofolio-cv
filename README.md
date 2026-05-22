@@ -1,159 +1,263 @@
-# Turborepo starter
+<p align="center">
+  <img src="./apps/web/public/logoBackground.png" alt="CatalystForge logo" width="220" />
+</p>
 
-This Turborepo starter is maintained by the Turborepo core team.
+<h1 align="center">CatalystForge</h1>
 
-## Using this example
+<p align="center"><strong>Building Digital Solutions</strong></p>
 
-Run the following command:
+<p align="center">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" />
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white" />
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-0.109+-009688?logo=fastapi&logoColor=white" />
+  <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-Ready-4169E1?logo=postgresql&logoColor=white" />
+  <img alt="Turborepo" src="https://img.shields.io/badge/Turborepo-2.9-EF4444?logo=turborepo&logoColor=white" />
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white" />
+</p>
 
-```sh
-npx create-turbo@latest
+## Overview
+
+CatalystForge is a digital solution company focused on building practical, scalable software for business operations, customer engagement, HR processes, sales workflows, and corporate digital presence.
+
+This repository is the CatalystForge product ecosystem in one Turborepo monorepo. It contains multiple Next.js applications, a FastAPI backend, shared UI components, shared API wrappers, and centralized development configuration.
+
+The platform is designed for enterprise and corporate clients, especially organizations that need reliable internal systems, customer-facing applications, and maintainable technology foundations.
+
+## Monorepo Structure
+
+```text
+portofolio cv/
+├── apps/
+│   ├── ai-support/          AI chatbot and support application
+│   ├── company/             Company landing page
+│   ├── crm/                 Customer relationship management app
+│   ├── hris/                Human resources information system app
+│   ├── pos/                 Point-of-sale and sales operations app
+│   └── web/                 Main CatalystForge website and portfolio
+│
+├── backend/
+│   ├── api/
+│   │   ├── router.py        FastAPI router composition
+│   │   └── routes/          REST API endpoint modules
+│   ├── core/                Configuration, database, security, and services
+│   ├── models/              SQLAlchemy model placeholders
+│   ├── schemas/             Pydantic schema placeholders
+│   ├── Dockerfile           Backend container definition
+│   ├── main.py              FastAPI application entrypoint
+│   └── requirements.txt     Python dependencies
+│
+├── packages/
+│   ├── api/                 Shared API client, endpoint wrappers, and types
+│   ├── config/              Shared site and application configuration
+│   ├── eslint-config/       Shared ESLint configuration
+│   ├── typescript-config/   Shared TypeScript configuration
+│   └── ui/                  Shared React UI components
+│
+├── package.json             Workspace scripts and Turborepo commands
+├── package-lock.json        npm lockfile
+├── turbo.json               Turborepo task pipeline
+└── README.md
 ```
 
-## What's inside?
+## Apps
 
-This Turborepo includes the following packages/apps:
+| App          | Description                                                       | Stack                                        |
+| ------------ | ----------------------------------------------------------------- | -------------------------------------------- |
+| `ai-support` | AI chatbot and support interface for customer service workflows.  | Next.js, TypeScript, Tailwind CSS, FastAPI   |
+| `company`    | Company landing page for corporate presentation and lead capture. | Next.js, TypeScript, Tailwind CSS            |
+| `crm`        | Customer relationship management app for pipelines and clients.   | Next.js, TypeScript, Tailwind CSS, Recharts  |
+| `hris`       | HR and employee management app for operational workflows.         | Next.js, TypeScript, Tailwind CSS, Recharts  |
+| `pos`        | Point-of-sale app for transactions, inventory, and reporting.     | Next.js, TypeScript, Tailwind CSS, Recharts  |
+| `web`        | Main CatalystForge marketing website and portfolio.               | Next.js App Router, TypeScript, Tailwind CSS |
 
-### Apps and Packages
+## Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+| Package                   | Description                                                               |
+| ------------------------- | ------------------------------------------------------------------------- |
+| `@repo/api`               | Shared API client, typed endpoint wrappers, and API response interfaces.  |
+| `@repo/config`            | Shared project and site configuration.                                    |
+| `@repo/eslint-config`     | Shared ESLint rules for apps and packages.                                |
+| `@repo/typescript-config` | Shared TypeScript presets for Next.js apps and React packages.            |
+| `@repo/ui`                | Shared React components, UI utilities, and reusable interface primitives. |
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Tech Stack
 
-### Utilities
+| Layer      | Technology                                    |
+| ---------- | --------------------------------------------- |
+| Frontend   | Next.js App Router, React, TypeScript         |
+| Backend    | Python, FastAPI, Pydantic, SQLAlchemy         |
+| Database   | PostgreSQL with async-ready `asyncpg` pattern |
+| Monorepo   | Turborepo, npm workspaces                     |
+| Deployment | VPS, Docker, Nginx                            |
+| Styling    | Tailwind CSS, `clsx`, `tailwind-merge`        |
+| Icons      | `lucide-react`                                |
+| Charts     | `recharts`                                    |
 
-This Turborepo has some additional tools already setup for you:
+## Getting Started
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+### Prerequisites
 
-### Build
+- Node.js 18 or newer
+- npm 10.9.2 or compatible npm version
+- Python 3.11 or newer
+- PostgreSQL 14 or newer
+- Docker and Nginx for deployment workflows
+- pnpm support is 🚧 WIP; this repository currently uses `package-lock.json` and `npm@10.9.2`.
 
-To build all apps and packages, run the following command:
+### Clone the Repository
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```bash
+git clone <repository-url>
+cd "portofolio cv"
 ```
 
-Without global `turbo`, use your package manager:
+### Install Dependencies
 
-```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
+```bash
+npm install
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Backend dependencies:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo build --filter=docs
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-Without global `turbo`:
+On macOS or Linux, activate the virtual environment with:
 
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
+```bash
+source venv/bin/activate
 ```
 
-### Develop
+### Set Up Environment Variables
 
-To develop all apps and packages, run the following command:
+Create local `.env` files from the relevant examples when available.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
+```bash
+cp backend/.env.example backend/.env
 ```
 
-Without global `turbo`, use your package manager:
+`.env.example` files are 🚧 coming soon. Until then, use the environment variable table below as the source of truth.
 
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
+### Run Development Servers
+
+Run all workspace dev servers through Turborepo:
+
+```bash
+npm run dev
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Run one app only:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
+```bash
+npm run dev:web
+npm run dev:crm
+npm run dev:hris
+npm run dev:pos
+npm run dev:ai-support
+npm run dev:company
 ```
 
-Without global `turbo`:
+Run the FastAPI backend:
 
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
+```bash
+cd backend
+uvicorn main:app --host 0.0.0.0 --port 8001 --reload
 ```
 
-### Remote Caching
+## Development Commands
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+| Command                               | Description                                                |
+| ------------------------------------- | ---------------------------------------------------------- |
+| `npm run dev`                         | Start all app/package dev tasks through Turbo.             |
+| `npm run dev:web`                     | Start only the main website app.                           |
+| `npm run dev:crm`                     | Start only the CRM app.                                    |
+| `npm run dev:hris`                    | Start only the HRIS app.                                   |
+| `npm run dev:pos`                     | Start only the POS app.                                    |
+| `npm run dev:ai-support`              | Start only the AI support app.                             |
+| `npm run dev:company`                 | Start only the company landing page app.                   |
+| `npm run build`                       | Build all apps and packages through Turbo.                 |
+| `npm run lint`                        | Lint all configured workspaces.                            |
+| `npm run check-types`                 | Run TypeScript checks across workspaces.                   |
+| `npm run format`                      | Format TypeScript, TSX, and Markdown files.                |
+| `npm --workspace web run build`       | Build a specific app directly.                             |
+| `npm --workspace web run check-types` | Type-check a specific app directly.                        |
+| `npm --workspace @repo/ui run lint`   | Lint a specific shared package directly.                   |
+| `npm run test`                        | 🚧 Coming soon. Root test pipeline is not yet implemented. |
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## Environment Variables
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+Never commit `.env` files. Keep secrets in local environment files, VPS secrets, or deployment-managed secret stores.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+### Backend
 
-```sh
-cd my-turborepo
-turbo login
+| Variable               | Description                                           |
+| ---------------------- | ----------------------------------------------------- |
+| `PROJECT_NAME`         | FastAPI project name.                                 |
+| `API_V1_STR`           | API route prefix.                                     |
+| `BACKEND_CORS_ORIGINS` | JSON list or comma-separated list of allowed origins. |
+| `DATABASE_URL`         | Full PostgreSQL connection URL.                       |
+| `POSTGRES_SERVER`      | PostgreSQL host.                                      |
+| `POSTGRES_USER`        | PostgreSQL username.                                  |
+| `POSTGRES_PASSWORD`    | PostgreSQL password.                                  |
+| `POSTGRES_DB`          | PostgreSQL database name.                             |
+| `GEMINI_API_KEY`       | Google Gemini API key for AI features.                |
+| `OPENAI_API_KEY`       | OpenAI API key for AI features.                       |
+
+### Frontend Apps
+
+| Variable              | Description                                           |
+| --------------------- | ----------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL` | Public backend API base URL used by `@repo/api`.      |
+| `NEXT_LOCALE`         | Browser cookie used by the website language switcher. |
+
+App-specific environment variables should be documented in each app as they are introduced.
+
+## Deployment
+
+The target deployment model is VPS-based:
+
+- Docker containers for the FastAPI backend and Next.js apps.
+- Nginx as reverse proxy, TLS terminator, and route gateway.
+- PostgreSQL as the primary database.
+- Environment variables managed outside source control.
+
+Current deployment status:
+
+- `backend/Dockerfile` exists for the FastAPI service.
+- `docker-compose.yml` is 🚧 coming soon.
+- Production Nginx configuration is 🚧 coming soon.
+- JWT authentication is 🚧 WIP and the backend structure is prepared for it.
+
+## Contributing
+
+Please follow the conventions in the scoped `AGENTS.md` files before making changes:
+
+- `AGENTS.md` for global monorepo rules.
+- `apps/AGENTS.md` for frontend app rules.
+- `backend/AGENTS.md` for FastAPI backend rules.
+- `packages/AGENTS.md` for shared package rules.
+
+Commit messages should use concise conventional commits:
+
+```text
+feat(web): add localized company profile page
+fix(api): handle empty employee response
+refactor(ui): simplify button variants
+docs(root): update public README
 ```
 
-Without global `turbo`, use your package manager:
+Pull request expectations:
 
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
-```
+- Describe the business or technical purpose of the change.
+- Link related issues or project notes when available.
+- Include screenshots for UI changes.
+- Run the relevant lint, type-check, and build commands before review.
+- Do not add forbidden dependencies such as TanStack Query, TanStack Table, external table libraries, external fetch libraries, or additional icon/UI libraries.
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## License
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+MIT License placeholder. Full license text is 🚧 coming soon.

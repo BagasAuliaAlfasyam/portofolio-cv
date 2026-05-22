@@ -1,34 +1,36 @@
-import { Navbar } from "../components/navbar";
-import { Hero } from "../components/hero";
-import { Products } from "../components/products";
-import { AiProducts } from "../components/ai-products";
-import { Services } from "../components/services";
-import { HowWeWork } from "../components/how-we-work";
-import { Clients } from "../components/clients";
-import { TechStack } from "../components/tech-stack";
-import { Contact } from "../components/contact";
-import { Footer } from "../components/footer";
+import type { Metadata } from "next";
+import { CaseStudies } from "@/components/case-studies";
+import { CtaSection } from "@/components/cta-section";
+import { FloatingWhatsapp } from "@/components/floating-whatsapp";
+import { Footer } from "@/components/footer";
+import { Hero } from "@/components/hero";
+import { HowWeWork } from "@/components/how-we-work";
+import { Navbar } from "@/components/navbar";
+import { Products } from "@/components/products";
+import { TrustBar } from "@/components/trust-bar";
+import { WhyChooseUs } from "@/components/why-choose-us";
+import { DEFAULT_LOCALE, getMessages } from "@/lib/i18n";
+
+const messages = getMessages(DEFAULT_LOCALE);
+
+export const metadata: Metadata = {
+  title: messages.metadata.title,
+  description: messages.metadata.description,
+};
 
 export default function Home() {
   return (
-    <main className="relative">
-      {/* Background effects */}
-      <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-      <div className="fixed inset-0 line-pattern opacity-30 pointer-events-none" />
-
-      {/* Content */}
-      <div className="relative z-10">
-        <Navbar />
-        <Hero />
-        <Products />
-        <AiProducts />
-        <Services />
-        <HowWeWork />
-        <Clients />
-        <TechStack />
-        <Contact />
-        <Footer />
-      </div>
+    <main className="min-h-screen bg-[#FAF8F5] text-[#1A1A2E]">
+      <Navbar messages={messages} locale={DEFAULT_LOCALE} />
+      <Hero messages={messages} />
+      <TrustBar messages={messages} />
+      <Products messages={messages} />
+      <WhyChooseUs messages={messages} />
+      <HowWeWork messages={messages} />
+      <CaseStudies messages={messages} />
+      <CtaSection messages={messages} />
+      <Footer messages={messages} locale={DEFAULT_LOCALE} />
+      <FloatingWhatsapp messages={messages} />
     </main>
   );
 }
