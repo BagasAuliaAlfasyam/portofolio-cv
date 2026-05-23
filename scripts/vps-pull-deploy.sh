@@ -118,6 +118,7 @@ write_proxy_locations() {
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_hide_header X-Powered-By;
     }
 
     location /health {
@@ -127,6 +128,7 @@ write_proxy_locations() {
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_hide_header X-Powered-By;
     }
 
     location / {
@@ -138,6 +140,7 @@ write_proxy_locations() {
         proxy_set_header X-Forwarded-Proto \$scheme;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
+        proxy_hide_header X-Powered-By;
     }
 NGINX
 }
@@ -154,6 +157,7 @@ server {
     listen 80;
     listen [::]:80;
     server_name $server_names;
+    server_tokens off;
     return 301 https://\$host\$request_uri;
 }
 
@@ -161,6 +165,7 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
     server_name $server_names;
+    server_tokens off;
 
     ssl_certificate $cert_dir/fullchain.pem;
     ssl_certificate_key $cert_dir/privkey.pem;
@@ -179,6 +184,7 @@ server {
     listen 80;
     listen [::]:80;
     server_name $server_names;
+    server_tokens off;
 
 $(write_proxy_locations "$app_port")
 }
