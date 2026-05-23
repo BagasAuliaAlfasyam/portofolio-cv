@@ -74,10 +74,10 @@ export function ContactForm({ messages }: ContactFormProps) {
       });
 
       if (!response.ok) {
-        const data = (await response.json().catch(() => null)) as {
-          message?: string;
-        } | null;
-        throw new Error(data?.message || labels.error);
+        const data = (await response.json().catch(() => null)) as
+          | ContactErrorResponse
+          | null;
+        throw new Error(getContactErrorMessage(data, labels.error));
       }
 
       event.currentTarget.reset();
@@ -131,6 +131,7 @@ export function ContactForm({ messages }: ContactFormProps) {
         <textarea
           className="min-h-36 resize-none rounded-lg border border-slate-200 bg-white px-4 py-3 text-base leading-relaxed text-[#1A1A2E] outline-none transition focus:border-[#E8531A] focus:ring-4 focus:ring-[#E8531A]/12"
           maxLength={2000}
+          minLength={5}
           name="message"
           placeholder={labels.placeholderMessage}
           required
@@ -158,6 +159,31 @@ export function ContactForm({ messages }: ContactFormProps) {
       ) : null}
     </form>
   );
+}
+
+type ContactErrorResponse = {
+  detail?: string | Array<{ msg?: string }>;
+  message?: string;
+};
+
+function getContactErrorMessage(
+  data: ContactErrorResponse | null,
+  fallback: string,
+) {
+  if (!data) {
+    return fallback;
+  }
+
+  if (data.message) {
+    return data.message;
+  }
+
+  if (typeof data.detail === "string") {
+    return data.detail;
+  }
+
+  const firstDetail = data.detail?.find((item) => item.msg)?.msg;
+  return firstDetail || fallback;
 }
 
 function Field({
