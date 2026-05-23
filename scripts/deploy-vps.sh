@@ -43,6 +43,23 @@ wait_for_http() {
   return 1
 }
 
+cleanup_old_releases() {
+  local active_release
+
+  active_release="$(readlink -f "$APP_DIR/current" 2>/dev/null || true)"
+
+  find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
+    | sort -rn \
+    | tail -n +6 \
+    | while read -r _ release_path; do
+        if [[ -n "$active_release" && "$(readlink -f "$release_path")" == "$active_release" ]]; then
+          continue
+        fi
+
+        rm -rf "$release_path"
+      done
+}
+
 write_nginx_config() {
   local primary_server_name="${SERVER_NAME%% *}"
   local cert_dir="/etc/letsencrypt/live/$primary_server_name"
@@ -226,6 +243,6 @@ sudo systemctl reload nginx
 wait_for_http "http://127.0.0.1:$BACKEND_PORT/health"
 wait_for_http "http://127.0.0.1:$WEB_PORT/"
 
-find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d | sort | head -n -5 | xargs -r rm -rf
+cleanup_old_releases
 
 echo "Deployment complete: $RELEASE_ID"

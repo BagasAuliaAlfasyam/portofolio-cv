@@ -27,6 +27,23 @@ require_file() {
   fi
 }
 
+cleanup_old_releases() {
+  local active_release
+
+  active_release="$(readlink -f "$APP_DIR/current" 2>/dev/null || true)"
+
+  find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
+    | sort -rn \
+    | tail -n +6 \
+    | while read -r _ release_path; do
+        if [[ -n "$active_release" && "$(readlink -f "$release_path")" == "$active_release" ]]; then
+          continue
+        fi
+
+        rm -rf "$release_path"
+      done
+}
+
 app_port() {
   case "$1" in
     web) printf '%s\n' "${WEB_PORT:-3000}" ;;
@@ -323,6 +340,6 @@ for app in "${NEXT_APPS[@]}"; do
 done
 
 printf '%s\n' "$REMOTE_SHA" > "$DEPLOYED_SHA_FILE"
-find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d | sort | head -n -5 | xargs -r rm -rf
+cleanup_old_releases
 
 echo "Deployed $REMOTE_SHA"
