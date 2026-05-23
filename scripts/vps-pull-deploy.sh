@@ -41,6 +41,104 @@ wait_for_http() {
   return 1
 }
 
+write_nginx_config() {
+  local primary_server_name="${SERVER_NAME%% *}"
+  local cert_dir="/etc/letsencrypt/live/$primary_server_name"
+
+  if [[ -f "$cert_dir/fullchain.pem" && -f "$cert_dir/privkey.pem" ]]; then
+    sudo tee /etc/nginx/sites-available/catalyst-forge.conf >/dev/null <<NGINX
+server {
+    listen 80;
+    listen [::]:80;
+    server_name $SERVER_NAME;
+    return 301 https://\$host\$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name $SERVER_NAME;
+
+    ssl_certificate $cert_dir/fullchain.pem;
+    ssl_certificate_key $cert_dir/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    client_max_body_size 2m;
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:$BACKEND_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location /health {
+        proxy_pass http://127.0.0.1:$BACKEND_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:$WEB_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+NGINX
+    return
+  fi
+
+  sudo tee /etc/nginx/sites-available/catalyst-forge.conf >/dev/null <<NGINX
+server {
+    listen 80;
+    listen [::]:80;
+    server_name $SERVER_NAME;
+
+    client_max_body_size 2m;
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:$BACKEND_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location /health {
+        proxy_pass http://127.0.0.1:$BACKEND_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:$WEB_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+NGINX
+}
+
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl git nginx python3-venv
 
@@ -131,44 +229,7 @@ RestartSec=5
 WantedBy=multi-user.target
 SERVICE
 
-sudo tee /etc/nginx/sites-available/catalyst-forge.conf >/dev/null <<NGINX
-server {
-    listen 80;
-    listen [::]:80;
-    server_name $SERVER_NAME;
-
-    client_max_body_size 2m;
-
-    location /api/ {
-        proxy_pass http://127.0.0.1:$BACKEND_PORT;
-        proxy_http_version 1.1;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-    }
-
-    location /health {
-        proxy_pass http://127.0.0.1:$BACKEND_PORT;
-        proxy_http_version 1.1;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-    }
-
-    location / {
-        proxy_pass http://127.0.0.1:$WEB_PORT;
-        proxy_http_version 1.1;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection "upgrade";
-    }
-}
-NGINX
+write_nginx_config
 
 sudo ln -sfn /etc/nginx/sites-available/catalyst-forge.conf /etc/nginx/sites-enabled/catalyst-forge.conf
 sudo rm -f /etc/nginx/sites-enabled/default
