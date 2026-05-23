@@ -61,7 +61,7 @@ set -a
 source "$SHARED_DIR/web.env"
 set +a
 
-npm ci
+npm ci --include=dev
 npx turbo run build --filter=web
 
 RELEASE_ID="${REMOTE_SHA:0:12}-$(date +%Y%m%d%H%M%S)"
