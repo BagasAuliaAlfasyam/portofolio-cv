@@ -45,3 +45,60 @@ in Resend first, then set `CONTACT_FROM` to an address on that verified domain.
 5. Nginx proxies `/` to Next.js and `/api` to FastAPI.
 
 Manual deploy is available from GitHub Actions through `workflow_dispatch`.
+
+## Semi-Automatic VPS Pull Deploy
+
+If GitHub Actions is unavailable, the VPS can poll GitHub directly and deploy
+new commits from `main`.
+
+Initial setup on the VPS:
+
+```bash
+APP_DIR=/var/www/catalyst-forge \
+REPO_URL=https://github.com/BagasAuliaAlfasyam/portofolio-cv.git \
+BRANCH=main \
+NEXT_PUBLIC_API_BASE_URL=https://catalystforge.web.id \
+BACKEND_CORS_ORIGINS=https://catalystforge.web.id \
+CONTACT_FROM='CatalystForge <noreply@catalystforge.web.id>' \
+CONTACT_TO=catalystforgetechnology@gmail.com \
+NGINX_SERVER_NAME=catalystforge.web.id \
+bash scripts/setup-vps-pull-deploy.sh
+```
+
+Then edit the secret env file directly on the VPS:
+
+```bash
+nano /var/www/catalyst-forge/shared/backend.env
+```
+
+Set:
+
+```txt
+RESEND_API_KEY="re_xxxxxxxxxxxxxxxxx"
+```
+
+Start the first deploy:
+
+```bash
+sudo systemctl start catalyst-pull-deploy.service
+```
+
+Check deploy logs:
+
+```bash
+journalctl -u catalyst-pull-deploy.service -n 100 --no-pager
+```
+
+The timer checks for new commits every 2 minutes:
+
+```bash
+systemctl status catalyst-pull-deploy.timer
+```
+
+To force a redeploy:
+
+```bash
+sudo systemctl set-environment FORCE_DEPLOY=1
+sudo systemctl start catalyst-pull-deploy.service
+sudo systemctl unset-environment FORCE_DEPLOY
+```

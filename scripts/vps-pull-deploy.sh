@@ -2,34 +2,32 @@
 set -euo pipefail
 
 APP_DIR="${APP_DIR:-/var/www/catalyst-forge}"
+REPO_DIR="${REPO_DIR:-$APP_DIR/repo}"
 RELEASES_DIR="$APP_DIR/releases"
 SHARED_DIR="$APP_DIR/shared"
-RELEASE_ID="${RELEASE_ID:-$(date +%Y%m%d%H%M%S)}"
-RELEASE_DIR="$RELEASES_DIR/$RELEASE_ID"
+BRANCH="${BRANCH:-main}"
 WEB_PORT="${WEB_PORT:-3000}"
 BACKEND_PORT="${BACKEND_PORT:-8001}"
-SERVER_NAME="${NGINX_SERVER_NAME:-_}"
+SERVER_NAME="${NGINX_SERVER_NAME:-catalystforge.web.id}"
+LOCK_FILE="$APP_DIR/deploy.lock"
+DEPLOYED_SHA_FILE="$SHARED_DIR/deployed_sha"
 
-require_env() {
-  local name="$1"
-  if [[ -z "${!name:-}" ]]; then
-    echo "Missing required environment variable: $name" >&2
+exec 9>"$LOCK_FILE"
+if ! flock -n 9; then
+  echo "Deploy already running; exiting."
+  exit 0
+fi
+
+require_file() {
+  local file_path="$1"
+  if [[ ! -f "$file_path" ]]; then
+    echo "Missing required file: $file_path" >&2
     exit 1
   fi
 }
 
-require_env "RESEND_API_KEY"
-require_env "CONTACT_FROM"
-require_env "CONTACT_TO"
-require_env "BACKEND_CORS_ORIGINS"
-require_env "NEXT_PUBLIC_API_BASE_URL"
-
-env_escape() {
-  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
-}
-
 sudo apt-get update
-sudo apt-get install -y ca-certificates curl nginx python3-venv
+sudo apt-get install -y ca-certificates curl git nginx python3-venv
 
 if ! command -v node >/dev/null 2>&1; then
   curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
@@ -38,24 +36,42 @@ fi
 
 sudo mkdir -p "$APP_DIR"
 sudo chown -R ubuntu:ubuntu "$APP_DIR"
-mkdir -p "$RELEASES_DIR" "$SHARED_DIR" "$RELEASE_DIR"
-tar -xzf /tmp/catalyst-forge-web.tar.gz -C "$RELEASE_DIR"
-tar -xzf /tmp/catalyst-forge-backend.tar.gz -C "$RELEASE_DIR"
+mkdir -p "$RELEASES_DIR" "$SHARED_DIR"
 
-cat > "$SHARED_DIR/backend.env" <<ENV
-RESEND_API_KEY="$(env_escape "$RESEND_API_KEY")"
-CONTACT_FROM="$(env_escape "$CONTACT_FROM")"
-CONTACT_TO="$(env_escape "$CONTACT_TO")"
-BACKEND_CORS_ORIGINS="$(env_escape "$BACKEND_CORS_ORIGINS")"
-PORT=$BACKEND_PORT
-ENV
+require_file "$SHARED_DIR/backend.env"
+require_file "$SHARED_DIR/web.env"
 
-cat > "$SHARED_DIR/web.env" <<ENV
-NODE_ENV=production
-HOSTNAME=127.0.0.1
-PORT=$WEB_PORT
-NEXT_PUBLIC_API_BASE_URL="$(env_escape "$NEXT_PUBLIC_API_BASE_URL")"
-ENV
+cd "$REPO_DIR"
+git fetch origin "$BRANCH"
+REMOTE_SHA="$(git rev-parse "origin/$BRANCH")"
+DEPLOYED_SHA="$(cat "$DEPLOYED_SHA_FILE" 2>/dev/null || true)"
+
+if [[ "${FORCE_DEPLOY:-0}" != "1" && "$REMOTE_SHA" == "$DEPLOYED_SHA" ]]; then
+  echo "No changes to deploy: $REMOTE_SHA"
+  exit 0
+fi
+
+git checkout "$BRANCH"
+git reset --hard "origin/$BRANCH"
+git clean -fd
+
+set -a
+# shellcheck disable=SC1090
+source "$SHARED_DIR/web.env"
+set +a
+
+npm ci
+npx turbo run build --filter=web
+
+RELEASE_ID="${REMOTE_SHA:0:12}-$(date +%Y%m%d%H%M%S)"
+RELEASE_DIR="$RELEASES_DIR/$RELEASE_ID"
+mkdir -p "$RELEASE_DIR/web" "$RELEASE_DIR/backend"
+
+cp -R apps/web/.next/standalone/. "$RELEASE_DIR/web/"
+mkdir -p "$RELEASE_DIR/web/apps/web/.next"
+cp -R apps/web/.next/static "$RELEASE_DIR/web/apps/web/.next/static"
+cp -R apps/web/public "$RELEASE_DIR/web/apps/web/public"
+cp -R backend/. "$RELEASE_DIR/backend/"
 
 python3 -m venv "$RELEASE_DIR/backend/.venv"
 "$RELEASE_DIR/backend/.venv/bin/pip" install --upgrade pip
@@ -150,6 +166,7 @@ sudo systemctl reload nginx
 curl -fsS "http://127.0.0.1:$BACKEND_PORT/health" >/dev/null
 curl -fsS "http://127.0.0.1:$WEB_PORT/" >/dev/null
 
+printf '%s\n' "$REMOTE_SHA" > "$DEPLOYED_SHA_FILE"
 find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d | sort | head -n -5 | xargs -r rm -rf
 
-echo "Deployment complete: $RELEASE_ID"
+echo "Deployed $REMOTE_SHA"
