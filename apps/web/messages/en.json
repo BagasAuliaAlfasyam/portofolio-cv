@@ -18,6 +18,7 @@
     "retry": "Try Again"
   },
   "navbar": {
+    "about": "About",
     "products": "Products",
     "howWeWork": "How We Work",
     "testimonials": "Projects",
@@ -25,29 +26,53 @@
     "cta": "Contact Us"
   },
   "hero": {
-    "headline": "Integrated Digital Solutions for Your Business Growth",
-    "subheadline": "We help companies build stable, secure, and scalable enterprise systems with deep local expertise in Indonesian business operations.",
-    "primaryCta": "View Portfolio",
+    "headline": "A Technology Partner for Corporate Digital Transformation",
+    "subheadline": "CatalystForge designs and builds corporate websites, operational systems, dashboards, and AI automation that Indonesian business teams can actually use.",
+    "primaryCta": "View Solutions",
     "secondaryCta": "Contact Us",
     "trustIndicators": [
-      "Enterprise Workflow",
-      "AI & Automation",
-      "Web & Dashboard",
-      "VPS Deployment Ready"
+      "Business Consulting",
+      "UI/UX & Engineering",
+      "Operational Integration",
+      "Deployment & Support"
     ]
   },
   "trustBar": {
     "items": [
-      { "value": "AI", "label": "Automation & Chatbot" },
-      { "value": "ERP", "label": "Workflow & Procurement" },
-      { "value": "Web", "label": "Company Profile & Dashboard" },
-      { "value": "VPS", "label": "Docker & Nginx Deployment" }
+      { "value": "01", "label": "Business needs discovery" },
+      { "value": "02", "label": "System and experience design" },
+      { "value": "03", "label": "Development and integration" },
+      { "value": "04", "label": "Go-live, support, and improvement" }
+    ]
+  },
+  "about": {
+    "eyebrow": "About CatalystForge",
+    "title": "A company profile that communicates credibility, capability, and how we work",
+    "description": "We are a technology team helping businesses present a professional digital face while building internal systems that make operations faster.",
+    "highlights": [
+      "Based in Bandung and serving Indonesian businesses",
+      "Focused on web apps, dashboards, automation, and API integration",
+      "Clear communication, measurable scope, and usable outcomes"
+    ],
+    "values": [
+      {
+        "label": "Consultative",
+        "text": "We start from the business problem, not from a technology template."
+      },
+      {
+        "label": "Reliable",
+        "text": "Each solution is prepared to be stable, secure, and maintainable."
+      },
+      {
+        "label": "Scalable",
+        "text": "Architecture is built in stages so it can grow with your needs."
+      }
     ]
   },
   "products": {
-    "eyebrow": "Products & Solutions",
-    "title": "Solutions for Your Business",
-    "description": "A portfolio of digital solutions designed to improve operational efficiency, customer experience, and executive decision-making.",
+    "eyebrow": "Capabilities",
+    "title": "Digital solutions mapped directly to business needs",
+    "description": "We build company profiles, operational systems, dashboards, and automation tailored to your company's workflow.",
     "learnMore": "Open Demo",
     "items": [
       {
@@ -194,7 +219,10 @@
   "cta": {
     "headline": "Ready to Take Your Business to the Next Level?",
     "subtext": "Consult your company's digital needs with our team",
-    "button": "Discuss System Needs"
+    "button": "Discuss System Needs",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "addressLabel": "Address"
   },
   "whatsapp": {
     "label": "Consult via WhatsApp",
@@ -205,6 +233,6 @@
     "contactEmail": "catalystforgetechnology@gmail.com",
     "contactPhone": "085121379282",
     "contactAddress": "Buah Batu, Bandung City",
-    "copyright": "© 2025 CatalystForge. All rights reserved."
+    "copyright": "Copyright 2026 CatalystForge. All rights reserved."
   }
 }

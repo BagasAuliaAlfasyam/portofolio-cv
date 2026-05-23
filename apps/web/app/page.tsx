@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AboutCompany } from "@/components/about-company";
 import { CaseStudies } from "@/components/case-studies";
 import { CtaSection } from "@/components/cta-section";
 import { FloatingWhatsapp } from "@/components/floating-whatsapp";
@@ -24,6 +25,7 @@ export default function Home() {
       <Navbar messages={messages} locale={DEFAULT_LOCALE} />
       <Hero messages={messages} />
       <TrustBar messages={messages} />
+      <AboutCompany messages={messages} />
       <Products messages={messages} />
       <WhyChooseUs messages={messages} />
       <HowWeWork messages={messages} />

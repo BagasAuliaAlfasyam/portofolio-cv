@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { type Messages } from "@/lib/i18n";
 import { ParallaxLayer } from "./parallax-layer";
 import { ScrollParallax } from "./scroll-parallax";
@@ -22,9 +22,9 @@ export function CtaSection({ messages }: CtaSectionProps) {
         maxOffset={48}
         speed={-0.08}
       />
-      <div className="section-container relative text-center">
+      <div className="section-container relative">
         <ScrollParallax maxOffset={38}>
-          <div>
+          <div className="mx-auto max-w-4xl text-center">
             <h2 className="mx-auto max-w-4xl text-3xl font-bold tracking-tight md:text-5xl">
               {messages.cta.headline}
             </h2>
@@ -42,6 +42,63 @@ export function CtaSection({ messages }: CtaSectionProps) {
             </a>
           </div>
         </ScrollParallax>
+        <div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-3">
+          {[
+            {
+              href: `mailto:${messages.footer.contactEmail}`,
+              icon: Mail,
+              label: messages.cta.emailLabel,
+              value: messages.footer.contactEmail,
+            },
+            {
+              href: `tel:${messages.footer.contactPhone.replaceAll(" ", "")}`,
+              icon: Phone,
+              label: messages.cta.phoneLabel,
+              value: messages.footer.contactPhone,
+            },
+            {
+              icon: MapPin,
+              label: messages.cta.addressLabel,
+              value: messages.footer.contactAddress,
+            },
+          ].map((item) => {
+            const Icon = item.icon;
+            const content = (
+              <>
+                <Icon className="h-5 w-5 shrink-0 text-white" />
+                <span>
+                  <span className="block text-sm font-bold uppercase tracking-[0.14em] text-white/70">
+                    {item.label}
+                  </span>
+                  <span className="mt-1 block text-base font-semibold text-white">
+                    {item.value}
+                  </span>
+                </span>
+              </>
+            );
+
+            if (item.href) {
+              return (
+                <a
+                  className="flex min-h-24 items-center gap-4 rounded-lg border border-white/18 bg-white/10 p-5 text-left transition hover:bg-white/16"
+                  href={item.href}
+                  key={item.label}
+                >
+                  {content}
+                </a>
+              );
+            }
+
+            return (
+              <div
+                className="flex min-h-24 items-center gap-4 rounded-lg border border-white/18 bg-white/10 p-5 text-left"
+                key={item.label}
+              >
+                {content}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

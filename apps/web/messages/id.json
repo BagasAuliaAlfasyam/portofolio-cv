@@ -18,6 +18,7 @@
     "retry": "Coba Lagi"
   },
   "navbar": {
+    "about": "Tentang",
     "products": "Produk",
     "howWeWork": "Cara Kerja",
     "testimonials": "Project",
@@ -25,29 +26,53 @@
     "cta": "Hubungi Kami"
   },
   "hero": {
-    "headline": "Solusi Digital Terpadu untuk Pertumbuhan Bisnis Anda",
-    "subheadline": "Kami membantu perusahaan membangun sistem enterprise yang stabil, aman, dan mudah berkembang dengan pemahaman mendalam terhadap kebutuhan bisnis lokal Indonesia.",
-    "primaryCta": "Lihat Portfolio",
+    "headline": "Partner Teknologi untuk Transformasi Digital Perusahaan",
+    "subheadline": "CatalystForge merancang dan membangun website korporat, sistem operasional, dashboard, dan otomasi AI yang siap dipakai oleh tim bisnis Indonesia.",
+    "primaryCta": "Lihat Solusi",
     "secondaryCta": "Hubungi Kami",
     "trustIndicators": [
-      "Enterprise Workflow",
-      "AI & Automation",
-      "Web & Dashboard",
-      "VPS Deployment Ready"
+      "Konsultasi Bisnis",
+      "UI/UX & Engineering",
+      "Integrasi Operasional",
+      "Deployment & Support"
     ]
   },
   "trustBar": {
     "items": [
-      { "value": "AI", "label": "Automation & Chatbot" },
-      { "value": "ERP", "label": "Workflow & Procurement" },
-      { "value": "Web", "label": "Company Profile & Dashboard" },
-      { "value": "VPS", "label": "Docker & Nginx Deployment" }
+      { "value": "01", "label": "Discovery kebutuhan bisnis" },
+      { "value": "02", "label": "Desain sistem dan pengalaman pengguna" },
+      { "value": "03", "label": "Pengembangan dan integrasi" },
+      { "value": "04", "label": "Go-live, support, dan improvement" }
+    ]
+  },
+  "about": {
+    "eyebrow": "Tentang CatalystForge",
+    "title": "Company profile yang menjelaskan kredibilitas, kapabilitas, dan arah kerja",
+    "description": "Kami adalah tim teknologi yang membantu bisnis menyusun wajah digital yang profesional sekaligus membangun sistem internal yang mempercepat operasional.",
+    "highlights": [
+      "Berbasis di Bandung dengan layanan untuk bisnis Indonesia",
+      "Fokus pada aplikasi web, dashboard, otomasi, dan integrasi API",
+      "Mengutamakan komunikasi jelas, scope terukur, dan hasil yang bisa dipakai"
+    ],
+    "values": [
+      {
+        "label": "Consultative",
+        "text": "Kami mulai dari masalah bisnis, bukan dari template teknologi."
+      },
+      {
+        "label": "Reliable",
+        "text": "Setiap solusi disiapkan agar stabil, aman, dan mudah dirawat."
+      },
+      {
+        "label": "Scalable",
+        "text": "Arsitektur dibuat bertahap agar bisa berkembang mengikuti kebutuhan."
+      }
     ]
   },
   "products": {
-    "eyebrow": "Produk & Solusi",
-    "title": "Solusi untuk Bisnis Anda",
-    "description": "Portofolio solusi digital yang dirancang untuk meningkatkan efisiensi operasional, pengalaman pelanggan, dan pengambilan keputusan perusahaan.",
+    "eyebrow": "Kapabilitas",
+    "title": "Solusi digital yang bisa langsung dipetakan ke kebutuhan bisnis",
+    "description": "Kami mengerjakan company profile, sistem operasional, dashboard, dan otomasi yang dirancang sesuai alur kerja perusahaan.",
     "learnMore": "Buka Demo",
     "items": [
       {
@@ -194,7 +219,10 @@
   "cta": {
     "headline": "Siap Membawa Bisnis Anda ke Level Berikutnya?",
     "subtext": "Konsultasikan kebutuhan digital perusahaan Anda bersama tim kami",
-    "button": "Diskusi Kebutuhan Sistem"
+    "button": "Diskusi Kebutuhan Sistem",
+    "emailLabel": "Email",
+    "phoneLabel": "Telepon",
+    "addressLabel": "Alamat"
   },
   "whatsapp": {
     "label": "Konsultasi via WhatsApp",
@@ -205,6 +233,6 @@
     "contactEmail": "catalystforgetechnology@gmail.com",
     "contactPhone": "085121379282",
     "contactAddress": "Buah Batu, Kota Bandung",
-    "copyright": "© 2025 CatalystForge. All rights reserved."
+    "copyright": "Copyright 2026 CatalystForge. All rights reserved."
   }
 }

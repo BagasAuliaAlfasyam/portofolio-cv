@@ -9,7 +9,7 @@ export function HowWeWork({ messages }: HowWeWorkProps) {
   return (
     <section
       className="section-padding overflow-hidden bg-white"
-      id="how-we-work"
+      id="process"
     >
       <div className="section-container">
         <ScrollParallax

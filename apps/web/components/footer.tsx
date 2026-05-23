@@ -11,9 +11,10 @@ type FooterProps = {
 
 export function Footer({ messages, locale }: FooterProps) {
   const navItems = [
+    { href: "#about", label: messages.navbar.about },
     { href: "#products", label: messages.navbar.products },
-    { href: "#how-we-work", label: messages.navbar.howWeWork },
-    { href: "#testimonials", label: messages.navbar.testimonials },
+    { href: "#process", label: messages.navbar.howWeWork },
+    { href: "#projects", label: messages.navbar.testimonials },
     { href: "#contact", label: messages.navbar.contact },
   ];
 

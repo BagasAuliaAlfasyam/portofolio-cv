@@ -11,10 +11,11 @@ type NavbarProps = {
 export function Navbar({ messages, locale }: NavbarProps) {
   const prefix = locale === "en" ? "/en" : "";
   const navItems = [
-    { href: `${prefix}/products`, label: messages.navbar.products },
-    { href: `${prefix}/process`, label: messages.navbar.howWeWork },
-    { href: `${prefix}/testimonials`, label: messages.navbar.testimonials },
-    { href: `${prefix}/contact`, label: messages.navbar.contact },
+    { href: "#about", label: messages.navbar.about },
+    { href: "#products", label: messages.navbar.products },
+    { href: "#process", label: messages.navbar.howWeWork },
+    { href: "#projects", label: messages.navbar.testimonials },
+    { href: "#contact", label: messages.navbar.contact },
   ];
 
   return (
@@ -64,7 +65,7 @@ export function Navbar({ messages, locale }: NavbarProps) {
           />
           <a
             className="hidden rounded-full bg-[#E8531A] px-5 py-3 text-base font-bold text-white shadow-md transition hover:bg-[#F4784A] md:inline-flex"
-            href={`${prefix}/contact`}
+            href="#contact"
           >
             {messages.navbar.cta}
           </a>

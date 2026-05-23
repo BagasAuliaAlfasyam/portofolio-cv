@@ -11,7 +11,7 @@ export function CaseStudies({ messages }: CaseStudiesProps) {
   return (
     <section
       className="section-padding overflow-hidden bg-[#FAF8F5]"
-      id="testimonials"
+      id="projects"
     >
       <div className="section-container">
         <ScrollParallax

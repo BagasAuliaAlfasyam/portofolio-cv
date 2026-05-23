@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { AboutCompany } from "@/components/about-company";
 import { CaseStudies } from "@/components/case-studies";
 import { CtaSection } from "@/components/cta-section";
 import { FloatingWhatsapp } from "@/components/floating-whatsapp";
@@ -71,6 +72,7 @@ function MarketingPage({ locale }: { locale: Locale }) {
       <Navbar messages={messages} locale={locale} />
       <Hero messages={messages} />
       <TrustBar messages={messages} />
+      <AboutCompany messages={messages} />
       <Products messages={messages} />
       <WhyChooseUs messages={messages} />
       <HowWeWork messages={messages} />
