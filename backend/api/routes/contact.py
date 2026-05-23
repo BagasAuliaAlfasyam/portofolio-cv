@@ -52,6 +52,7 @@ def submit_contact(
         headers={
             "Authorization": f"Bearer {settings.RESEND_API_KEY}",
             "Content-Type": "application/json",
+            "User-Agent": "CatalystForge/1.0",
         },
         method="POST",
     )
