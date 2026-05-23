@@ -2,14 +2,27 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 import {
-  LayoutDashboard, Users, CalendarDays, DollarSign, BarChart3,
-  Settings, Bell, Search, Menu, X, Zap, ChevronDown, LogOut, User,
+  LayoutDashboard,
+  Users,
+  CalendarDays,
+  DollarSign,
+  BarChart3,
+  Settings,
+  Bell,
+  Search,
+  Menu,
+  X,
+  Zap,
+  ChevronDown,
+  LogOut,
+  User,
 } from "lucide-react";
 
 const sidebarLinks = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/", active: true },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/" },
   { icon: Users, label: "Employees", href: "/employees" },
   { icon: CalendarDays, label: "Attendance", href: "/attendance" },
   { icon: DollarSign, label: "Payroll", href: "/payroll" },
@@ -21,6 +34,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
   const [contactFeature, setContactFeature] = useState<string | null>(null);
+  const pathname = usePathname();
 
   const showContact = (feature: string) => {
     setContactFeature(feature);
@@ -44,7 +58,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             {sidebarOpen && (
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-white">HRIS</span>
-                <span className="text-[9px] text-slate-500 tracking-wider">CATALYST FORGE</span>
+                <span className="text-[9px] text-slate-500 tracking-wider">
+                  CATALYST FORGE
+                </span>
               </div>
             )}
           </div>
@@ -56,19 +72,15 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <Link
               key={link.label}
               href={link.href}
-              onClick={(event) => {
-                if (!link.active) {
-                  event.preventDefault();
-                  showContact(link.label);
-                }
-              }}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 group ${
-                link.active
+                pathname === link.href
                   ? "bg-brand-500/10 text-brand-400 border border-brand-500/20"
                   : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.03]"
               }`}
             >
-              <link.icon className={`w-[18px] h-[18px] shrink-0 ${link.active ? "text-brand-400" : "text-slate-600 group-hover:text-slate-400"}`} />
+              <link.icon
+                className={`w-[18px] h-[18px] shrink-0 ${pathname === link.href ? "text-brand-400" : "text-slate-600 group-hover:text-slate-400"}`}
+              />
               {sidebarOpen && <span>{link.label}</span>}
             </Link>
           ))}
@@ -105,9 +117,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           {/* Right actions */}
           <div className="flex items-center gap-3">
             {/* Notifications */}
-            <button onClick={() => showContact("Notifications")} className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-surface-100 transition-all">
+            <button
+              onClick={() => showContact("Notifications")}
+              className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-surface-100 transition-all"
+            >
               <Bell className="w-4 h-4" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-[10px] text-white flex items-center justify-center font-medium">3</span>
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-[10px] text-white flex items-center justify-center font-medium">
+                3
+              </span>
             </button>
 
             {/* Profile */}
@@ -120,7 +137,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   AD
                 </div>
                 <div className="hidden sm:block text-left">
-                  <div className="text-sm font-medium text-white">Admin User</div>
+                  <div className="text-sm font-medium text-white">
+                    Admin User
+                  </div>
                   <div className="text-[10px] text-slate-500">Super Admin</div>
                 </div>
                 <ChevronDown className="w-3 h-3 text-slate-500" />
@@ -128,14 +147,23 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
               {profileOpen && (
                 <div className="absolute right-0 top-12 w-48 py-2 rounded-xl bg-surface-100 border border-white/[0.08] shadow-2xl z-50">
-                  <button onClick={() => showContact("Profile")} className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-400 hover:text-white hover:bg-white/[0.04]">
+                  <button
+                    onClick={() => showContact("Profile")}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                  >
                     <User className="w-4 h-4" /> Profile
                   </button>
-                  <button onClick={() => showContact("Settings")} className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-400 hover:text-white hover:bg-white/[0.04]">
+                  <button
+                    onClick={() => showContact("Settings")}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                  >
                     <Settings className="w-4 h-4" /> Settings
                   </button>
                   <hr className="my-1 border-white/[0.06]" />
-                  <button onClick={() => showContact("Logout")} className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-rose-400 hover:bg-white/[0.04]">
+                  <button
+                    onClick={() => showContact("Logout")}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-rose-400 hover:bg-white/[0.04]"
+                  >
                     <LogOut className="w-4 h-4" /> Logout
                   </button>
                 </div>
@@ -145,9 +173,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-6">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
       <ContactPersonModal
         open={Boolean(contactFeature)}

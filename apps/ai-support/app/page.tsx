@@ -1,7 +1,20 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageSquareText, Zap, Send, User, Bot, Sparkles, AlertCircle, CheckCircle2, ChevronRight, BarChart3, Settings } from "lucide-react";
+import Link from "next/link";
+import {
+  MessageSquareText,
+  Zap,
+  Send,
+  User,
+  Bot,
+  Sparkles,
+  AlertCircle,
+  CheckCircle2,
+  ChevronRight,
+  BarChart3,
+  Settings,
+} from "lucide-react";
 import { useAiChat } from "@repo/api/hooks";
 import { motion, AnimatePresence } from "framer-motion";
 import { ContactPersonModal } from "@repo/ui/contact-person-modal";
@@ -19,13 +32,14 @@ const initialMessages: Message[] = [
   {
     id: "1",
     role: "assistant",
-    content: "Hello! I'm the Catalyst Forge AI Support Agent. I can help you with technical support, account management, and product inquiries. How can I assist you today?",
+    content:
+      "Hello! I'm the Catalyst Forge AI Support Agent. I can help you with technical support, account management, and product inquiries. How can I assist you today?",
     actions: [
       { label: "Check system status", action: "status" },
       { label: "Reset password", action: "reset" },
-      { label: "Talk to human", action: "human" }
-    ]
-  }
+      { label: "Talk to human", action: "human" },
+    ],
+  },
 ];
 
 export default function AiSupportApp() {
@@ -56,36 +70,51 @@ export default function AiSupportApp() {
       role: "user",
       content: text,
       timestamp: new Date(),
-      status: "sending"
+      status: "sending",
     };
 
-    setMessages(prev => [...prev, newMessage]);
+    setMessages((prev) => [...prev, newMessage]);
     setInput("");
 
-    sendMessage({ message: text }, {
-      onSuccess: (data) => {
-        setMessages(prev => prev.map(m => m.id === newMessage.id ? { ...m, status: "sent" } : m));
-        
-        setTimeout(() => {
-          const reply: Message = {
-            id: (Date.now() + 1).toString(),
-            role: "assistant",
-            content: data.reply || "I've processed your request. Is there anything else you need help with?",
-            timestamp: new Date()
-          };
-          setMessages(prev => [...prev, reply]);
-        }, 500);
+    sendMessage(
+      { message: text },
+      {
+        onSuccess: (data) => {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === newMessage.id ? { ...m, status: "sent" } : m,
+            ),
+          );
+
+          setTimeout(() => {
+            const reply: Message = {
+              id: (Date.now() + 1).toString(),
+              role: "assistant",
+              content:
+                data.reply ||
+                "I've processed your request. Is there anything else you need help with?",
+              timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, reply]);
+          }, 500);
+        },
+        onError: () => {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === newMessage.id ? { ...m, status: "error" } : m,
+            ),
+          );
+        },
       },
-      onError: () => {
-        setMessages(prev => prev.map(m => m.id === newMessage.id ? { ...m, status: "error" } : m));
-      }
-    });
+    );
   };
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Sidebar - Agent Details */}
-      <aside className={`${sidebarOpen ? "w-72" : "w-0 overflow-hidden"} border-r border-white/[0.06] bg-surface-50/50 flex flex-col transition-all duration-300 shrink-0`}>
+      <aside
+        className={`${sidebarOpen ? "w-72" : "w-0 overflow-hidden"} border-r border-white/[0.06] bg-surface-50/50 flex flex-col transition-all duration-300 shrink-0`}
+      >
         <div className="h-16 flex items-center px-6 border-b border-white/[0.06]">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center shadow-lg">
@@ -110,11 +139,22 @@ export default function AiSupportApp() {
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Capabilities</h3>
+              <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                Capabilities
+              </h3>
               <div className="space-y-2">
-                {["Contextual understanding", "Multi-turn reasoning", "Tool invocation", "Sentiment analysis"].map(cap => (
-                  <div key={cap} className="flex items-center gap-2 text-sm text-slate-300">
-                    <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0" /> {cap}
+                {[
+                  "Contextual understanding",
+                  "Multi-turn reasoning",
+                  "Tool invocation",
+                  "Sentiment analysis",
+                ].map((cap) => (
+                  <div
+                    key={cap}
+                    className="flex items-center gap-2 text-sm text-slate-300"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0" />{" "}
+                    {cap}
                   </div>
                 ))}
               </div>
@@ -123,7 +163,9 @@ export default function AiSupportApp() {
             <div className="p-4 rounded-xl glass">
               <div className="flex justify-between items-end mb-2">
                 <span className="text-xs text-slate-400">Resolution Rate</span>
-                <span className="text-sm font-bold text-emerald-400">94.2%</span>
+                <span className="text-sm font-bold text-emerald-400">
+                  94.2%
+                </span>
               </div>
               <div className="h-1.5 bg-white/[0.04] rounded-full overflow-hidden">
                 <div className="h-full bg-emerald-500 rounded-full w-[94.2%]" />
@@ -137,7 +179,10 @@ export default function AiSupportApp() {
       <main className="flex-1 flex flex-col relative">
         <header className="h-16 border-b border-white/[0.06] bg-background/80 backdrop-blur-xl flex items-center justify-between px-6 z-10 shrink-0">
           <div className="flex items-center gap-4">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 -ml-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 -ml-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"
+            >
               <MessageSquareText className="w-5 h-5" />
             </button>
             <div>
@@ -146,8 +191,18 @@ export default function AiSupportApp() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => showContact("Agent analytics")} className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"><BarChart3 className="w-4 h-4" /></button>
-            <button onClick={() => showContact("Agent settings")} className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"><Settings className="w-4 h-4" /></button>
+            <Link
+              href="/analytics"
+              className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"
+            >
+              <BarChart3 className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/settings"
+              className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"
+            >
+              <Settings className="w-4 h-4" />
+            </Link>
           </div>
         </header>
 
@@ -162,31 +217,46 @@ export default function AiSupportApp() {
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
                 >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                    msg.role === "user" 
-                      ? "bg-surface-200" 
-                      : "bg-gradient-to-br from-indigo-500 to-pink-500 shadow-lg shadow-indigo-500/20"
-                  }`}>
-                    {msg.role === "user" ? <User className="w-4 h-4 text-slate-400" /> : <Bot className="w-4 h-4 text-white" />}
+                  <div
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                      msg.role === "user"
+                        ? "bg-surface-200"
+                        : "bg-gradient-to-br from-indigo-500 to-pink-500 shadow-lg shadow-indigo-500/20"
+                    }`}
+                  >
+                    {msg.role === "user" ? (
+                      <User className="w-4 h-4 text-slate-400" />
+                    ) : (
+                      <Bot className="w-4 h-4 text-white" />
+                    )}
                   </div>
 
-                  <div className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"} max-w-[80%]`}>
+                  <div
+                    className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"} max-w-[80%]`}
+                  >
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-medium text-slate-400">
                         {msg.role === "user" ? "You" : "Nexus AI"}
                       </span>
                       <span className="text-[10px] text-slate-600">
-                        {msg.timestamp ? msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "Just now"}
+                        {msg.timestamp
+                          ? msg.timestamp.toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : "Just now"}
                       </span>
                     </div>
 
-                    <div className={`p-4 rounded-2xl text-sm leading-relaxed ${
-                      msg.role === "user"
-                        ? "bg-surface-100 text-slate-200 rounded-tr-sm border border-white/[0.04]"
-                        : "glass rounded-tl-sm text-slate-300"
-                    }`}>
+                    <div
+                      className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                        msg.role === "user"
+                          ? "bg-surface-100 text-slate-200 rounded-tr-sm border border-white/[0.04]"
+                          : "glass rounded-tl-sm text-slate-300"
+                      }`}
+                    >
                       {msg.content}
-                      
+
                       {msg.status === "sending" && (
                         <div className="flex items-center gap-1 mt-2 text-slate-500">
                           <span className="w-1 h-1 rounded-full bg-slate-500 animate-bounce" />
@@ -214,9 +284,13 @@ export default function AiSupportApp() {
                   </div>
                 </motion.div>
               ))}
-              
+
               {isPending && (
-                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex gap-4"
+                >
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center shrink-0">
                     <Bot className="w-4 h-4 text-white" />
                   </div>
@@ -225,7 +299,7 @@ export default function AiSupportApp() {
                     <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-bounce delay-100" />
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce delay-200" />
                   </div>
-                 </motion.div>
+                </motion.div>
               )}
             </AnimatePresence>
             <div ref={messagesEndRef} />
@@ -237,10 +311,13 @@ export default function AiSupportApp() {
           <div className="max-w-3xl mx-auto relative group">
             <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 blur opacity-50 group-focus-within:opacity-100 transition duration-500" />
             <div className="relative flex items-end gap-2 bg-surface-50 border border-white/[0.08] rounded-xl p-2 shadow-2xl">
-              <button onClick={() => showContact("AI prompt enhancer")} className="p-3 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-lg transition-colors shrink-0">
+              <button
+                onClick={() => showContact("AI prompt enhancer")}
+                className="p-3 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-lg transition-colors shrink-0"
+              >
                 <Sparkles className="w-5 h-5" />
               </button>
-              
+
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -254,7 +331,7 @@ export default function AiSupportApp() {
                 className="w-full bg-transparent border-none text-sm text-slate-100 placeholder:text-slate-500 focus:ring-0 resize-none py-3 max-h-32 focus:outline-none"
                 rows={1}
               />
-              
+
               <button
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isPending}
@@ -264,7 +341,9 @@ export default function AiSupportApp() {
               </button>
             </div>
             <div className="text-center mt-2">
-              <span className="text-[10px] text-slate-500">AI can make mistakes. Verify important information.</span>
+              <span className="text-[10px] text-slate-500">
+                AI can make mistakes. Verify important information.
+              </span>
             </div>
           </div>
         </div>

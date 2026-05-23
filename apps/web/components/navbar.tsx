@@ -9,17 +9,18 @@ type NavbarProps = {
 };
 
 export function Navbar({ messages, locale }: NavbarProps) {
+  const prefix = locale === "en" ? "/en" : "";
   const navItems = [
-    { href: "#products", label: messages.navbar.products },
-    { href: "#how-we-work", label: messages.navbar.howWeWork },
-    { href: "#testimonials", label: messages.navbar.testimonials },
-    { href: "#contact", label: messages.navbar.contact },
+    { href: `${prefix}/products`, label: messages.navbar.products },
+    { href: `${prefix}/process`, label: messages.navbar.howWeWork },
+    { href: `${prefix}/testimonials`, label: messages.navbar.testimonials },
+    { href: `${prefix}/contact`, label: messages.navbar.contact },
   ];
 
   return (
     <header className="relative sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur">
       <div className="section-container flex min-h-20 items-center justify-between gap-5">
-        <a className="flex shrink-0 items-center gap-3" href="#top">
+        <a className="flex shrink-0 items-center gap-3" href={prefix || "/"}>
           <span className="relative block h-12 w-12 overflow-hidden rounded-md">
             <Image
               alt={messages.brand.logoAlt}
@@ -63,7 +64,7 @@ export function Navbar({ messages, locale }: NavbarProps) {
           />
           <a
             className="hidden rounded-full bg-[#E8531A] px-5 py-3 text-base font-bold text-white shadow-md transition hover:bg-[#F4784A] md:inline-flex"
-            href="#contact"
+            href={`${prefix}/contact`}
           >
             {messages.navbar.cta}
           </a>

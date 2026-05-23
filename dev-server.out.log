@@ -1,0 +1,120 @@
+
+> dev
+> turbo run dev
+
+
+   • Packages in scope: @repo/api, @repo/config, @repo/eslint-config, @repo/typescript-config, @repo/ui, ai-support, company, crm, hris, pos, web
+   • Running dev in 11 packages
+   • Remote caching disabled
+
+crm:dev: cache bypass, force executing 17dd6ece2cbc4d5e
+pos:dev: cache bypass, force executing 33c02c57cbe82bbb
+web:dev: cache bypass, force executing 3875833e554d5b45
+ai-support:dev: cache bypass, force executing cdc60df0f9f1c1f4
+hris:dev: cache bypass, force executing 4ae4142dddee3293
+company:dev: cache bypass, force executing 8201f119f1585539
+crm:dev: 
+crm:dev: > crm@0.1.0 dev
+crm:dev: > next dev --port 3002
+crm:dev: 
+web:dev: 
+web:dev: > web@0.1.0 dev
+web:dev: > next dev --port 3000
+web:dev: 
+hris:dev: 
+hris:dev: > hris@0.1.0 dev
+hris:dev: > next dev --port 3001
+hris:dev: 
+company:dev: 
+company:dev: > company@0.1.0 dev
+company:dev: > next dev --port 3005
+company:dev: 
+pos:dev: 
+pos:dev: > pos@0.1.0 dev
+pos:dev: > next dev --port 3003
+pos:dev: 
+ai-support:dev: 
+ai-support:dev: > ai-support@0.1.0 dev
+ai-support:dev: > next dev --port 3004
+ai-support:dev: 
+company:dev:    ▲ Next.js 15.5.18
+company:dev:    - Local:        http://localhost:3005
+company:dev:    - Network:      http://100.71.106.89:3005
+company:dev: 
+company:dev:  ✓ Starting...
+web:dev:    ▲ Next.js 15.5.18
+web:dev:    - Local:        http://localhost:3000
+web:dev:    - Network:      http://100.71.106.89:3000
+web:dev: 
+web:dev:  ✓ Starting...
+hris:dev:    ▲ Next.js 15.5.18
+hris:dev:    - Local:        http://localhost:3001
+hris:dev:    - Network:      http://100.71.106.89:3001
+hris:dev: 
+hris:dev:  ✓ Starting...
+pos:dev:    ▲ Next.js 15.5.18
+pos:dev:    - Local:        http://localhost:3003
+pos:dev:    - Network:      http://100.71.106.89:3003
+pos:dev: 
+pos:dev:  ✓ Starting...
+crm:dev:    ▲ Next.js 15.5.18
+crm:dev:    - Local:        http://localhost:3002
+crm:dev:    - Network:      http://100.71.106.89:3002
+crm:dev: 
+crm:dev:  ✓ Starting...
+ai-support:dev:    ▲ Next.js 15.5.18
+ai-support:dev:    - Local:        http://localhost:3004
+ai-support:dev:    - Network:      http://100.71.106.89:3004
+ai-support:dev: 
+ai-support:dev:  ✓ Starting...
+hris:dev:  ✓ Ready in 13.4s
+pos:dev:  ✓ Ready in 13.8s
+web:dev:  ✓ Ready in 13.8s
+company:dev:  ✓ Ready in 14s
+crm:dev:  ✓ Ready in 14.1s
+ai-support:dev:  ✓ Ready in 12.9s
+crm:dev:  ○ Compiling / ...
+crm:dev:  ✓ Compiled / in 30.5s (1703 modules)
+crm:dev:  GET / 200 in 36147ms
+hris:dev: npm error Lifecycle script `dev` failed with error:
+hris:dev: npm error code 1073807364
+hris:dev: npm error path C:\Users\bagas\Catalyst Forge\portofolio cv\apps\hris
+hris:dev: npm error workspace hris@0.1.0
+web:dev: npm error Lifecycle script `dev` failed with error:
+ai-support:dev: npm error Lifecycle script `dev` failed with error:
+ai-support:dev: npm error code 1073807364
+ai-support:dev: npm error path C:\Users\bagas\Catalyst Forge\portofolio cv\apps\ai-support
+ai-support:dev: npm error workspace ai-support@0.1.0
+ai-support:dev: npm error location C:\Users\bagas\Catalyst Forge\portofolio cv\apps\ai-support
+ai-support:dev: npm error command failed
+ai-support:dev: npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next dev --port 3004
+web:dev: npm error code 1073807364
+web:dev: npm error path C:\Users\bagas\Catalyst Forge\portofolio cv\apps\web
+web:dev: npm error workspace web@0.1.0
+web:dev: npm error location C:\Users\bagas\Catalyst Forge\portofolio cv\apps\web
+web:dev: npm error command failed
+web:dev: npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next dev --port 3000
+hris:dev: npm error location C:\Users\bagas\Catalyst Forge\portofolio cv\apps\hris
+hris:dev: npm error command failed
+hris:dev: npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next dev --port 3001
+pos:dev: npm error Lifecycle script `dev` failed with error:
+pos:dev: npm error code 1073807364
+crm:dev: npm error Lifecycle script `dev` failed with error:
+pos:dev: npm error path C:\Users\bagas\Catalyst Forge\portofolio cv\apps\pos
+pos:dev: npm error workspace pos@0.1.0
+pos:dev: npm error location C:\Users\bagas\Catalyst Forge\portofolio cv\apps\pos
+company:dev: npm error Lifecycle script `dev` failed with error:
+company:dev: npm error code 1073807364
+company:dev: npm error path C:\Users\bagas\Catalyst Forge\portofolio cv\apps\company
+crm:dev: npm error code 1073807364
+crm:dev: npm error path C:\Users\bagas\Catalyst Forge\portofolio cv\apps\crm
+crm:dev: npm error workspace crm@0.1.0
+crm:dev: npm error location C:\Users\bagas\Catalyst Forge\portofolio cv\apps\crm
+crm:dev: npm error command failed
+crm:dev: npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next dev --port 3002
+pos:dev: npm error command failed
+company:dev: npm error workspace company@0.1.0
+company:dev: npm error location C:\Users\bagas\Catalyst Forge\portofolio cv\apps\company
+pos:dev: npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next dev --port 3003
+company:dev: npm error command failed
+company:dev: npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next dev --port 3005
