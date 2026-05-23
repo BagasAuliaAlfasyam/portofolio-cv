@@ -26,6 +26,21 @@ require_file() {
   fi
 }
 
+wait_for_http() {
+  local url="$1"
+  local attempts="${2:-30}"
+
+  for _ in $(seq 1 "$attempts"); do
+    if curl -fsS "$url" >/dev/null; then
+      return 0
+    fi
+    sleep 1
+  done
+
+  echo "Timed out waiting for $url" >&2
+  return 1
+}
+
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl git nginx python3-venv
 
@@ -164,8 +179,8 @@ sudo systemctl restart catalyst-backend catalyst-web
 sudo nginx -t
 sudo systemctl reload nginx
 
-curl -fsS "http://127.0.0.1:$BACKEND_PORT/health" >/dev/null
-curl -fsS "http://127.0.0.1:$WEB_PORT/" >/dev/null
+wait_for_http "http://127.0.0.1:$BACKEND_PORT/health"
+wait_for_http "http://127.0.0.1:$WEB_PORT/"
 
 printf '%s\n' "$REMOTE_SHA" > "$DEPLOYED_SHA_FILE"
 find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d | sort | head -n -5 | xargs -r rm -rf
