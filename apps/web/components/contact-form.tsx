@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Send } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Send } from "lucide-react";
 import { type Messages } from "@/lib/i18n";
 
 type ContactFormProps = {
@@ -29,8 +29,14 @@ export function ContactForm({ messages }: ContactFormProps) {
           placeholderPhone: "08xxxxxxxxxx",
           send: "Kirim Inquiry",
           sending: "Mengirim...",
-          success: "Pesan berhasil dikirim. Tim kami akan menghubungi Anda.",
+          successTitle: "Inquiry terkirim",
+          success: "Terima kasih. Tim CatalystForge akan menghubungi Anda secepatnya.",
+          errorTitle: "Belum bisa dikirim",
           error: "Pesan belum terkirim. Coba lagi atau gunakan WhatsApp.",
+          invalidName: "Nama minimal 2 karakter.",
+          invalidEmail: "Email belum valid.",
+          invalidPhone: "Nomor WhatsApp minimal 8 digit.",
+          invalidMessage: "Pesan minimal 10 karakter agar konteksnya jelas.",
         }
       : {
           company: "Company",
@@ -45,17 +51,31 @@ export function ContactForm({ messages }: ContactFormProps) {
           placeholderPhone: "+62...",
           send: "Send Inquiry",
           sending: "Sending...",
-          success: "Your message has been sent. Our team will contact you.",
+          successTitle: "Inquiry sent",
+          success: "Thank you. CatalystForge team will contact you shortly.",
+          errorTitle: "Message not sent",
           error: "Message not sent. Please try again or use WhatsApp.",
+          invalidName: "Name must be at least 2 characters.",
+          invalidEmail: "Email address is invalid.",
+          invalidPhone: "WhatsApp number must contain at least 8 digits.",
+          invalidMessage: "Message must be at least 10 characters for clear context.",
         };
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
     setStatus("sending");
     setErrorMessage("");
 
-    const formData = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
+    const formData = new FormData(form);
+    const payload = createContactPayload(formData);
+    const validationError = validateContactPayload(payload, labels);
+
+    if (validationError) {
+      setStatus("error");
+      setErrorMessage(validationError);
+      return;
+    }
 
     try {
       const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(
@@ -80,7 +100,7 @@ export function ContactForm({ messages }: ContactFormProps) {
         throw new Error(getContactErrorMessage(data, labels.error));
       }
 
-      event.currentTarget.reset();
+      form.reset();
       setStatus("success");
     } catch (error) {
       setStatus("error");
@@ -114,8 +134,10 @@ export function ContactForm({ messages }: ContactFormProps) {
       <div className="grid gap-4 sm:grid-cols-2">
         <Field
           label={labels.phone}
+          minLength={8}
           name="phone"
           placeholder={labels.placeholderPhone}
+          required
           type="tel"
         />
         <Field
@@ -131,7 +153,7 @@ export function ContactForm({ messages }: ContactFormProps) {
         <textarea
           className="min-h-36 resize-none rounded-lg border border-slate-200 bg-white px-4 py-3 text-base leading-relaxed text-[#1A1A2E] outline-none transition focus:border-[#E8531A] focus:ring-4 focus:ring-[#E8531A]/12"
           maxLength={2000}
-          minLength={5}
+          minLength={10}
           name="message"
           placeholder={labels.placeholderMessage}
           required
@@ -148,22 +170,81 @@ export function ContactForm({ messages }: ContactFormProps) {
       </button>
 
       {status === "success" ? (
-        <p className="rounded-lg bg-emerald-50 px-4 py-3 text-base font-semibold text-emerald-700">
-          {labels.success}
-        </p>
+        <FormAlert
+          message={labels.success}
+          title={labels.successTitle}
+          tone="success"
+        />
       ) : null}
       {status === "error" ? (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-base font-semibold text-red-700">
-          {errorMessage || labels.error}
-        </p>
+        <FormAlert
+          message={errorMessage || labels.error}
+          title={labels.errorTitle}
+          tone="error"
+        />
       ) : null}
     </form>
   );
 }
 
+type ContactPayload = {
+  company: string;
+  email: string;
+  message: string;
+  name: string;
+  phone: string;
+  website: string;
+};
+
 type ContactErrorResponse = {
   detail?: string | Array<{ msg?: string }>;
   message?: string;
+};
+
+function createContactPayload(formData: FormData): ContactPayload {
+  return {
+    company: getFormValue(formData, "company"),
+    email: getFormValue(formData, "email"),
+    message: getFormValue(formData, "message"),
+    name: getFormValue(formData, "name"),
+    phone: getFormValue(formData, "phone"),
+    website: getFormValue(formData, "website"),
+  };
+}
+
+function getFormValue(formData: FormData, key: keyof ContactPayload) {
+  const value = formData.get(key);
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function validateContactPayload(
+  payload: ContactPayload,
+  labels: ContactValidationLabels,
+) {
+  if (payload.name.length < 2) {
+    return labels.invalidName;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+    return labels.invalidEmail;
+  }
+
+  if (payload.phone.replace(/\D/g, "").length < 8) {
+    return labels.invalidPhone;
+  }
+
+  if (payload.message.length < 10) {
+    return labels.invalidMessage;
+  }
+
+  return "";
+}
+
+type ContactValidationLabels = {
+  invalidEmail: string;
+  invalidMessage: string;
+  invalidName: string;
+  invalidPhone: string;
 };
 
 function getContactErrorMessage(
@@ -186,14 +267,56 @@ function getContactErrorMessage(
   return firstDetail || fallback;
 }
 
+function FormAlert({
+  message,
+  title,
+  tone,
+}: {
+  message: string;
+  title: string;
+  tone: "error" | "success";
+}) {
+  const isSuccess = tone === "success";
+  const Icon = isSuccess ? CheckCircle2 : AlertTriangle;
+
+  return (
+    <div
+      className={[
+        "flex items-start gap-3 rounded-xl border px-4 py-4 shadow-sm",
+        isSuccess
+          ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+          : "border-red-200 bg-red-50 text-red-900",
+      ].join(" ")}
+      role={isSuccess ? "status" : "alert"}
+    >
+      <span
+        className={[
+          "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+          isSuccess ? "bg-emerald-100" : "bg-red-100",
+        ].join(" ")}
+      >
+        <Icon className="h-4 w-4" />
+      </span>
+      <span className="grid gap-1">
+        <span className="text-sm font-bold uppercase tracking-[0.12em]">
+          {title}
+        </span>
+        <span className="text-sm font-semibold leading-relaxed">{message}</span>
+      </span>
+    </div>
+  );
+}
+
 function Field({
   label,
+  minLength,
   name,
   placeholder,
   required,
   type = "text",
 }: {
   label: string;
+  minLength?: number;
   name: string;
   placeholder: string;
   required?: boolean;
@@ -207,6 +330,7 @@ function Field({
       <input
         className="h-12 rounded-lg border border-slate-200 bg-white px-4 text-base text-[#1A1A2E] outline-none transition focus:border-[#E8531A] focus:ring-4 focus:ring-[#E8531A]/12"
         maxLength={120}
+        minLength={minLength}
         name={name}
         placeholder={placeholder}
         required={required}
