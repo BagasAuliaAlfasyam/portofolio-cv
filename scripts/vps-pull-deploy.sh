@@ -119,6 +119,11 @@ write_proxy_locations() {
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
         proxy_hide_header X-Powered-By;
+        proxy_hide_header X-Nextjs-Cache;
+        proxy_hide_header X-Nextjs-Matched-Path;
+        proxy_hide_header X-Nextjs-Page;
+        proxy_hide_header X-Nextjs-Prerender;
+        proxy_hide_header X-Nextjs-Stale-Time;
     }
 
     location /health {
@@ -129,6 +134,11 @@ write_proxy_locations() {
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
         proxy_hide_header X-Powered-By;
+        proxy_hide_header X-Nextjs-Cache;
+        proxy_hide_header X-Nextjs-Matched-Path;
+        proxy_hide_header X-Nextjs-Page;
+        proxy_hide_header X-Nextjs-Prerender;
+        proxy_hide_header X-Nextjs-Stale-Time;
     }
 
     location / {
@@ -141,6 +151,11 @@ write_proxy_locations() {
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_hide_header X-Powered-By;
+        proxy_hide_header X-Nextjs-Cache;
+        proxy_hide_header X-Nextjs-Matched-Path;
+        proxy_hide_header X-Nextjs-Page;
+        proxy_hide_header X-Nextjs-Prerender;
+        proxy_hide_header X-Nextjs-Stale-Time;
     }
 NGINX
 }
