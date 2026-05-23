@@ -37,6 +37,7 @@ fi
 sudo mkdir -p "$APP_DIR"
 sudo chown -R ubuntu:ubuntu "$APP_DIR"
 mkdir -p "$RELEASES_DIR" "$SHARED_DIR"
+git config --global --add safe.directory "$REPO_DIR"
 
 require_file "$SHARED_DIR/backend.env"
 require_file "$SHARED_DIR/web.env"
