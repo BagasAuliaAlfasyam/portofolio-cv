@@ -710,7 +710,7 @@ function Footer() {
         <div className="flex items-center gap-2 text-xs font-semibold text-[#b7c2ad]">
           Built by{" "}
           <a
-            href="http://localhost:3000"
+            href="https://catalystforge.web.id"
             className="text-[#f2c65d] hover:underline"
           >
             Catalyst Forge

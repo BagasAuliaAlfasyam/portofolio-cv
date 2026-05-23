@@ -78,31 +78,31 @@
       {
         "name": "AI Support",
         "description": "Smart AI & Chatbot Services to respond to customers faster and more consistently.",
-        "href": "http://localhost:3004",
+        "href": "https://ai.catalystforge.web.id",
         "cta": "Open AI Support Demo"
       },
       {
         "name": "CRM",
         "description": "Customer Relationship Management to strengthen pipelines, follow-ups, and retention.",
-        "href": "http://localhost:3002",
+        "href": "https://crm.catalystforge.web.id",
         "cta": "Open CRM Demo"
       },
       {
         "name": "HRIS",
         "description": "Integrated HR & Employee System for employee data, attendance, and administration.",
-        "href": "http://localhost:3001",
+        "href": "https://hris.catalystforge.web.id",
         "cta": "Open HRIS Demo"
       },
       {
         "name": "POS",
         "description": "Modern Cashier & Sales System for transactions, inventory, and branch reporting.",
-        "href": "http://localhost:3003",
+        "href": "https://pos.catalystforge.web.id",
         "cta": "Open POS Demo"
       },
       {
         "name": "Company Profile",
         "description": "Professional Corporate Website that builds credibility and market trust.",
-        "href": "http://localhost:3005",
+        "href": "https://company.catalystforge.web.id",
         "cta": "Open Company Profile Demo"
       }
     ]

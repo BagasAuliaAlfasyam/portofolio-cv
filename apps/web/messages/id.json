@@ -78,31 +78,31 @@
       {
         "name": "AI Support",
         "description": "Layanan AI & Chatbot Cerdas untuk menjawab pelanggan lebih cepat dan konsisten.",
-        "href": "http://localhost:3004",
+        "href": "https://ai.catalystforge.web.id",
         "cta": "Buka Demo AI Support"
       },
       {
         "name": "CRM",
         "description": "Manajemen Hubungan Pelanggan untuk memperkuat pipeline, follow-up, dan retensi.",
-        "href": "http://localhost:3002",
+        "href": "https://crm.catalystforge.web.id",
         "cta": "Buka Demo CRM"
       },
       {
         "name": "HRIS",
         "description": "Sistem HR & Kepegawaian Terintegrasi untuk data karyawan, absensi, dan administrasi.",
-        "href": "http://localhost:3001",
+        "href": "https://hris.catalystforge.web.id",
         "cta": "Buka Demo HRIS"
       },
       {
         "name": "POS",
         "description": "Sistem Kasir & Penjualan Modern untuk transaksi, stok, dan laporan cabang.",
-        "href": "http://localhost:3003",
+        "href": "https://pos.catalystforge.web.id",
         "cta": "Buka Demo POS"
       },
       {
         "name": "Company Profile",
         "description": "Website Korporat Profesional yang membangun kredibilitas dan kepercayaan pasar.",
-        "href": "http://localhost:3005",
+        "href": "https://company.catalystforge.web.id",
         "cta": "Buka Demo Company Profile"
       }
     ]
