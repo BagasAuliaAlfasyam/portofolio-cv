@@ -26,7 +26,7 @@ Optional:
 APP_DIR=/var/www/catalyst-forge
 WEB_PORT=3000
 BACKEND_PORT=8001
-NGINX_SERVER_NAME=catalystforge.web.id
+NGINX_SERVER_NAME="catalystforge.web.id www.catalystforge.web.id"
 ```
 
 ## Email Provider
@@ -61,7 +61,7 @@ NEXT_PUBLIC_API_BASE_URL=https://catalystforge.web.id \
 BACKEND_CORS_ORIGINS=https://catalystforge.web.id \
 CONTACT_FROM='CatalystForge <noreply@catalystforge.web.id>' \
 CONTACT_TO=catalystforgetechnology@gmail.com \
-NGINX_SERVER_NAME=catalystforge.web.id \
+NGINX_SERVER_NAME='catalystforge.web.id www.catalystforge.web.id' \
 bash scripts/setup-vps-pull-deploy.sh
 ```
 

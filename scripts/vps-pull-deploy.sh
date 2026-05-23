@@ -8,7 +8,7 @@ SHARED_DIR="$APP_DIR/shared"
 BRANCH="${BRANCH:-main}"
 WEB_PORT="${WEB_PORT:-3000}"
 BACKEND_PORT="${BACKEND_PORT:-8001}"
-SERVER_NAME="${NGINX_SERVER_NAME:-catalystforge.web.id}"
+SERVER_NAME="${NGINX_SERVER_NAME:-catalystforge.web.id www.catalystforge.web.id}"
 LOCK_FILE="$APP_DIR/deploy.lock"
 DEPLOYED_SHA_FILE="$SHARED_DIR/deployed_sha"
 

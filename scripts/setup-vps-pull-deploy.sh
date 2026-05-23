@@ -8,7 +8,7 @@ REPO_DIR="$APP_DIR/repo"
 SHARED_DIR="$APP_DIR/shared"
 WEB_PORT="${WEB_PORT:-3000}"
 BACKEND_PORT="${BACKEND_PORT:-8001}"
-SERVER_NAME="${NGINX_SERVER_NAME:-catalystforge.web.id}"
+SERVER_NAME="${NGINX_SERVER_NAME:-catalystforge.web.id www.catalystforge.web.id}"
 POLL_INTERVAL="${POLL_INTERVAL:-2min}"
 NEXT_PUBLIC_API_BASE_URL="${NEXT_PUBLIC_API_BASE_URL:-https://catalystforge.web.id}"
 BACKEND_CORS_ORIGINS="${BACKEND_CORS_ORIGINS:-https://catalystforge.web.id}"
@@ -71,7 +71,7 @@ Environment=REPO_DIR=$REPO_DIR
 Environment=BRANCH=$BRANCH
 Environment=WEB_PORT=$WEB_PORT
 Environment=BACKEND_PORT=$BACKEND_PORT
-Environment=NGINX_SERVER_NAME=$SERVER_NAME
+Environment="NGINX_SERVER_NAME=$SERVER_NAME"
 ExecStart=/bin/bash $REPO_DIR/scripts/vps-pull-deploy.sh
 SERVICE
 
