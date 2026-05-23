@@ -7,6 +7,7 @@ const nextConfig = {
   output: "standalone",
   outputFileTracingRoot: path.join(__dirname, "../../"),
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
