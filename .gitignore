@@ -20,6 +20,7 @@ coverage
 
 # Local dev artifacts
 .dev-logs/
+.deploy-keys/
 __pycache__/
 *.py[cod]
 

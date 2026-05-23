@@ -33,6 +33,11 @@ class Settings(BaseSettings):
     # AI Models
     GEMINI_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
+
+    # Contact email
+    RESEND_API_KEY: str = ""
+    CONTACT_FROM: str = ""
+    CONTACT_TO: str = "catalystforgetechnology@gmail.com"
     
     class Config:
         case_sensitive = True

@@ -1,6 +1,7 @@
-import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { type Messages } from "@/lib/i18n";
-import { ParallaxLayer } from "./parallax-layer";
+import { ContactForm } from "./contact-form";
+import { Reveal } from "./reveal";
 import { ScrollParallax } from "./scroll-parallax";
 
 type CtaSectionProps = {
@@ -13,91 +14,110 @@ export function CtaSection({ messages }: CtaSectionProps) {
   )}`;
 
   return (
-    <section
-      className="relative isolate overflow-hidden bg-gradient-to-r from-[#E8531A] via-[#C9471A] to-[#1B3A5C] py-20 text-white"
-      id="contact"
-    >
-      <ParallaxLayer
-        className="-inset-y-20 opacity-25 subtle-diagonal-pattern"
-        maxOffset={48}
-        speed={-0.08}
-      />
-      <div className="section-container relative">
-        <ScrollParallax maxOffset={38}>
-          <div className="mx-auto max-w-4xl text-center">
-            <h2 className="mx-auto max-w-4xl text-3xl font-bold tracking-tight md:text-5xl">
-              {messages.cta.headline}
-            </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/88">
-              {messages.cta.subtext}
-            </p>
-            <a
-              className="mt-9 inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 text-base font-bold text-[#1B3A5C] shadow-lg transition hover:bg-[#FAF8F5]"
-              href={whatsappHref}
-              rel="noreferrer"
-              target="_blank"
-            >
-              {messages.cta.button}
-              <ArrowRight className="h-5 w-5" />
-            </a>
-          </div>
-        </ScrollParallax>
-        <div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-3">
-          {[
-            {
-              href: `mailto:${messages.footer.contactEmail}`,
-              icon: Mail,
-              label: messages.cta.emailLabel,
-              value: messages.footer.contactEmail,
-            },
-            {
-              href: `tel:${messages.footer.contactPhone.replaceAll(" ", "")}`,
-              icon: Phone,
-              label: messages.cta.phoneLabel,
-              value: messages.footer.contactPhone,
-            },
-            {
-              icon: MapPin,
-              label: messages.cta.addressLabel,
-              value: messages.footer.contactAddress,
-            },
-          ].map((item) => {
-            const Icon = item.icon;
-            const content = (
-              <>
-                <Icon className="h-5 w-5 shrink-0 text-white" />
-                <span>
-                  <span className="block text-sm font-bold uppercase tracking-[0.14em] text-white/70">
-                    {item.label}
-                  </span>
-                  <span className="mt-1 block text-base font-semibold text-white">
-                    {item.value}
-                  </span>
-                </span>
-              </>
-            );
+    <section className="overflow-hidden bg-white py-20 text-[#1A1A2E] md:py-28">
+      <div className="section-container">
+        <div
+          className="grid scroll-mt-40 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start"
+          id="contact"
+        >
+          <ScrollParallax maxOffset={38}>
+            <Reveal direction="left">
+              <p className="text-base font-bold uppercase tracking-[0.16em] text-[#E8531A]">
+                {messages.navbar.contact}
+              </p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-[#1B3A5C] md:text-5xl">
+                {messages.cta.headline}
+              </h2>
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#1A1A2E]/72">
+                {messages.cta.subtext}
+              </p>
 
-            if (item.href) {
-              return (
+              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <a
-                  className="flex min-h-24 items-center gap-4 rounded-lg border border-white/18 bg-white/10 p-5 text-left transition hover:bg-white/16"
-                  href={item.href}
-                  key={item.label}
+                  className="inline-flex items-center justify-center gap-3 rounded-full bg-[#E8531A] px-7 py-4 text-base font-bold text-white shadow-lg transition hover:bg-[#F4784A]"
+                  href={whatsappHref}
+                  rel="noreferrer"
+                  target="_blank"
                 >
-                  {content}
+                  <MessageCircle className="h-5 w-5" />
+                  {messages.cta.button}
                 </a>
-              );
-            }
-
-            return (
-              <div
-                className="flex min-h-24 items-center gap-4 rounded-lg border border-white/18 bg-white/10 p-5 text-left"
-                key={item.label}
-              >
-                {content}
+                <a
+                  className="inline-flex items-center justify-center gap-3 rounded-full border border-[#1B3A5C]/20 px-7 py-4 text-base font-bold text-[#1B3A5C] transition hover:border-[#E8531A] hover:text-[#E8531A]"
+                  href={`mailto:${messages.footer.contactEmail}`}
+                >
+                  <Mail className="h-5 w-5" />
+                  {messages.footer.contactEmail}
+                </a>
               </div>
-            );
-          })}
+            </Reveal>
+          </ScrollParallax>
+
+          <Reveal direction="right">
+            <div className="rounded-lg border border-slate-200 bg-[#FAF8F5] p-6 shadow-sm md:p-8">
+              <ContactForm messages={messages} />
+              <div className="mt-6 grid gap-3 border-t border-slate-200 pt-6">
+                {[
+                  {
+                    href: `tel:${messages.footer.contactPhone.replaceAll(" ", "")}`,
+                    icon: Phone,
+                    label: messages.cta.phoneLabel,
+                    value: messages.footer.contactPhone,
+                  },
+                  {
+                    icon: MapPin,
+                    label: messages.cta.addressLabel,
+                    value: messages.footer.contactAddress,
+                  },
+                ].map((item, index) => {
+                  const Icon = item.icon;
+                  const content = (
+                    <>
+                      <Icon className="h-5 w-5 shrink-0 text-[#E8531A]" />
+                      <span className="min-w-0">
+                        <span className="block text-xs font-bold uppercase tracking-[0.14em] text-[#1B3A5C]/52">
+                          {item.label}
+                        </span>
+                        <span className="mt-1 block break-words text-base font-bold text-[#1B3A5C]">
+                          {item.value}
+                        </span>
+                      </span>
+                    </>
+                  );
+
+                  if (item.href) {
+                    return (
+                      <Reveal
+                        delay={index * 80}
+                        direction="right"
+                        key={item.label}
+                      >
+                        <a
+                          className="flex items-center gap-3 rounded-lg bg-white px-4 py-3 transition hover:shadow-md"
+                          href={item.href}
+                        >
+                          {content}
+                          <ArrowRight className="ml-auto h-4 w-4 shrink-0 text-[#E8531A]" />
+                        </a>
+                      </Reveal>
+                    );
+                  }
+
+                  return (
+                    <Reveal
+                      delay={index * 80}
+                      direction="right"
+                      key={item.label}
+                    >
+                      <div className="flex items-center gap-3 rounded-lg bg-white px-4 py-3">
+                        {content}
+                      </div>
+                    </Reveal>
+                  );
+                })}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

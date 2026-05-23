@@ -7,6 +7,7 @@ type ScrollParallaxProps = {
   children: ReactNode;
   className?: string;
   direction?: "up" | "down" | "left" | "right";
+  id?: string;
   maxOffset?: number;
   reveal?: boolean;
 };
@@ -15,6 +16,7 @@ export function ScrollParallax({
   children,
   className,
   direction = "up",
+  id,
   maxOffset = 44,
   reveal = false,
 }: ScrollParallaxProps) {
@@ -116,6 +118,7 @@ export function ScrollParallax({
       )}
       data-parallax="true"
       data-parallax-direction={direction}
+      id={id}
       ref={elementRef}
     >
       {children}

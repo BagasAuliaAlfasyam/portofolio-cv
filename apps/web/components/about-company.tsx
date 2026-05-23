@@ -1,5 +1,6 @@
 import { CheckCircle2, MapPin, Network, ShieldCheck } from "lucide-react";
 import { type Messages } from "@/lib/i18n";
+import { Reveal } from "./reveal";
 import { ScrollParallax } from "./scroll-parallax";
 
 type AboutCompanyProps = {
@@ -10,10 +11,14 @@ const valueIcons = [MapPin, Network, ShieldCheck];
 
 export function AboutCompany({ messages }: AboutCompanyProps) {
   return (
-    <section className="section-padding overflow-hidden bg-white" id="about">
+    <section className="section-padding overflow-hidden bg-white">
       <div className="section-container grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-        <ScrollParallax className="max-w-3xl" maxOffset={34}>
-          <div>
+        <ScrollParallax
+          className="max-w-3xl scroll-mt-40"
+          id="about"
+          maxOffset={34}
+        >
+          <Reveal direction="left">
             <p className="text-base font-bold uppercase tracking-[0.16em] text-[#E8531A]">
               {messages.about.eyebrow}
             </p>
@@ -34,7 +39,7 @@ export function AboutCompany({ messages }: AboutCompanyProps) {
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
         </ScrollParallax>
 
         <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-1">
@@ -47,7 +52,11 @@ export function AboutCompany({ messages }: AboutCompanyProps) {
                 key={value.label}
                 maxOffset={26 + index * 6}
               >
-                <article className="rounded-lg border border-slate-200 bg-[#FAF8F5] p-6 shadow-sm">
+                <Reveal
+                  delay={index * 110}
+                  direction={index % 2 === 0 ? "right" : "left"}
+                >
+                  <article className="rounded-lg border border-slate-200 bg-[#FAF8F5] p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-[#E8531A] shadow-sm">
                       <Icon className="h-6 w-6" />
@@ -62,6 +71,7 @@ export function AboutCompany({ messages }: AboutCompanyProps) {
                     </div>
                   </div>
                 </article>
+                </Reveal>
               </ScrollParallax>
             );
           })}

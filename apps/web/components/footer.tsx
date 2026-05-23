@@ -2,6 +2,7 @@ import Image from "next/image";
 import { LanguageSwitcher } from "@repo/ui/language-switcher";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { type Locale, type Messages } from "@/lib/i18n";
+import { Reveal } from "./reveal";
 import { ScrollParallax } from "./scroll-parallax";
 
 type FooterProps = {
@@ -20,23 +21,36 @@ export function Footer({ messages, locale }: FooterProps) {
 
   return (
     <footer className="overflow-hidden bg-[#1B3A5C] text-white">
-      <div className="section-container grid gap-10 py-14 lg:grid-cols-[1.1fr_0.8fr_1.1fr]">
+      <div className="section-container grid gap-10 py-12 lg:grid-cols-[1.1fr_0.8fr_1.1fr]">
         <ScrollParallax direction="up" maxOffset={30}>
-          <div className="inline-flex overflow-hidden rounded-xl bg-white shadow-sm">
-            <Image
-              alt={messages.brand.logoAlt}
-              className="h-56 w-56 object-cover sm:h-64 sm:w-64"
-              height={320}
-              src="/logoBackground.png"
-              width={320}
-            />
+          <Reveal direction="left">
+          <div className="flex items-center gap-4">
+            <span className="relative block h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-white">
+              <Image
+                alt={messages.brand.logoAlt}
+                className="object-cover"
+                fill
+                sizes="56px"
+                src="/logo_icon_only.png"
+              />
+            </span>
+            <div>
+              <p className="text-2xl font-bold tracking-tight">
+                {messages.brand.name}
+              </p>
+              <p className="mt-1 text-base font-semibold uppercase tracking-[0.14em] text-white/62">
+                {messages.brand.tagline}
+              </p>
+            </div>
           </div>
           <p className="mt-5 max-w-sm text-base leading-relaxed text-white/74">
-            {messages.brand.tagline}
+            {messages.metadata.description}
           </p>
+          </Reveal>
         </ScrollParallax>
 
         <ScrollParallax direction="up" maxOffset={34}>
+          <Reveal delay={100} direction="up">
           <nav className="grid content-start gap-4">
             {navItems.map((item) => (
               <a
@@ -48,9 +62,11 @@ export function Footer({ messages, locale }: FooterProps) {
               </a>
             ))}
           </nav>
+          </Reveal>
         </ScrollParallax>
 
         <ScrollParallax direction="up" maxOffset={38}>
+          <Reveal delay={160} direction="right">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">
               {messages.footer.contactTitle}
@@ -85,6 +101,7 @@ export function Footer({ messages, locale }: FooterProps) {
               ]}
             />
           </div>
+          </Reveal>
         </ScrollParallax>
       </div>
       <div className="border-t border-white/12 py-5">

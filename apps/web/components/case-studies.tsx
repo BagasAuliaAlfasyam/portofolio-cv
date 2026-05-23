@@ -1,6 +1,7 @@
 import { CheckCircle2, FileText, Target } from "lucide-react";
 import { type ReactNode } from "react";
 import { type Messages } from "@/lib/i18n";
+import { Reveal } from "./reveal";
 import { ScrollParallax } from "./scroll-parallax";
 
 type CaseStudiesProps = {
@@ -9,16 +10,14 @@ type CaseStudiesProps = {
 
 export function CaseStudies({ messages }: CaseStudiesProps) {
   return (
-    <section
-      className="section-padding overflow-hidden bg-[#FAF8F5]"
-      id="projects"
-    >
+    <section className="section-padding overflow-hidden bg-[#FAF8F5]">
       <div className="section-container">
         <ScrollParallax
-          className="mx-auto max-w-3xl text-center"
+          className="mx-auto max-w-3xl scroll-mt-40 text-center"
+          id="projects"
           maxOffset={38}
         >
-          <div>
+          <Reveal direction="up">
             <p className="text-base font-bold uppercase tracking-[0.16em] text-[#E8531A]">
               {messages.caseStudies.eyebrow}
             </p>
@@ -28,15 +27,17 @@ export function CaseStudies({ messages }: CaseStudiesProps) {
             <p className="mt-6 text-lg leading-relaxed text-[#1A1A2E]/72">
               {messages.caseStudies.description}
             </p>
-          </div>
+          </Reveal>
         </ScrollParallax>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {messages.caseStudies.items.map((item) => (
-            <article
-              className="rounded-lg border border-slate-200 bg-white p-7 shadow-sm"
+          {messages.caseStudies.items.map((item, index) => (
+            <Reveal
+              delay={index * 120}
+              direction={index % 2 === 0 ? "left" : "right"}
               key={`${item.project}-${item.client}`}
             >
+            <article className="rounded-lg border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
               <p className="text-base font-bold uppercase tracking-[0.14em] text-[#E8531A]">
                 {item.context}
               </p>
@@ -65,6 +66,7 @@ export function CaseStudies({ messages }: CaseStudiesProps) {
                 />
               </div>
             </article>
+            </Reveal>
           ))}
         </div>
       </div>

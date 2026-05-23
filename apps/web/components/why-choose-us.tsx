@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { type Messages } from "@/lib/i18n";
 import { ParallaxLayer } from "./parallax-layer";
+import { Reveal } from "./reveal";
 import { ScrollParallax } from "./scroll-parallax";
 
 type WhyChooseUsProps = {
@@ -25,7 +26,7 @@ export function WhyChooseUs({ messages }: WhyChooseUsProps) {
       />
       <div className="section-container relative">
         <ScrollParallax className="max-w-3xl" maxOffset={38}>
-          <div>
+          <Reveal direction="left">
             <p className="text-base font-bold uppercase tracking-[0.16em] text-[#F4784A]">
               {messages.whyChooseUs.eyebrow}
             </p>
@@ -35,7 +36,7 @@ export function WhyChooseUs({ messages }: WhyChooseUsProps) {
             <p className="mt-6 text-lg leading-relaxed text-white/78">
               {messages.whyChooseUs.description}
             </p>
-          </div>
+          </Reveal>
         </ScrollParallax>
 
         <div className="mt-14 grid gap-6 md:grid-cols-2">
@@ -43,20 +44,23 @@ export function WhyChooseUs({ messages }: WhyChooseUsProps) {
             const Icon = valueIcons[index] ?? ShieldCheck;
 
             return (
-              <article
-                className="rounded-lg border border-white/12 bg-white/[0.08] p-7"
+              <Reveal
+                delay={index * 110}
+                direction={index % 2 === 0 ? "left" : "right"}
                 key={item.heading}
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-[#E8531A]">
-                  <Icon className="h-7 w-7" />
-                </div>
-                <h3 className="mt-6 text-2xl font-bold tracking-tight">
-                  {item.heading}
-                </h3>
-                <p className="mt-4 text-base leading-relaxed text-white/76">
-                  {item.paragraph}
-                </p>
-              </article>
+                <article className="rounded-lg border border-white/12 bg-white/[0.08] p-7 transition duration-300 hover:-translate-y-1 hover:bg-white/[0.12]">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-[#E8531A]">
+                    <Icon className="h-7 w-7" />
+                  </div>
+                  <h3 className="mt-6 text-2xl font-bold tracking-tight">
+                    {item.heading}
+                  </h3>
+                  <p className="mt-4 text-base leading-relaxed text-white/76">
+                    {item.paragraph}
+                  </p>
+                </article>
+              </Reveal>
             );
           })}
         </div>
