@@ -1,44 +1,39 @@
-import Link from "next/link";
+import { CalendarClock, CheckCircle2, Mail, Phone } from "lucide-react";
+import { CrmBadge, CrmMetric, CrmPageShell, CrmPanel } from "../../components/feature-component";
 
 const tasks = [
-  [
-    "Send revised HTE procurement scope",
-    "PT Patra Drilling Contractor",
-    "High",
-  ],
-  ["Follow up chatbot flow approval", "RS Prima Inti Medika", "Medium"],
-  ["Prepare CRM discovery questions", "PT Sinar Teknologi Nusantara", "Medium"],
-  ["Email POS demo access", "CV Mandiri Retailindo", "Low"],
+  ["Send revised HTE procurement scope", "PT Patra Drilling Contractor", "Email", "Today 15:00", "High"],
+  ["Follow up chatbot flow approval", "RS Prima Inti Medika", "Call", "Tomorrow 10:30", "Medium"],
+  ["Prepare CRM discovery questions", "PT Sinar Teknologi Nusantara", "Meeting", "May 26", "Medium"],
+  ["Email POS demo access", "CV Mandiri Retailindo", "Email", "May 28", "Low"],
 ];
 
 export default function TasksPage() {
   return (
-    <main className="min-h-screen bg-[#F6F7FB] p-6 text-[#172033]">
-      <Link className="text-base font-bold text-[#E8531A]" href="/">
-        Back to dashboard
-      </Link>
-      <section className="mt-8">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1B3A5C]">
-          Tasks
-        </h1>
-        <p className="mt-2 text-base text-slate-600">
-          Follow-up queue for sales owners.
-        </p>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {tasks.map(([title, company, priority]) => (
-            <article
-              className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
-              key={title}
-            >
-              <h2 className="text-lg font-bold text-[#172033]">{title}</h2>
-              <p className="mt-2 text-base text-slate-500">{company}</p>
-              <span className="mt-4 inline-flex rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-sm font-bold text-[#E8531A]">
-                {priority}
-              </span>
+    <CrmPageShell eyebrow="Tasks" title="Follow-up activity queue">
+      <div className="grid gap-4 md:grid-cols-3">
+        <CrmMetric icon={CalendarClock} label="Due today" note="2 high priority" value="6" />
+        <CrmMetric icon={CheckCircle2} label="Completed" note="This week" value="18" />
+        <CrmMetric icon={Phone} label="Response SLA" note="Median first response" value="4h" />
+      </div>
+      <CrmPanel title="Priority follow-ups">
+        <div className="grid gap-3">
+          {tasks.map(([title, company, type, due, priority]) => (
+            <article className="flex items-start justify-between gap-4 rounded-lg border border-slate-200 bg-white p-4" key={title}>
+              <div className="flex gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#F7EDE8] text-[#E8531A]">
+                  {type === "Email" ? <Mail className="h-5 w-5" /> : <Phone className="h-5 w-5" />}
+                </div>
+                <div>
+                  <p className="font-black text-slate-900">{title}</p>
+                  <p className="mt-1 text-sm font-semibold text-slate-500">{company} - {due}</p>
+                </div>
+              </div>
+              <CrmBadge>{priority}</CrmBadge>
             </article>
           ))}
         </div>
-      </section>
-    </main>
+      </CrmPanel>
+    </CrmPageShell>
   );
 }

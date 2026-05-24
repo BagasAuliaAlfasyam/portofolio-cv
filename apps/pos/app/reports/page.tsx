@@ -1,33 +1,25 @@
-import Link from "next/link";
+import { BadgePercent, BarChart3, Receipt, TrendingUp } from "lucide-react";
+import { PosMetric, PosPageShell, PosPanel } from "../../components/feature-component";
 
-const reports = [
-  ["Daily Revenue", "Rp 18.5M", "+22%"],
-  ["Average Basket", "Rp 146K", "+8%"],
-  ["Refund Rate", "0.8%", "-0.2%"],
-  ["QRIS Share", "42%", "+6%"],
+const topProducts = [
+  ["Kopi Susu Gula Aren", "48 sold", "Rp 1.44M"],
+  ["Nasi Goreng Special", "35 sold", "Rp 1.33M"],
+  ["Matcha Latte", "32 sold", "Rp 1.08M"],
+  ["French Fries", "28 sold", "Rp 700K"],
 ];
 
 export default function ReportsPage() {
   return (
-    <main className="min-h-screen bg-background p-6 text-slate-100">
-      <Link className="text-sm font-semibold text-emerald-400" href="/">
-        Back to dashboard
-      </Link>
-      <section className="mt-8">
-        <h1 className="text-2xl font-bold text-white">Reports</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Management sales metrics for daily store operations.
-        </p>
-        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {reports.map(([label, value, change]) => (
-            <div className="glass rounded-xl p-5" key={label}>
-              <p className="text-sm text-slate-500">{label}</p>
-              <p className="mt-3 text-3xl font-bold text-white">{value}</p>
-              <p className="mt-2 text-xs text-emerald-400">{change}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </main>
+    <PosPageShell eyebrow="Reports" title="Daily store performance">
+      <div className="grid gap-4 md:grid-cols-4">
+        <PosMetric icon={TrendingUp} label="Daily revenue" note="+22% vs yesterday" value="Rp 18.5M" />
+        <PosMetric icon={Receipt} label="Average basket" note="127 transactions" value="Rp 146K" />
+        <PosMetric icon={BadgePercent} label="Discount rate" note="Campaign impact" value="2.3%" />
+        <PosMetric icon={BarChart3} label="Gross margin" note="Estimated" value="61%" />
+      </div>
+      <PosPanel title="Top product contribution">
+        <div className="grid gap-3 md:grid-cols-2">{topProducts.map(([name, sold, revenue]) => <div className="rounded-lg border border-white/[0.08] bg-surface-50 p-4" key={name}><p className="font-black text-white">{name}</p><p className="mt-1 text-sm font-semibold text-slate-500">{sold}</p><p className="mt-3 text-lg font-black text-emerald-300">{revenue}</p></div>)}</div>
+      </PosPanel>
+    </PosPageShell>
   );
 }

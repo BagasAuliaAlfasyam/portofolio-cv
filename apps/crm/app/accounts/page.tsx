@@ -1,53 +1,51 @@
-import Link from "next/link";
+import { Building2, Mail, Phone, Search, UserRound } from "lucide-react";
+import { CrmBadge, CrmMetric, CrmPageShell, CrmPanel } from "../../components/feature-component";
 
 const accounts = [
-  ["PT Patra Drilling Contractor", "Energy", "Negotiation"],
-  ["RS Prima Inti Medika", "Healthcare", "Proposal"],
-  ["Universitas Malikussaleh", "Education", "Proposal"],
-  ["CV Mandiri Retailindo", "Retail", "Lead"],
+  ["PT Patra Drilling Contractor", "Energy", "Procurement Team", "Negotiation", "Bagas"],
+  ["RS Prima Inti Medika", "Healthcare", "Silfa", "Proposal", "Bagas"],
+  ["PT Sinar Teknologi Nusantara", "Distribution", "Ratna Wijaya", "Qualified", "Nadia"],
+  ["CV Mandiri Retailindo", "Retail", "Hendra Gunawan", "Lead", "Fikri"],
 ];
 
 export default function AccountsPage() {
   return (
-    <main className="min-h-screen bg-[#F6F7FB] p-6 text-[#172033]">
-      <Link className="text-base font-bold text-[#E8531A]" href="/">
-        Back to dashboard
-      </Link>
-      <section className="mt-8 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1B3A5C]">
-          Accounts
-        </h1>
-        <p className="mt-2 text-base text-slate-600">
-          Account directory for prospects, clients, and active opportunities.
-        </p>
-        <table className="mt-6 w-full min-w-[720px]">
-          <thead>
-            <tr className="border-b border-slate-200">
-              {["Company", "Industry", "Stage"].map((heading) => (
-                <th
-                  className="px-4 py-3 text-left text-sm font-bold uppercase tracking-wider text-slate-500"
-                  key={heading}
-                >
-                  {heading}
-                </th>
+    <CrmPageShell
+      actions={
+        <div className="relative w-full md:w-80">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <input className="h-10 w-full rounded-lg border border-slate-200 bg-white pl-10 pr-4 text-sm outline-none" placeholder="Search accounts..." />
+        </div>
+      }
+      eyebrow="Accounts"
+      title="Customer and prospect directory"
+    >
+      <div className="grid gap-4 md:grid-cols-3">
+        <CrmMetric icon={Building2} label="Active accounts" note="12 enterprise prospects" value="42" />
+        <CrmMetric icon={UserRound} label="Decision makers" note="28 verified contacts" value="86" />
+        <CrmMetric icon={Phone} label="Touches this week" note="Calls, emails, meetings" value="34" />
+      </div>
+      <CrmPanel title="Account portfolio">
+        <div className="overflow-hidden rounded-lg border border-slate-200">
+          <table className="w-full min-w-[820px] text-left text-sm">
+            <thead className="bg-slate-50 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+              <tr>{["Company", "Industry", "Primary Contact", "Stage", "Owner", "Contact"].map((heading) => <th className="px-4 py-3" key={heading}>{heading}</th>)}</tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 bg-white">
+              {accounts.map(([company, industry, contact, stage, owner]) => (
+                <tr key={company}>
+                  <td className="px-4 py-4 font-black text-[#1B3A5C]">{company}</td>
+                  <td className="px-4 py-4 font-semibold text-slate-600">{industry}</td>
+                  <td className="px-4 py-4 font-semibold text-slate-700">{contact}</td>
+                  <td className="px-4 py-4"><CrmBadge>{stage}</CrmBadge></td>
+                  <td className="px-4 py-4 font-semibold text-slate-600">{owner}</td>
+                  <td className="px-4 py-4"><div className="flex gap-2 text-slate-400"><Mail className="h-4 w-4" /><Phone className="h-4 w-4" /></div></td>
+                </tr>
               ))}
-            </tr>
-          </thead>
-          <tbody>
-            {accounts.map(([company, industry, stage]) => (
-              <tr className="border-b border-slate-100" key={company}>
-                <td className="px-4 py-4 text-base font-bold text-[#1B3A5C]">
-                  {company}
-                </td>
-                <td className="px-4 py-4 text-base text-slate-600">
-                  {industry}
-                </td>
-                <td className="px-4 py-4 text-base text-slate-600">{stage}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-    </main>
+            </tbody>
+          </table>
+        </div>
+      </CrmPanel>
+    </CrmPageShell>
   );
 }

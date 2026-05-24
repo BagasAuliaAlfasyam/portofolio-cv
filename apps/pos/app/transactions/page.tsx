@@ -1,49 +1,30 @@
-import Link from "next/link";
+import { Banknote, CreditCard, Receipt, WalletCards } from "lucide-react";
+import { formatCurrency, PosMetric, PosPageShell, PosPanel } from "../../components/feature-component";
 
 const transactions = [
-  ["TXN-001", "18:45", "Rp 125K", "Cash", "Completed"],
-  ["TXN-002", "18:32", "Rp 287K", "QRIS", "Completed"],
-  ["TXN-003", "18:20", "Rp 78K", "Cash", "Completed"],
-  ["TXN-004", "18:05", "Rp 196K", "Card", "Completed"],
+  ["TXN-1842", "16:48", 142000, "QRIS", "Completed"],
+  ["TXN-1841", "16:39", 68000, "Cash", "Completed"],
+  ["TXN-1840", "16:22", 211000, "Card", "Completed"],
+  ["TXN-1839", "16:05", 52000, "QRIS", "Refunded"],
 ];
 
 export default function TransactionsPage() {
   return (
-    <main className="min-h-screen bg-background p-6 text-slate-100">
-      <Link className="text-sm font-semibold text-emerald-400" href="/">
-        Back to dashboard
-      </Link>
-      <section className="glass mt-8 overflow-hidden rounded-xl p-6">
-        <h1 className="text-2xl font-bold text-white">Transactions</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Sales history with payment method and completion status.
-        </p>
-        <table className="mt-6 w-full min-w-[720px]">
-          <thead>
-            <tr className="border-b border-white/[0.06]">
-              {["ID", "Time", "Total", "Payment", "Status"].map((heading) => (
-                <th
-                  className="px-3 py-3 text-left text-[11px] uppercase tracking-wider text-slate-500"
-                  key={heading}
-                >
-                  {heading}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction) => (
-              <tr className="border-b border-white/[0.03]" key={transaction[0]}>
-                {transaction.map((value) => (
-                  <td className="px-3 py-4 text-sm text-slate-400" key={value}>
-                    {value}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-    </main>
+    <PosPageShell eyebrow="Transactions" title="Sales history and payment audit">
+      <div className="grid gap-4 md:grid-cols-4">
+        <PosMetric icon={Receipt} label="Transactions" note="Today" value="127" />
+        <PosMetric icon={WalletCards} label="QRIS share" note="Most used method" value="42%" />
+        <PosMetric icon={Banknote} label="Cash drawer" note="Balanced" value="Rp 2.4M" />
+        <PosMetric icon={CreditCard} label="Card payments" note="Settled" value="31" />
+      </div>
+      <PosPanel title="Transaction ledger">
+        <div className="overflow-hidden rounded-lg border border-white/[0.08]">
+          <table className="w-full min-w-[760px] text-left text-sm">
+            <thead className="bg-white/[0.03] text-xs font-black uppercase tracking-[0.12em] text-slate-500"><tr>{["ID", "Time", "Total", "Payment", "Status"].map((h) => <th className="px-4 py-3" key={h}>{h}</th>)}</tr></thead>
+            <tbody className="divide-y divide-white/[0.06]">{transactions.map(([id, time, total, payment, status]) => <tr key={id as string}><td className="px-4 py-4 font-black text-white">{id}</td><td className="px-4 py-4 font-semibold text-slate-400">{time}</td><td className="px-4 py-4 font-black text-emerald-300">{formatCurrency(total as number)}</td><td className="px-4 py-4 font-semibold text-slate-400">{payment}</td><td className="px-4 py-4"><span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-black text-emerald-300">{status}</span></td></tr>)}</tbody>
+          </table>
+        </div>
+      </PosPanel>
+    </PosPageShell>
   );
 }

@@ -1,37 +1,34 @@
-import Link from "next/link";
+import { BarChart3, CircleDollarSign, Target, Timer } from "lucide-react";
+import { CrmMetric, CrmPageShell, CrmPanel } from "../../components/feature-component";
 
-const metrics = [
-  ["Average Deal Size", "Rp 215M"],
-  ["Sales Cycle", "21 days"],
-  ["Win Rate", "32%"],
-  ["Response SLA", "4h"],
+const rows = [
+  ["Website", "34", "Rp 225M", "28%"],
+  ["Referral", "28", "Rp 420M", "41%"],
+  ["LinkedIn", "21", "Rp 160M", "19%"],
+  ["Outbound", "17", "Rp 95M", "14%"],
 ];
 
 export default function ReportsPage() {
   return (
-    <main className="min-h-screen bg-[#F6F7FB] p-6 text-[#172033]">
-      <Link className="text-base font-bold text-[#E8531A]" href="/">
-        Back to dashboard
-      </Link>
-      <section className="mt-8">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1B3A5C]">
-          Reports
-        </h1>
-        <p className="mt-2 text-base text-slate-600">
-          Management-level CRM metrics and forecast indicators.
-        </p>
-        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {metrics.map(([label, value]) => (
-            <article
-              className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
-              key={label}
-            >
-              <p className="text-base font-semibold text-slate-500">{label}</p>
-              <p className="mt-3 text-3xl font-bold text-[#1B3A5C]">{value}</p>
-            </article>
-          ))}
+    <CrmPageShell eyebrow="Reports" title="Sales performance and forecast">
+      <div className="grid gap-4 md:grid-cols-4">
+        <CrmMetric icon={CircleDollarSign} label="Avg deal size" note="+8% quarter over quarter" value="Rp 215M" />
+        <CrmMetric icon={Timer} label="Sales cycle" note="From lead to close" value="21d" />
+        <CrmMetric icon={Target} label="Win rate" note="Weighted by value" value="32%" />
+        <CrmMetric icon={BarChart3} label="Forecast accuracy" note="Last 90 days" value="87%" />
+      </div>
+      <CrmPanel title="Lead source performance">
+        <div className="overflow-hidden rounded-lg border border-slate-200">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-slate-50 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+              <tr>{["Source", "Leads", "Pipeline", "Win rate"].map((heading) => <th className="px-4 py-3" key={heading}>{heading}</th>)}</tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 bg-white">
+              {rows.map((row) => <tr key={row[0]}>{row.map((cell) => <td className="px-4 py-4 font-bold text-slate-700" key={cell}>{cell}</td>)}</tr>)}
+            </tbody>
+          </table>
         </div>
-      </section>
-    </main>
+      </CrmPanel>
+    </CrmPageShell>
   );
 }
