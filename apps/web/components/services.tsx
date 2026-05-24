@@ -17,7 +17,12 @@ const services = [
     subtitle: "End-to-End",
     description:
       "Full-stack web applications built with Next.js, React, and FastAPI. From design to deployment on GCP.",
-    highlights: ["Next.js / React", "FastAPI Backend", "PostgreSQL", "Cloud Run"],
+    highlights: [
+      "Next.js / React",
+      "FastAPI Backend",
+      "PostgreSQL",
+      "Cloud Run",
+    ],
     color: "text-blue-400",
     bg: "bg-blue-500/10",
     border: "border-blue-500/20",
@@ -50,7 +55,12 @@ const services = [
     subtitle: "Generative AI",
     description:
       "LLM-powered chatbots, AI agents, RAG systems, and intelligent automation using GPT, Gemini, and open-source models.",
-    highlights: ["LangChain", "RAG Systems", "Fine-tuning", "Agent Orchestration"],
+    highlights: [
+      "LangChain",
+      "RAG Systems",
+      "Fine-tuning",
+      "Agent Orchestration",
+    ],
     color: "text-pink-400",
     bg: "bg-pink-500/10",
     border: "border-pink-500/20",
@@ -82,14 +92,14 @@ export function Services() {
             What We <span className="gradient-text">Build</span>
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            End-to-end engineering services from concept to cloud deployment, 
+            End-to-end engineering services from concept to cloud deployment,
             powered by modern tech and AI.
           </p>
         </div>
 
         {/* Services grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {services.map((service, i) => (
+          {services.map((service) => (
             <div
               key={service.title}
               className="group relative rounded-2xl glass p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl glow-border"
@@ -139,7 +149,8 @@ export function Services() {
               Custom Solution?
             </h3>
             <p className="text-sm text-slate-400 mb-4">
-              Let&apos;s discuss your specific requirements and build something amazing.
+              Let&apos;s discuss your specific requirements and build something
+              amazing.
             </p>
             <a
               href="#contact"

@@ -92,9 +92,19 @@ const payrollTrend = [
 ];
 
 const leaveRequests = [
-  { days: "3 days", name: "Fajar Nugroho", period: "May 27-29", type: "Annual leave" },
+  {
+    days: "3 days",
+    name: "Fajar Nugroho",
+    period: "May 27-29",
+    type: "Annual leave",
+  },
   { days: "1 day", name: "Maya Putri", period: "May 30", type: "Sick leave" },
-  { days: "2 days", name: "Ahmad Fauzi", period: "Jun 3-4", type: "Personal leave" },
+  {
+    days: "2 days",
+    name: "Ahmad Fauzi",
+    period: "Jun 3-4",
+    type: "Personal leave",
+  },
 ];
 
 const orgUnits = [
@@ -117,12 +127,19 @@ export default function HRISDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 app-fade-in">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.16em] text-brand-400">HRIS Command Center</p>
-            <h1 className="mt-2 text-3xl font-black tracking-tight text-white md:text-4xl">People operations, attendance, payroll, and structure</h1>
-            <p className="mt-2 max-w-3xl text-sm font-medium text-slate-400">A professional HR workspace for employee lifecycle, leave approvals, workforce visibility, and payroll readiness.</p>
+            <p className="text-sm font-black uppercase tracking-[0.16em] text-brand-400">
+              HRIS Command Center
+            </p>
+            <h1 className="mt-2 text-3xl font-black tracking-tight text-white md:text-4xl">
+              People operations, attendance, payroll, and structure
+            </h1>
+            <p className="mt-2 max-w-3xl text-sm font-medium text-slate-400">
+              A professional HR workspace for employee lifecycle, leave
+              approvals, workforce visibility, and payroll readiness.
+            </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <HrisActionButton
@@ -142,14 +159,34 @@ export default function HRISDashboard() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <MetricCard icon={Users} label="Total employees" value="247" detail="91% active headcount" />
-          <MetricCard icon={CalendarCheck2} label="Attendance rate" value="94.8%" detail="12 late check-ins today" />
-          <MetricCard icon={Banknote} label="Monthly payroll" value="Rp 1.2B" detail="Ready for approval" />
-          <MetricCard icon={ShieldCheck} label="Compliance tasks" value="18" detail="5 contracts expiring" />
+        <div className="grid gap-4 app-slide-up md:grid-cols-2 xl:grid-cols-4">
+          <MetricCard
+            icon={Users}
+            label="Total employees"
+            value="247"
+            detail="91% active headcount"
+          />
+          <MetricCard
+            icon={CalendarCheck2}
+            label="Attendance rate"
+            value="94.8%"
+            detail="12 late check-ins today"
+          />
+          <MetricCard
+            icon={Banknote}
+            label="Monthly payroll"
+            value="Rp 1.2B"
+            detail="Ready for approval"
+          />
+          <MetricCard
+            icon={ShieldCheck}
+            label="Compliance tasks"
+            value="18"
+            detail="5 contracts expiring"
+          />
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+        <div className="grid gap-6 app-slide-up xl:grid-cols-[1.2fr_0.8fr]">
           <Panel title="Employee management" action="Search and roster">
             <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="relative w-full md:max-w-sm">
@@ -169,8 +206,8 @@ export default function HRISDashboard() {
                 Filters
               </HrisActionButton>
             </div>
-            <div className="overflow-hidden rounded-lg border border-white/[0.08]">
-              <table className="w-full text-left text-sm">
+            <div className="overflow-x-auto rounded-lg border border-white/[0.08]">
+              <table className="min-w-[720px] w-full text-left text-sm">
                 <thead className="bg-white/[0.03] text-xs font-black uppercase tracking-[0.12em] text-slate-500">
                   <tr>
                     <th className="px-4 py-3">Employee</th>
@@ -183,11 +220,19 @@ export default function HRISDashboard() {
                   {filteredEmployees.map((employee) => (
                     <tr className="bg-surface/40" key={employee.name}>
                       <td className="px-4 py-3">
-                        <div className="font-bold text-white">{employee.name}</div>
-                        <div className="text-xs font-medium text-slate-500">{employee.role}</div>
+                        <div className="font-bold text-white">
+                          {employee.name}
+                        </div>
+                        <div className="text-xs font-medium text-slate-500">
+                          {employee.role}
+                        </div>
                       </td>
-                      <td className="px-4 py-3 font-semibold text-slate-300">{employee.department}</td>
-                      <td className="px-4 py-3 font-semibold text-slate-400">{employee.manager}</td>
+                      <td className="px-4 py-3 font-semibold text-slate-300">
+                        {employee.department}
+                      </td>
+                      <td className="px-4 py-3 font-semibold text-slate-400">
+                        {employee.manager}
+                      </td>
                       <td className="px-4 py-3">
                         <StatusPill value={employee.status} />
                       </td>
@@ -201,19 +246,31 @@ export default function HRISDashboard() {
           <Panel title="Organizational structure" action="Departments">
             <div className="grid gap-3">
               {orgUnits.map((unit) => (
-                <div className="rounded-lg border border-white/[0.08] bg-white/[0.03] p-4" key={unit.name}>
+                <div
+                  className="rounded-lg border border-white/[0.08] bg-white/[0.03] p-4 app-card-hover"
+                  key={unit.name}
+                >
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-black text-white">{unit.name}</p>
-                      <p className="mt-1 text-xs font-semibold text-slate-500">Lead: {unit.leader}</p>
+                      <p className="mt-1 text-xs font-semibold text-slate-500">
+                        Lead: {unit.leader}
+                      </p>
                     </div>
                     <div className="rounded-lg bg-brand-500/10 px-3 py-2 text-right">
-                      <p className="text-lg font-black text-brand-400">{unit.count}</p>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">People</p>
+                      <p className="text-lg font-black text-brand-400">
+                        {unit.count}
+                      </p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                        People
+                      </p>
                     </div>
                   </div>
                   <div className="mt-3 h-2 rounded-full bg-white/[0.06]">
-                    <div className="h-2 rounded-full bg-brand-500" style={{ width: `${Math.min(unit.count, 80)}%` }} />
+                    <div
+                      className="h-2 rounded-full bg-brand-500"
+                      style={{ width: `${Math.min(unit.count, 80)}%` }}
+                    />
                   </div>
                 </div>
               ))}
@@ -221,14 +278,23 @@ export default function HRISDashboard() {
           </Panel>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid gap-6 app-slide-up xl:grid-cols-[0.9fr_1.1fr]">
           <Panel title="Attendance and leave" action="This week">
             <ResponsiveContainer height={260} width="100%">
               <BarChart data={attendanceData}>
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
+                <CartesianGrid
+                  stroke="rgba(255,255,255,0.06)"
+                  strokeDasharray="3 3"
+                />
                 <XAxis dataKey="day" tick={{ fill: "#94a3b8", fontSize: 12 }} />
                 <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
-                <Tooltip contentStyle={{ background: "#181825", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8 }} />
+                <Tooltip
+                  contentStyle={{
+                    background: "#181825",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderRadius: 8,
+                  }}
+                />
                 <Bar dataKey="present" fill="#10b981" radius={[6, 6, 0, 0]} />
                 <Bar dataKey="remote" fill="#06b6d4" radius={[6, 6, 0, 0]} />
                 <Bar dataKey="late" fill="#f59e0b" radius={[6, 6, 0, 0]} />
@@ -236,12 +302,19 @@ export default function HRISDashboard() {
             </ResponsiveContainer>
             <div className="mt-4 grid gap-3">
               {leaveRequests.map((request) => (
-                <div className="flex items-center justify-between rounded-lg border border-white/[0.08] bg-white/[0.03] p-3" key={request.name}>
+                <div
+                  className="flex items-center justify-between rounded-lg border border-white/[0.08] bg-white/[0.03] p-3 app-card-hover"
+                  key={request.name}
+                >
                   <div>
                     <p className="font-bold text-white">{request.name}</p>
-                    <p className="text-xs font-semibold text-slate-500">{request.type} - {request.period}</p>
+                    <p className="text-xs font-semibold text-slate-500">
+                      {request.type} - {request.period}
+                    </p>
                   </div>
-                  <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-bold text-amber-300">{request.days}</span>
+                  <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-bold text-amber-300">
+                    {request.days}
+                  </span>
                 </div>
               ))}
             </div>
@@ -250,17 +323,49 @@ export default function HRISDashboard() {
           <Panel title="Payroll control" action="May payroll">
             <ResponsiveContainer height={260} width="100%">
               <LineChart data={payrollTrend}>
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
-                <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                <CartesianGrid
+                  stroke="rgba(255,255,255,0.06)"
+                  strokeDasharray="3 3"
+                />
+                <XAxis
+                  dataKey="month"
+                  tick={{ fill: "#94a3b8", fontSize: 12 }}
+                />
                 <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
-                <Tooltip contentStyle={{ background: "#181825", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8 }} />
-                <Line dataKey="gross" name="Gross payroll" stroke="#818cf8" strokeWidth={3} type="monotone" />
-                <Line dataKey="net" name="Net payroll" stroke="#06b6d4" strokeWidth={3} type="monotone" />
+                <Tooltip
+                  contentStyle={{
+                    background: "#181825",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderRadius: 8,
+                  }}
+                />
+                <Line
+                  dataKey="gross"
+                  name="Gross payroll"
+                  stroke="#818cf8"
+                  strokeWidth={3}
+                  type="monotone"
+                />
+                <Line
+                  dataKey="net"
+                  name="Net payroll"
+                  stroke="#06b6d4"
+                  strokeWidth={3}
+                  type="monotone"
+                />
               </LineChart>
             </ResponsiveContainer>
             <div className="mt-4 grid gap-3 md:grid-cols-3">
-              <PayrollStep icon={FileCheck2} label="Attendance locked" status="Done" />
-              <PayrollStep icon={BadgeCheck} label="Deductions checked" status="Review" />
+              <PayrollStep
+                icon={FileCheck2}
+                label="Attendance locked"
+                status="Done"
+              />
+              <PayrollStep
+                icon={BadgeCheck}
+                label="Deductions checked"
+                status="Review"
+              />
               <PayrollStep icon={Banknote} label="Bank file" status="Ready" />
             </div>
           </Panel>
@@ -282,7 +387,7 @@ function MetricCard({
   value: string;
 }) {
   return (
-    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 shadow-xl shadow-black/10">
+    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 shadow-xl shadow-black/10 app-card-hover">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-bold text-slate-500">{label}</p>
@@ -330,7 +435,7 @@ function PayrollStep({
   status: string;
 }) {
   return (
-    <div className="rounded-lg border border-white/[0.08] bg-surface-50 p-4">
+    <div className="rounded-lg border border-white/[0.08] bg-surface-50 p-4 app-card-hover">
       <Icon className="h-5 w-5 text-brand-400" />
       <p className="mt-3 text-sm font-bold text-white">{label}</p>
       <p className="mt-1 inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.12em] text-emerald-300">
@@ -349,7 +454,9 @@ function StatusPill({ value }: { value: Employee["status"] }) {
         : "bg-amber-500/10 text-amber-300 border-amber-500/20";
 
   return (
-    <span className={`rounded-full border px-3 py-1 text-xs font-bold ${className}`}>
+    <span
+      className={`rounded-full border px-3 py-1 text-xs font-bold ${className}`}
+    >
       {value}
     </span>
   );

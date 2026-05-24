@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { ExternalLink, Mail, MessageCircle, Phone, X } from "lucide-react";
+import {
+  CalendarCheck2,
+  CheckCircle2,
+  ExternalLink,
+  Mail,
+  MessageCircle,
+  Phone,
+  X,
+} from "lucide-react";
 
 type ContactPersonModalProps = {
   open: boolean;
@@ -16,6 +24,12 @@ const contact = {
   phone: "085121379282",
   whatsappUrl: "https://wa.me/6285121379282",
 };
+
+const implementationSteps = [
+  "Mapping workflow dan role user",
+  "Setup backend, database, dan akses",
+  "Deploy VPS/domain sampai siap demo",
+];
 
 export function ContactPersonModal({
   open,
@@ -66,7 +80,7 @@ export function ContactPersonModal({
         onClick={onClose}
         type="button"
       />
-      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-slate-950 text-white shadow-2xl">
+      <div className="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-slate-950 text-white shadow-2xl">
         <div className="flex items-start justify-between border-b border-white/10 p-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300">
@@ -88,8 +102,40 @@ export function ContactPersonModal({
 
         <div className="space-y-5 p-5">
           <p className="text-sm leading-6 text-slate-300">
-            <span className="font-semibold text-white">{featureName}</span> di {appName} ini membutuhkan setup backend, database, role, workflow, dan automation yang sesuai proses bisnis kamu. Hubungi CatalystForge agar kami bantu lanjutkan ke versi siap pakai.
+            <span className="font-semibold text-white">{featureName}</span> di{" "}
+            {appName} ini membutuhkan setup backend, database, role, workflow,
+            dan automation yang sesuai proses bisnis kamu. Hubungi CatalystForge
+            agar kami bantu lanjutkan ke versi siap pakai.
           </p>
+
+          <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/10 p-4">
+            <div className="flex items-start gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cyan-300/15 text-cyan-200">
+                <CalendarCheck2 className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-sm font-bold text-white">
+                  Next step yang ideal
+                </p>
+                <p className="mt-1 text-sm leading-6 text-slate-300">
+                  Kita review kebutuhan, tentukan prioritas fitur, lalu susun
+                  estimasi pekerjaan yang realistis.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            {implementationSteps.map((step) => (
+              <div
+                className="flex items-center gap-3 text-sm font-semibold text-slate-200"
+                key={step}
+              >
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-300" />
+                {step}
+              </div>
+            ))}
+          </div>
 
           <div className="grid gap-3">
             <a

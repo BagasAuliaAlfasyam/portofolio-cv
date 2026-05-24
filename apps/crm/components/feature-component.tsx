@@ -5,6 +5,7 @@ import {
   Building2,
   CheckCircle2,
   LayoutDashboard,
+  Menu,
   Settings,
   Target,
   type LucideIcon,
@@ -40,13 +41,15 @@ export function CrmPageShell({
             </div>
             <div>
               <p className="text-sm font-black">Catalyst CRM</p>
-              <p className="text-xs font-semibold text-slate-500">Sales operating system</p>
+              <p className="text-xs font-semibold text-slate-500">
+                Sales operating system
+              </p>
             </div>
           </div>
           <nav className="grid gap-1 px-4 py-5">
             {navItems.map((item) => (
               <Link
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-100"
+                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-100"
                 href={item.href}
                 key={item.label}
               >
@@ -55,12 +58,39 @@ export function CrmPageShell({
               </Link>
             ))}
           </nav>
+          <div className="mt-auto p-4">
+            <DemoPill />
+          </div>
         </aside>
-        <section className="w-full p-4 md:p-8">
+        <section className="w-full min-w-0 p-4 app-fade-in md:p-8">
+          <div className="mb-4 flex items-center justify-between gap-3 lg:hidden">
+            <details className="relative">
+              <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm [&::-webkit-details-marker]:hidden">
+                <Menu className="h-5 w-5" />
+              </summary>
+              <nav className="absolute left-0 top-12 z-30 grid w-64 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-2xl">
+                {navItems.map((item) => (
+                  <Link
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-100"
+                    href={item.href}
+                    key={item.label}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </details>
+            <DemoPill />
+          </div>
           <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.16em] text-[#E8531A]">{eyebrow}</p>
-              <h1 className="mt-2 text-3xl font-black tracking-tight text-[#1B3A5C] md:text-4xl">{title}</h1>
+              <p className="text-sm font-black uppercase tracking-[0.16em] text-[#E8531A]">
+                {eyebrow}
+              </p>
+              <h1 className="mt-2 text-3xl font-black tracking-tight text-[#1B3A5C] md:text-4xl">
+                {title}
+              </h1>
             </div>
             {actions}
           </div>
@@ -83,7 +113,7 @@ export function CrmMetric({
   value: string;
 }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm app-card-hover">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-bold text-slate-500">{label}</p>
@@ -106,10 +136,19 @@ export function CrmPanel({
   title: string;
 }) {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm app-slide-up">
       <h2 className="mb-5 text-lg font-black text-[#1B3A5C]">{title}</h2>
       {children}
     </section>
+  );
+}
+
+function DemoPill() {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-black text-emerald-700 shadow-sm">
+      <span className="h-2 w-2 rounded-full bg-emerald-500" />
+      Demo mode
+    </span>
   );
 }
 

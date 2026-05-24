@@ -1,6 +1,7 @@
 /* global __dirname, module, require */
 
 const path = require("path");
+const { headers } = require("../../next-security-headers.cjs");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -17,6 +18,7 @@ const nextConfig = {
     ],
   },
   transpilePackages: ["@repo/ui", "@repo/config"],
+  headers,
 };
 
 module.exports = nextConfig;

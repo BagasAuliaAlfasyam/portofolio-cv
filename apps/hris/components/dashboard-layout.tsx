@@ -32,6 +32,7 @@ const sidebarLinks = [
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [contactFeature, setContactFeature] = useState<string | null>(null);
   const pathname = usePathname();
@@ -42,15 +43,26 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex min-h-screen overflow-hidden">
+      {mobileSidebarOpen && (
+        <button
+          aria-label="Close navigation"
+          className="fixed inset-0 z-30 bg-black/55 lg:hidden"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
       {/* Sidebar */}
       <aside
         className={`${
           sidebarOpen ? "w-64" : "w-[70px]"
-        } bg-sidebar border-r border-sidebar-border flex flex-col transition-all duration-300 shrink-0`}
+        } fixed inset-y-0 left-0 z-40 flex flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300 lg:relative lg:translate-x-0 ${
+          mobileSidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
+        } shrink-0`}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center px-4 border-b border-sidebar-border">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-accent-violet flex items-center justify-center shadow-lg shadow-brand-500/25">
               <Zap className="w-4 h-4 text-white" />
@@ -64,6 +76,13 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </div>
             )}
           </div>
+          <button
+            aria-label="Close navigation"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-white/[0.04] hover:text-white lg:hidden"
+            onClick={() => setMobileSidebarOpen(false)}
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
         {/* Navigation */}
@@ -77,6 +96,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   ? "bg-brand-500/10 text-brand-400 border border-brand-500/20"
                   : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.03]"
               }`}
+              onClick={() => setMobileSidebarOpen(false)}
             >
               <link.icon
                 className={`w-[18px] h-[18px] shrink-0 ${pathname === link.href ? "text-brand-400" : "text-slate-600 group-hover:text-slate-400"}`}
@@ -88,9 +108,15 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
         {/* Sidebar toggle */}
         <div className="p-3 border-t border-sidebar-border">
+          {sidebarOpen && (
+            <div className="mb-3 rounded-xl border border-emerald-500/15 bg-emerald-500/10 px-3 py-2 text-xs font-black text-emerald-300">
+              <span className="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-400" />
+              Demo mode
+            </div>
+          )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-500 hover:text-slate-300 hover:bg-white/[0.03] transition-all"
+            className="hidden w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-slate-500 transition-all hover:bg-white/[0.03] hover:text-slate-300 lg:flex"
           >
             <Menu className="w-4 h-4" />
             {sidebarOpen && <span>Collapse</span>}
@@ -99,12 +125,19 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="h-16 border-b border-white/[0.06] bg-background/80 backdrop-blur-xl flex items-center justify-between px-6 shrink-0">
+        <header className="h-16 border-b border-white/[0.06] bg-background/80 backdrop-blur-xl flex items-center justify-between gap-3 px-4 shrink-0 md:px-6">
           {/* Search */}
-          <div className="flex items-center gap-3 flex-1 max-w-md">
-            <div className="relative w-full">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
+            <button
+              aria-label="Open navigation"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-surface-50 text-slate-400 lg:hidden"
+              onClick={() => setMobileSidebarOpen(true)}
+            >
+              <Menu className="h-4 w-4" />
+            </button>
+            <div className="relative hidden w-full max-w-md sm:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
               <input
                 type="text"
@@ -116,6 +149,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
           {/* Right actions */}
           <div className="flex items-center gap-3">
+            <span className="hidden items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/10 px-3 py-1.5 text-xs font-black text-emerald-300 md:inline-flex">
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              Demo mode
+            </span>
             {/* Notifications */}
             <button
               onClick={() => showContact("Notifications")}
@@ -173,7 +210,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 app-fade-in md:p-6">
+          {children}
+        </main>
       </div>
       <ContactPersonModal
         open={Boolean(contactFeature)}
