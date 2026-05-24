@@ -1,428 +1,431 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 import {
-  LayoutDashboard,
-  ShoppingCart,
-  Package,
-  Receipt,
+  BadgePercent,
+  Banknote,
   BarChart3,
-  Settings,
   Bell,
-  Search,
-  Menu,
-  Zap,
+  ChevronRight,
+  CreditCard,
+  Minus,
+  Package,
   Plus,
-  TrendingUp,
-  ArrowUpRight,
-  ArrowDownRight,
-  DollarSign,
-  Users,
-  ShoppingBag,
+  Receipt,
+  Search,
+  Settings,
+  ShoppingCart,
+  Sparkles,
+  Trash2,
+  WalletCards,
+  type LucideIcon,
 } from "lucide-react";
 import {
-  AreaChart,
-  Area,
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
-const sidebarLinks = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/", active: true },
-  { icon: ShoppingCart, label: "New Sale", href: "/sale", active: false },
-  { icon: Package, label: "Inventory", href: "/inventory", active: false },
-  {
-    icon: Receipt,
-    label: "Transactions",
-    href: "/transactions",
-    active: false,
-  },
-  { icon: BarChart3, label: "Reports", href: "/reports", active: false },
-  { icon: Settings, label: "Settings", href: "/settings", active: false },
+type Product = {
+  category: "Food" | "Drink" | "Snack";
+  id: string;
+  name: string;
+  price: number;
+  stock: number;
+};
+
+type CartItem = Product & {
+  quantity: number;
+};
+
+const products: Product[] = [
+  { category: "Drink", id: "P-001", name: "Kopi Susu Gula Aren", price: 30000, stock: 42 },
+  { category: "Food", id: "P-002", name: "Nasi Goreng Special", price: 38000, stock: 26 },
+  { category: "Snack", id: "P-003", name: "Croissant Butter", price: 22000, stock: 18 },
+  { category: "Drink", id: "P-004", name: "Matcha Latte", price: 34000, stock: 31 },
+  { category: "Food", id: "P-005", name: "Chicken Rice Bowl", price: 42000, stock: 20 },
+  { category: "Drink", id: "P-006", name: "Mineral Water", price: 8000, stock: 84 },
+  { category: "Snack", id: "P-007", name: "French Fries", price: 25000, stock: 33 },
+  { category: "Food", id: "P-008", name: "Mie Ayam Bakso", price: 36000, stock: 22 },
 ];
 
-const statsCards = [
-  {
-    title: "Today's Sales",
-    value: "Rp 18.5M",
-    change: "+22%",
-    trend: "up",
-    icon: DollarSign,
-    color: "from-emerald-500 to-teal-500",
-  },
-  {
-    title: "Transactions",
-    value: "127",
-    change: "+15",
-    trend: "up",
-    icon: Receipt,
-    color: "from-blue-500 to-cyan-500",
-  },
-  {
-    title: "Products Sold",
-    value: "384",
-    change: "+48",
-    trend: "up",
-    icon: ShoppingBag,
-    color: "from-amber-500 to-orange-500",
-  },
-  {
-    title: "Customers",
-    value: "89",
-    change: "-3",
-    trend: "down",
-    icon: Users,
-    color: "from-violet-500 to-purple-500",
-  },
+const salesByHour = [
+  { hour: "09", sales: 920 },
+  { hour: "10", sales: 1410 },
+  { hour: "11", sales: 1860 },
+  { hour: "12", sales: 2740 },
+  { hour: "13", sales: 2210 },
+  { hour: "14", sales: 1990 },
+  { hour: "15", sales: 2330 },
+  { hour: "16", sales: 3190 },
 ];
 
-const salesData = [
-  { hour: "08:00", sales: 1200 },
-  { hour: "09:00", sales: 2400 },
-  { hour: "10:00", sales: 3100 },
-  { hour: "11:00", sales: 4200 },
-  { hour: "12:00", sales: 5800 },
-  { hour: "13:00", sales: 6200 },
-  { hour: "14:00", sales: 5400 },
-  { hour: "15:00", sales: 4800 },
-  { hour: "16:00", sales: 5100 },
-  { hour: "17:00", sales: 6500 },
-  { hour: "18:00", sales: 7200 },
-  { hour: "19:00", sales: 4100 },
+const transactions = [
+  { id: "TX-1842", items: 4, method: "QRIS", time: "16:48", total: 142000 },
+  { id: "TX-1841", items: 2, method: "Cash", time: "16:39", total: 68000 },
+  { id: "TX-1840", items: 5, method: "Card", time: "16:22", total: 211000 },
 ];
 
-const topProducts = [
-  { name: "Kopi Susu Gula Aren", qty: 48, revenue: "Rp 1.44M", trend: "+12%" },
-  { name: "Nasi Goreng Special", qty: 35, revenue: "Rp 1.05M", trend: "+8%" },
-  { name: "Es Teh Manis", qty: 62, revenue: "Rp 620K", trend: "+18%" },
-  { name: "Mie Ayam Bakso", qty: 28, revenue: "Rp 840K", trend: "+5%" },
-  { name: "Jus Alpukat", qty: 22, revenue: "Rp 550K", trend: "-3%" },
-];
-
-const recentTransactions = [
+const initialCart: CartItem[] = [
   {
-    id: "TXN-001",
-    time: "18:45",
-    items: 3,
-    total: "Rp 125K",
-    payment: "Cash",
-    status: "completed",
+    category: "Drink",
+    id: "P-001",
+    name: "Kopi Susu Gula Aren",
+    price: 30000,
+    quantity: 1,
+    stock: 42,
   },
   {
-    id: "TXN-002",
-    time: "18:32",
-    items: 5,
-    total: "Rp 287K",
-    payment: "QRIS",
-    status: "completed",
-  },
-  {
-    id: "TXN-003",
-    time: "18:20",
-    items: 2,
-    total: "Rp 78K",
-    payment: "Cash",
-    status: "completed",
-  },
-  {
-    id: "TXN-004",
-    time: "18:05",
-    items: 4,
-    total: "Rp 196K",
-    payment: "Card",
-    status: "completed",
-  },
-  {
-    id: "TXN-005",
-    time: "17:50",
-    items: 1,
-    total: "Rp 45K",
-    payment: "QRIS",
-    status: "refunded",
+    category: "Snack",
+    id: "P-003",
+    name: "Croissant Butter",
+    price: 22000,
+    quantity: 2,
+    stock: 18,
   },
 ];
 
-function CustomTooltip({ active, payload, label }: any) {
-  if (!active || !payload) return null;
+const navItems = [
+  { href: "/", icon: ShoppingCart, label: "Cashier" },
+  { href: "/inventory", icon: Package, label: "Inventory" },
+  { href: "/transactions", icon: Receipt, label: "Transactions" },
+  { href: "/reports", icon: BarChart3, label: "Reports" },
+  { href: "/settings", icon: Settings, label: "Settings" },
+];
+
+export default function POSDashboard() {
+  const [cart, setCart] = useState<CartItem[]>(initialCart);
+  const [category, setCategory] = useState<Product["category"] | "All">("All");
+  const [payment, setPayment] = useState("QRIS");
+  const [query, setQuery] = useState("");
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const matchesCategory = category === "All" || product.category === category;
+      const matchesQuery = product.name.toLowerCase().includes(query.toLowerCase());
+      return matchesCategory && matchesQuery;
+    });
+  }, [category, query]);
+
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const discount = subtotal >= 150000 ? 12000 : 0;
+  const tax = Math.round((subtotal - discount) * 0.11);
+  const total = subtotal - discount + tax;
+
+  function addToCart(product: Product) {
+    setCart((current) => {
+      const existing = current.find((item) => item.id === product.id);
+      if (existing) {
+        return current.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: Math.min(item.quantity + 1, item.stock) }
+            : item,
+        );
+      }
+
+      return [...current, { ...product, quantity: 1 }];
+    });
+  }
+
+  function updateQuantity(id: string, direction: "decrease" | "increase") {
+    setCart((current) =>
+      current
+        .map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                quantity:
+                  direction === "increase"
+                    ? Math.min(item.quantity + 1, item.stock)
+                    : item.quantity - 1,
+              }
+            : item,
+        )
+        .filter((item) => item.quantity > 0),
+    );
+  }
+
   return (
-    <div className="bg-surface-100 border border-white/[0.08] rounded-lg px-3 py-2 shadow-xl">
-      <p className="text-xs font-medium text-white mb-1">{label}</p>
-      {payload.map((e: any, i: number) => (
-        <p key={i} className="text-[11px] text-slate-400">
-          <span style={{ color: e.color }}>●</span> {e.name}: Rp {e.value}K
-        </p>
-      ))}
+    <div className="min-h-screen bg-background text-slate-100">
+      <div className="flex min-h-screen">
+        <aside className="hidden w-72 shrink-0 border-r border-white/[0.08] bg-sidebar lg:flex lg:flex-col">
+          <div className="flex h-16 items-center gap-3 border-b border-white/[0.08] px-5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500 text-white shadow-lg shadow-emerald-500/20">
+              <ShoppingCart className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm font-black text-white">Catalyst POS</p>
+              <p className="text-xs font-semibold text-slate-500">Cashier workspace</p>
+            </div>
+          </div>
+          <nav className="grid gap-1 px-4 py-5">
+            {navItems.map((item) => (
+              <Link
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold ${item.href === "/" ? "border border-emerald-500/20 bg-emerald-500/10 text-emerald-300" : "text-slate-500 hover:bg-white/[0.04] hover:text-slate-200"}`}
+                href={item.href}
+                key={item.label}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-auto p-4">
+            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-300">Shift status</p>
+              <p className="mt-2 text-sm font-bold text-white">Open cashier: Counter 02</p>
+              <p className="mt-1 text-xs font-semibold text-slate-500">Cash drawer balanced at Rp 2.400.000</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 overflow-hidden">
+          <header className="flex h-16 items-center justify-between border-b border-white/[0.08] bg-background/80 px-4 backdrop-blur md:px-6">
+            <div className="relative w-full max-w-xl">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+              <input
+                className="h-10 w-full rounded-lg border border-white/[0.08] bg-surface-50 pl-10 pr-4 text-sm font-semibold text-slate-200 outline-none focus:border-emerald-500/60"
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search product by name or scan barcode..."
+                value={query}
+              />
+            </div>
+            <button className="ml-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] text-slate-400">
+              <Bell className="h-4 w-4" />
+            </button>
+          </header>
+
+          <div className="grid h-[calc(100vh-4rem)] grid-cols-1 overflow-hidden xl:grid-cols-[1fr_420px]">
+            <section className="overflow-y-auto p-4 md:p-6">
+              <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="text-sm font-black uppercase tracking-[0.16em] text-emerald-300">New sale</p>
+                  <h1 className="mt-2 text-3xl font-black text-white">Fast checkout with live catalog</h1>
+                  <p className="mt-2 max-w-2xl text-sm font-medium text-slate-400">Browse products, add items quickly, choose payment method, and print a clean receipt summary.</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {(["All", "Food", "Drink", "Snack"] as const).map((item) => (
+                    <button
+                      className={`rounded-lg border px-3 py-2 text-sm font-bold ${category === item ? "border-emerald-500 bg-emerald-500 text-white" : "border-white/[0.08] bg-surface-50 text-slate-400"}`}
+                      key={item}
+                      onClick={() => setCategory(item)}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-6 grid gap-4 md:grid-cols-4">
+                <MetricCard icon={Banknote} label="Today sales" value="Rp 18.5M" detail="+22% vs yesterday" />
+                <MetricCard icon={Receipt} label="Transactions" value="127" detail="Avg basket Rp 145K" />
+                <MetricCard icon={Package} label="Products sold" value="384" detail="18 low stock items" />
+                <MetricCard icon={BadgePercent} label="Discount used" value="Rp 420K" detail="Campaign active" />
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                {filteredProducts.map((product) => (
+                  <button
+                    className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-left transition hover:border-emerald-500/40 hover:bg-emerald-500/10"
+                    key={product.id}
+                    onClick={() => addToCart(product)}
+                  >
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-300">
+                      <Sparkles className="h-5 w-5" />
+                    </div>
+                    <p className="mt-4 min-h-10 text-base font-black text-white">{product.name}</p>
+                    <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">{product.category}</p>
+                    <div className="mt-4 flex items-end justify-between gap-3">
+                      <span className="text-lg font-black text-emerald-300">{formatCurrency(product.price)}</span>
+                      <span className="rounded-full bg-surface-50 px-2 py-1 text-xs font-bold text-slate-400">Stock {product.stock}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_0.9fr]">
+                <Panel title="Daily sales report" action="Hourly">
+                  <ResponsiveContainer height={260} width="100%">
+                    <BarChart data={salesByHour}>
+                      <CartesianGrid stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
+                      <XAxis dataKey="hour" tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                      <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                      <Tooltip contentStyle={{ background: "#181825", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8 }} formatter={(value) => `Rp ${value}K`} />
+                      <Bar dataKey="sales" fill="#10b981" radius={[6, 6, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </Panel>
+                <Panel title="Recent transactions" action="Live">
+                  <div className="grid gap-3">
+                    {transactions.map((transaction) => (
+                      <div className="flex items-center justify-between rounded-lg border border-white/[0.08] bg-surface-50 p-3" key={transaction.id}>
+                        <div>
+                          <p className="font-black text-white">{transaction.id}</p>
+                          <p className="text-xs font-semibold text-slate-500">{transaction.time} - {transaction.items} items - {transaction.method}</p>
+                        </div>
+                        <p className="font-black text-emerald-300">{formatCurrency(transaction.total)}</p>
+                      </div>
+                    ))}
+                  </div>
+                </Panel>
+              </div>
+            </section>
+
+            <aside className="flex min-h-0 flex-col border-l border-white/[0.08] bg-surface p-4 md:p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-black uppercase tracking-[0.16em] text-emerald-300">Receipt</p>
+                  <h2 className="mt-1 text-2xl font-black text-white">Current order</h2>
+                </div>
+                <button className="rounded-lg border border-white/[0.08] px-3 py-2 text-xs font-bold text-slate-400" onClick={() => setCart([])}>
+                  Clear
+                </button>
+              </div>
+
+              <div className="min-h-0 flex-1 overflow-y-auto pr-1">
+                <div className="grid gap-3">
+                  {cart.length === 0 ? (
+                    <div className="rounded-xl border border-dashed border-white/[0.12] p-8 text-center">
+                      <ShoppingCart className="mx-auto h-8 w-8 text-slate-600" />
+                      <p className="mt-3 text-sm font-bold text-slate-400">Cart is empty</p>
+                    </div>
+                  ) : (
+                    cart.map((item) => (
+                      <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4" key={item.id}>
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <p className="font-black text-white">{item.name}</p>
+                            <p className="mt-1 text-sm font-semibold text-slate-500">{formatCurrency(item.price)} each</p>
+                          </div>
+                          <button className="text-slate-500 hover:text-red-300" onClick={() => setCart((current) => current.filter((cartItem) => cartItem.id !== item.id))}>
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                        <div className="mt-4 flex items-center justify-between">
+                          <div className="flex items-center rounded-lg border border-white/[0.08]">
+                            <button className="p-2 text-slate-400" onClick={() => updateQuantity(item.id, "decrease")}>
+                              <Minus className="h-4 w-4" />
+                            </button>
+                            <span className="min-w-10 text-center text-sm font-black text-white">{item.quantity}</span>
+                            <button className="p-2 text-slate-400" onClick={() => updateQuantity(item.id, "increase")}>
+                              <Plus className="h-4 w-4" />
+                            </button>
+                          </div>
+                          <p className="font-black text-emerald-300">{formatCurrency(item.price * item.quantity)}</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-5 space-y-4 border-t border-white/[0.08] pt-5">
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { icon: WalletCards, label: "QRIS" },
+                    { icon: Banknote, label: "Cash" },
+                    { icon: CreditCard, label: "Card" },
+                  ].map((method) => (
+                    <button
+                      className={`rounded-lg border px-3 py-3 text-sm font-bold ${payment === method.label ? "border-emerald-500 bg-emerald-500 text-white" : "border-white/[0.08] bg-white/[0.03] text-slate-400"}`}
+                      key={method.label}
+                      onClick={() => setPayment(method.label)}
+                    >
+                      <method.icon className="mx-auto mb-1 h-4 w-4" />
+                      {method.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid gap-2 text-sm font-semibold">
+                  <SummaryLine label="Subtotal" value={formatCurrency(subtotal)} />
+                  <SummaryLine label="Discount" value={`-${formatCurrency(discount)}`} />
+                  <SummaryLine label="Tax 11%" value={formatCurrency(tax)} />
+                </div>
+                <div className="flex items-center justify-between rounded-xl bg-emerald-500/10 p-4">
+                  <span className="text-sm font-black uppercase tracking-[0.12em] text-emerald-300">Total</span>
+                  <span className="text-2xl font-black text-white">{formatCurrency(total)}</span>
+                </div>
+                <button className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 text-base font-black text-white shadow-lg shadow-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50" disabled={cart.length === 0}>
+                  Charge {formatCurrency(total)}
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+            </aside>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
 
-export default function POSDashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [contactFeature, setContactFeature] = useState<string | null>(null);
-
-  const showContact = (feature: string) => {
-    setContactFeature(feature);
-  };
-
+function MetricCard({
+  detail,
+  icon: Icon,
+  label,
+  value,
+}: {
+  detail: string;
+  icon: LucideIcon;
+  label: string;
+  value: string;
+}) {
   return (
-    <div className="flex h-screen overflow-hidden">
-      <aside
-        className={`${sidebarOpen ? "w-64" : "w-[70px]"} bg-sidebar border-r border-sidebar-border flex flex-col transition-all duration-300 shrink-0`}
-      >
-        <div className="h-16 flex items-center px-4 border-b border-sidebar-border">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/25">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
-            {sidebarOpen && (
-              <div className="flex flex-col">
-                <span className="text-sm font-bold text-white">POS</span>
-                <span className="text-[9px] text-slate-500 tracking-wider">
-                  CATALYST FORGE
-                </span>
-              </div>
-            )}
-          </div>
+    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-xs font-bold text-slate-500">{label}</p>
+          <p className="mt-2 text-xl font-black text-white">{value}</p>
         </div>
-        <nav className="flex-1 py-4 px-3 space-y-1">
-          {sidebarLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${link.active ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.03]"}`}
-            >
-              <link.icon className="w-[18px] h-[18px] shrink-0" />
-              {sidebarOpen && <span>{link.label}</span>}
-            </Link>
-          ))}
-        </nav>
-        <div className="p-3 border-t border-sidebar-border">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-500 hover:text-slate-300 hover:bg-white/[0.03]"
-          >
-            <Menu className="w-4 h-4" />
-            {sidebarOpen && <span>Collapse</span>}
-          </button>
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-300">
+          <Icon className="h-5 w-5" />
         </div>
-      </aside>
-
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-16 border-b border-white/[0.06] bg-background/80 backdrop-blur-xl flex items-center justify-between px-6 shrink-0">
-          <div className="relative max-w-md flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-            <input
-              type="text"
-              placeholder="Search products, transactions..."
-              className="w-full h-9 pl-9 pr-4 rounded-lg bg-surface-50 border border-white/[0.06] text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500/40"
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => showContact("Notifications")}
-              className="relative w-9 h-9 rounded-lg bg-surface-50 border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white"
-            >
-              <Bell className="w-4 h-4" />
-            </button>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold">
-              CS
-            </div>
-          </div>
-        </header>
-
-        <main className="flex-1 overflow-y-auto p-6">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-2xl font-bold text-white">POS Dashboard</h1>
-              <p className="text-sm text-slate-500 mt-1">
-                Today&apos;s sales overview
-              </p>
-            </div>
-            <button
-              onClick={() => showContact("New Sale")}
-              className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg shadow-lg shadow-emerald-500/25 flex items-center gap-1.5"
-            >
-              <Plus className="w-4 h-4" />
-              New Sale
-            </button>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {statsCards.map((s) => (
-              <div key={s.title} className="glass rounded-xl p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <div
-                    className={`w-10 h-10 rounded-lg bg-gradient-to-br ${s.color} flex items-center justify-center shadow-lg`}
-                  >
-                    <s.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <span
-                    className={`flex items-center gap-0.5 text-xs font-medium ${s.trend === "up" ? "text-emerald-400" : "text-rose-400"}`}
-                  >
-                    {s.trend === "up" ? (
-                      <ArrowUpRight className="w-3 h-3" />
-                    ) : (
-                      <ArrowDownRight className="w-3 h-3" />
-                    )}
-                    {s.change}
-                  </span>
-                </div>
-                <div className="text-2xl font-bold text-white">{s.value}</div>
-                <div className="text-xs text-slate-500 mt-1">{s.title}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-4 mb-8">
-            <div className="lg:col-span-2 glass rounded-xl p-5">
-              <h3 className="text-sm font-semibold text-white mb-1">
-                Hourly Sales
-              </h3>
-              <p className="text-xs text-slate-500 mb-4">
-                Today&apos;s revenue by hour
-              </p>
-              <ResponsiveContainer width="100%" height={260}>
-                <AreaChart data={salesData}>
-                  <defs>
-                    <linearGradient id="posSales" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke="rgba(255,255,255,0.04)"
-                  />
-                  <XAxis
-                    dataKey="hour"
-                    tick={{ fill: "#64748b", fontSize: 11 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fill: "#64748b", fontSize: 11 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Area
-                    type="monotone"
-                    dataKey="sales"
-                    name="Sales"
-                    stroke="#10b981"
-                    fill="url(#posSales)"
-                    strokeWidth={2}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className="glass rounded-xl p-5">
-              <h3 className="text-sm font-semibold text-white mb-1">
-                Top Products
-              </h3>
-              <p className="text-xs text-slate-500 mb-4">Best sellers today</p>
-              <div className="space-y-3">
-                {topProducts.map((p, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between py-2 px-2.5 rounded-lg bg-white/[0.02] border border-white/[0.04]"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold flex items-center justify-center">
-                        #{i + 1}
-                      </span>
-                      <div>
-                        <div className="text-xs font-medium text-white">
-                          {p.name}
-                        </div>
-                        <div className="text-[10px] text-slate-500">
-                          {p.qty} sold · {p.revenue}
-                        </div>
-                      </div>
-                    </div>
-                    <span
-                      className={`text-[10px] font-medium ${p.trend.startsWith("+") ? "text-emerald-400" : "text-rose-400"}`}
-                    >
-                      {p.trend}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="glass rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-white mb-4">
-              Recent Transactions
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-white/[0.06]">
-                    {["ID", "Time", "Items", "Total", "Payment", "Status"].map(
-                      (h) => (
-                        <th
-                          key={h}
-                          className="text-left py-3 px-3 text-[11px] font-medium text-slate-500 uppercase tracking-wider"
-                        >
-                          {h}
-                        </th>
-                      ),
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentTransactions.map((t) => (
-                    <tr
-                      key={t.id}
-                      className="border-b border-white/[0.03] hover:bg-white/[0.02]"
-                    >
-                      <td className="py-3 px-3 text-sm font-mono text-brand-400">
-                        {t.id}
-                      </td>
-                      <td className="py-3 px-3 text-sm text-slate-400">
-                        {t.time}
-                      </td>
-                      <td className="py-3 px-3 text-sm text-slate-400">
-                        {t.items}
-                      </td>
-                      <td className="py-3 px-3 text-sm text-white font-medium">
-                        {t.total}
-                      </td>
-                      <td className="py-3 px-3">
-                        <span className="px-2 py-0.5 text-[10px] rounded bg-white/[0.04] text-slate-400 border border-white/[0.06]">
-                          {t.payment}
-                        </span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <span
-                          className={`px-2 py-0.5 text-[10px] font-medium rounded-full border ${t.status === "completed" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-rose-500/10 text-rose-400 border-rose-500/20"}`}
-                        >
-                          {t.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </main>
       </div>
-      <ContactPersonModal
-        open={Boolean(contactFeature)}
-        onClose={() => setContactFeature(null)}
-        featureName={contactFeature ?? undefined}
-        appName="POS System"
-      />
+      <p className="mt-3 text-xs font-semibold text-slate-500">{detail}</p>
     </div>
   );
+}
+
+function Panel({
+  action,
+  children,
+  title,
+}: {
+  action: string;
+  children: ReactNode;
+  title: string;
+}) {
+  return (
+    <section className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-black text-white">{title}</h2>
+        <span className="rounded-full bg-surface-50 px-3 py-1 text-xs font-bold text-slate-500">{action}</span>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function SummaryLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between text-slate-400">
+      <span>{label}</span>
+      <span className="text-slate-200">{value}</span>
+    </div>
+  );
+}
+
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat("id-ID", {
+    currency: "IDR",
+    maximumFractionDigits: 0,
+    style: "currency",
+  })
+    .format(value)
+    .replace("IDR", "Rp");
 }

@@ -1,310 +1,346 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
-import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 import {
-  Users, DollarSign, CalendarCheck, TrendingUp, ArrowUpRight, ArrowDownRight,
-  MoreHorizontal, UserPlus, Clock, Award,
+  BadgeCheck,
+  Banknote,
+  CalendarCheck2,
+  ChevronRight,
+  Download,
+  FileCheck2,
+  Filter,
+  Layers3,
+  Search,
+  ShieldCheck,
+  UserPlus,
+  Users,
+  type LucideIcon,
 } from "lucide-react";
 import {
-  AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, PieChart, Pie, Cell,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 
-// ─── Sample Data ─────────────────────────────────────────────────
-const statsCards = [
-  { title: "Total Employees", value: "247", change: "+12", trend: "up", icon: Users, color: "from-blue-500 to-cyan-500", shadow: "shadow-blue-500/20" },
-  { title: "Monthly Payroll", value: "Rp 1.2B", change: "+5.2%", trend: "up", icon: DollarSign, color: "from-emerald-500 to-teal-500", shadow: "shadow-emerald-500/20" },
-  { title: "Attendance Rate", value: "94.8%", change: "-1.2%", trend: "down", icon: CalendarCheck, color: "from-amber-500 to-orange-500", shadow: "shadow-amber-500/20" },
-  { title: "Avg. Performance", value: "8.4/10", change: "+0.3", trend: "up", icon: TrendingUp, color: "from-violet-500 to-purple-500", shadow: "shadow-violet-500/20" },
+type Employee = {
+  department: string;
+  employment: "Permanent" | "Contract" | "Probation";
+  manager: string;
+  name: string;
+  role: string;
+  status: "Active" | "On leave" | "Onboarding";
+};
+
+const employees: Employee[] = [
+  {
+    department: "Engineering",
+    employment: "Permanent",
+    manager: "Dimas Prakasa",
+    name: "Andi Pratama",
+    role: "Senior Full Stack Engineer",
+    status: "Active",
+  },
+  {
+    department: "Sales",
+    employment: "Permanent",
+    manager: "Nadia Putri",
+    name: "Budi Santoso",
+    role: "Enterprise Account Manager",
+    status: "Active",
+  },
+  {
+    department: "People Ops",
+    employment: "Probation",
+    manager: "Maya Rahman",
+    name: "Dewi Lestari",
+    role: "HR Generalist",
+    status: "Onboarding",
+  },
+  {
+    department: "Finance",
+    employment: "Contract",
+    manager: "Rizal Hidayat",
+    name: "Fajar Nugroho",
+    role: "Payroll Analyst",
+    status: "On leave",
+  },
 ];
 
-const revenueData = [
-  { month: "Jan", employees: 210, payroll: 980 },
-  { month: "Feb", employees: 215, payroll: 995 },
-  { month: "Mar", employees: 220, payroll: 1020 },
-  { month: "Apr", employees: 228, payroll: 1050 },
-  { month: "May", employees: 235, payroll: 1100 },
-  { month: "Jun", employees: 230, payroll: 1080 },
-  { month: "Jul", employees: 238, payroll: 1120 },
-  { month: "Aug", employees: 242, payroll: 1150 },
-  { month: "Sep", employees: 240, payroll: 1140 },
-  { month: "Oct", employees: 244, payroll: 1170 },
-  { month: "Nov", employees: 245, payroll: 1180 },
-  { month: "Dec", employees: 247, payroll: 1200 },
+const attendanceData = [
+  { day: "Mon", late: 8, present: 226, remote: 13 },
+  { day: "Tue", late: 5, present: 232, remote: 10 },
+  { day: "Wed", late: 7, present: 229, remote: 11 },
+  { day: "Thu", late: 9, present: 223, remote: 15 },
+  { day: "Fri", late: 12, present: 218, remote: 17 },
 ];
 
-const departmentData = [
-  { name: "Engineering", value: 68, color: "#6366f1" },
-  { name: "Marketing", value: 35, color: "#06b6d4" },
-  { name: "Sales", value: 42, color: "#10b981" },
-  { name: "HR", value: 18, color: "#f59e0b" },
-  { name: "Finance", value: 24, color: "#f43f5e" },
-  { name: "Operations", value: 60, color: "#8b5cf6" },
-];
-
-const attendanceWeekly = [
-  { day: "Mon", present: 235, absent: 12 },
-  { day: "Tue", present: 240, absent: 7 },
-  { day: "Wed", present: 238, absent: 9 },
-  { day: "Thu", present: 232, absent: 15 },
-  { day: "Fri", present: 228, absent: 19 },
-];
-
-const recentEmployees = [
-  { name: "Andi Pratama", role: "Senior Engineer", department: "Engineering", date: "2 days ago", status: "active" },
-  { name: "Siti Nurhaliza", role: "Marketing Lead", department: "Marketing", date: "5 days ago", status: "active" },
-  { name: "Budi Santoso", role: "Sales Manager", department: "Sales", date: "1 week ago", status: "active" },
-  { name: "Dewi Lestari", role: "HR Specialist", department: "HR", date: "2 weeks ago", status: "onboarding" },
-  { name: "Rizky Hidayat", role: "DevOps Engineer", department: "Engineering", date: "2 weeks ago", status: "active" },
+const payrollTrend = [
+  { month: "Jan", gross: 980, net: 822 },
+  { month: "Feb", gross: 995, net: 839 },
+  { month: "Mar", gross: 1020, net: 861 },
+  { month: "Apr", gross: 1050, net: 889 },
+  { month: "May", gross: 1100, net: 931 },
+  { month: "Jun", gross: 1080, net: 914 },
 ];
 
 const leaveRequests = [
-  { name: "Fajar Nugroho", type: "Annual Leave", from: "Nov 15", to: "Nov 18", status: "pending" },
-  { name: "Maya Putri", type: "Sick Leave", from: "Nov 12", to: "Nov 13", status: "approved" },
-  { name: "Ahmad Fauzi", type: "Personal", from: "Nov 20", to: "Nov 20", status: "pending" },
+  { days: "3 days", name: "Fajar Nugroho", period: "May 27-29", type: "Annual leave" },
+  { days: "1 day", name: "Maya Putri", period: "May 30", type: "Sick leave" },
+  { days: "2 days", name: "Ahmad Fauzi", period: "Jun 3-4", type: "Personal leave" },
 ];
 
-// ─── Custom Tooltip ──────────────────────────────────────────────
-function CustomTooltip({ active, payload, label }: any) {
-  if (!active || !payload) return null;
+const orgUnits = [
+  { count: 68, leader: "Dimas Prakasa", name: "Engineering" },
+  { count: 42, leader: "Nadia Putri", name: "Sales" },
+  { count: 60, leader: "Raka Wibowo", name: "Operations" },
+  { count: 24, leader: "Rizal Hidayat", name: "Finance" },
+];
+
+export default function HRISDashboard() {
+  const [query, setQuery] = useState("");
+  const filteredEmployees = useMemo(() => {
+    return employees.filter((employee) =>
+      [employee.name, employee.role, employee.department]
+        .join(" ")
+        .toLowerCase()
+        .includes(query.toLowerCase()),
+    );
+  }, [query]);
+
   return (
-    <div className="bg-surface-100 border border-white/[0.08] rounded-lg px-3 py-2 shadow-xl">
-      <p className="text-xs font-medium text-white mb-1">{label}</p>
-      {payload.map((entry: any, i: number) => (
-        <p key={i} className="text-[11px] text-slate-400">
-          <span style={{ color: entry.color }}>●</span> {entry.name}: {entry.value}
-        </p>
-      ))}
+    <DashboardLayout>
+      <div className="space-y-6">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.16em] text-brand-400">HRIS Command Center</p>
+            <h1 className="mt-2 text-3xl font-black tracking-tight text-white md:text-4xl">People operations, attendance, payroll, and structure</h1>
+            <p className="mt-2 max-w-3xl text-sm font-medium text-slate-400">A professional HR workspace for employee lifecycle, leave approvals, workforce visibility, and payroll readiness.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300 hover:bg-white/[0.04]">
+              <Download className="h-4 w-4" />
+              Export
+            </button>
+            <button className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-500 px-4 text-sm font-bold text-white shadow-lg shadow-brand-500/20">
+              <UserPlus className="h-4 w-4" />
+              Add employee
+            </button>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <MetricCard icon={Users} label="Total employees" value="247" detail="91% active headcount" />
+          <MetricCard icon={CalendarCheck2} label="Attendance rate" value="94.8%" detail="12 late check-ins today" />
+          <MetricCard icon={Banknote} label="Monthly payroll" value="Rp 1.2B" detail="Ready for approval" />
+          <MetricCard icon={ShieldCheck} label="Compliance tasks" value="18" detail="5 contracts expiring" />
+        </div>
+
+        <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+          <Panel title="Employee management" action="Search and roster">
+            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="relative w-full md:max-w-sm">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                <input
+                  className="h-10 w-full rounded-lg border border-white/[0.08] bg-surface-50 pl-10 pr-4 text-sm text-slate-200 outline-none focus:border-brand-500/60"
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search employee, role, department..."
+                  value={query}
+                />
+              </div>
+              <button className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300">
+                <Filter className="h-4 w-4" />
+                Filters
+              </button>
+            </div>
+            <div className="overflow-hidden rounded-lg border border-white/[0.08]">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-white/[0.03] text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                  <tr>
+                    <th className="px-4 py-3">Employee</th>
+                    <th className="px-4 py-3">Department</th>
+                    <th className="px-4 py-3">Manager</th>
+                    <th className="px-4 py-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/[0.06]">
+                  {filteredEmployees.map((employee) => (
+                    <tr className="bg-surface/40" key={employee.name}>
+                      <td className="px-4 py-3">
+                        <div className="font-bold text-white">{employee.name}</div>
+                        <div className="text-xs font-medium text-slate-500">{employee.role}</div>
+                      </td>
+                      <td className="px-4 py-3 font-semibold text-slate-300">{employee.department}</td>
+                      <td className="px-4 py-3 font-semibold text-slate-400">{employee.manager}</td>
+                      <td className="px-4 py-3">
+                        <StatusPill value={employee.status} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Panel>
+
+          <Panel title="Organizational structure" action="Departments">
+            <div className="grid gap-3">
+              {orgUnits.map((unit) => (
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.03] p-4" key={unit.name}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-black text-white">{unit.name}</p>
+                      <p className="mt-1 text-xs font-semibold text-slate-500">Lead: {unit.leader}</p>
+                    </div>
+                    <div className="rounded-lg bg-brand-500/10 px-3 py-2 text-right">
+                      <p className="text-lg font-black text-brand-400">{unit.count}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">People</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 h-2 rounded-full bg-white/[0.06]">
+                    <div className="h-2 rounded-full bg-brand-500" style={{ width: `${Math.min(unit.count, 80)}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Panel>
+        </div>
+
+        <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          <Panel title="Attendance and leave" action="This week">
+            <ResponsiveContainer height={260} width="100%">
+              <BarChart data={attendanceData}>
+                <CartesianGrid stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
+                <XAxis dataKey="day" tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                <Tooltip contentStyle={{ background: "#181825", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8 }} />
+                <Bar dataKey="present" fill="#10b981" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="remote" fill="#06b6d4" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="late" fill="#f59e0b" radius={[6, 6, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+            <div className="mt-4 grid gap-3">
+              {leaveRequests.map((request) => (
+                <div className="flex items-center justify-between rounded-lg border border-white/[0.08] bg-white/[0.03] p-3" key={request.name}>
+                  <div>
+                    <p className="font-bold text-white">{request.name}</p>
+                    <p className="text-xs font-semibold text-slate-500">{request.type} - {request.period}</p>
+                  </div>
+                  <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-bold text-amber-300">{request.days}</span>
+                </div>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel title="Payroll control" action="May payroll">
+            <ResponsiveContainer height={260} width="100%">
+              <LineChart data={payrollTrend}>
+                <CartesianGrid stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
+                <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                <Tooltip contentStyle={{ background: "#181825", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8 }} />
+                <Line dataKey="gross" name="Gross payroll" stroke="#818cf8" strokeWidth={3} type="monotone" />
+                <Line dataKey="net" name="Net payroll" stroke="#06b6d4" strokeWidth={3} type="monotone" />
+              </LineChart>
+            </ResponsiveContainer>
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              <PayrollStep icon={FileCheck2} label="Attendance locked" status="Done" />
+              <PayrollStep icon={BadgeCheck} label="Deductions checked" status="Review" />
+              <PayrollStep icon={Banknote} label="Bank file" status="Ready" />
+            </div>
+          </Panel>
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+}
+
+function MetricCard({
+  detail,
+  icon: Icon,
+  label,
+  value,
+}: {
+  detail: string;
+  icon: LucideIcon;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 shadow-xl shadow-black/10">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm font-bold text-slate-500">{label}</p>
+          <p className="mt-2 text-2xl font-black text-white">{value}</p>
+        </div>
+        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-500/10 text-brand-400">
+          <Icon className="h-5 w-5" />
+        </div>
+      </div>
+      <p className="mt-4 text-sm font-semibold text-slate-500">{detail}</p>
     </div>
   );
 }
 
-export default function HRISDashboard() {
-  const [contactFeature, setContactFeature] = useState<string | null>(null);
+function Panel({
+  action,
+  children,
+  title,
+}: {
+  action: string;
+  children: ReactNode;
+  title: string;
+}) {
+  return (
+    <section className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 shadow-xl shadow-black/10">
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <h2 className="text-lg font-black text-white">{title}</h2>
+        <span className="inline-flex items-center gap-2 rounded-lg border border-white/[0.08] px-3 py-1.5 text-xs font-bold text-slate-400">
+          <Layers3 className="h-3.5 w-3.5" />
+          {action}
+        </span>
+      </div>
+      {children}
+    </section>
+  );
+}
 
-  const showContact = (feature: string) => {
-    setContactFeature(feature);
-  };
+function PayrollStep({
+  icon: Icon,
+  label,
+  status,
+}: {
+  icon: LucideIcon;
+  label: string;
+  status: string;
+}) {
+  return (
+    <div className="rounded-lg border border-white/[0.08] bg-surface-50 p-4">
+      <Icon className="h-5 w-5 text-brand-400" />
+      <p className="mt-3 text-sm font-bold text-white">{label}</p>
+      <p className="mt-1 inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.12em] text-emerald-300">
+        {status} <ChevronRight className="h-3 w-3" />
+      </p>
+    </div>
+  );
+}
+
+function StatusPill({ value }: { value: Employee["status"] }) {
+  const className =
+    value === "Active"
+      ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/20"
+      : value === "Onboarding"
+        ? "bg-brand-500/10 text-brand-300 border-brand-500/20"
+        : "bg-amber-500/10 text-amber-300 border-amber-500/20";
 
   return (
-    <DashboardLayout>
-      {/* Page header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-sm text-slate-500 mt-1">Welcome back, Admin. Here&apos;s your HR overview.</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button onClick={() => showContact("Period filter")} className="px-4 py-2 text-sm text-slate-400 border border-white/[0.08] rounded-lg hover:text-white hover:bg-white/[0.03] transition-all">
-            <Clock className="w-4 h-4 inline mr-1.5" />
-            Nov 2025
-          </button>
-          <button onClick={() => showContact("Add Employee")} className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-brand-500 to-accent-violet rounded-lg shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all flex items-center gap-1.5">
-            <UserPlus className="w-4 h-4" />
-            Add Employee
-          </button>
-        </div>
-      </div>
-
-      {/* Stats cards */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {statsCards.map((stat) => (
-          <div
-            key={stat.title}
-            className="glass rounded-xl p-5 group hover:border-white/[0.1] transition-all duration-300"
-          >
-            <div className="flex items-start justify-between mb-3">
-              <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg ${stat.shadow}`}>
-                <stat.icon className="w-5 h-5 text-white" />
-              </div>
-              <span className={`flex items-center gap-0.5 text-xs font-medium ${stat.trend === "up" ? "text-emerald-400" : "text-rose-400"}`}>
-                {stat.trend === "up" ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                {stat.change}
-              </span>
-            </div>
-            <div className="text-2xl font-bold text-white">{stat.value}</div>
-            <div className="text-xs text-slate-500 mt-1">{stat.title}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Charts row */}
-      <div className="grid lg:grid-cols-3 gap-4 mb-8">
-        {/* Employee Growth Chart */}
-        <div className="lg:col-span-2 glass rounded-xl p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-sm font-semibold text-white">Employee Growth & Payroll</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Monthly headcount and payroll trend</p>
-            </div>
-            <button onClick={() => showContact("Chart options")} className="p-1.5 rounded-md hover:bg-white/[0.04] text-slate-500">
-              <MoreHorizontal className="w-4 h-4" />
-            </button>
-          </div>
-          <ResponsiveContainer width="100%" height={280}>
-            <AreaChart data={revenueData}>
-              <defs>
-                <linearGradient id="colorEmp" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="colorPay" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="month" tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip content={<CustomTooltip />} />
-              <Area type="monotone" dataKey="employees" name="Employees" stroke="#6366f1" fill="url(#colorEmp)" strokeWidth={2} />
-              <Area type="monotone" dataKey="payroll" name="Payroll (M)" stroke="#06b6d4" fill="url(#colorPay)" strokeWidth={2} />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Department Distribution */}
-        <div className="glass rounded-xl p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-sm font-semibold text-white">By Department</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Employee distribution</p>
-            </div>
-          </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie data={departmentData} cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} dataKey="value">
-                {departmentData.map((entry, i) => (
-                  <Cell key={i} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip content={<CustomTooltip />} />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mt-2">
-            {departmentData.map((d) => (
-              <div key={d.name} className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: d.color }} />
-                <span className="text-[11px] text-slate-500 truncate">{d.name}</span>
-                <span className="text-[11px] text-slate-400 ml-auto font-medium">{d.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Attendance & Leave row */}
-      <div className="grid lg:grid-cols-5 gap-4 mb-8">
-        {/* Weekly attendance */}
-        <div className="lg:col-span-2 glass rounded-xl p-5">
-          <h3 className="text-sm font-semibold text-white mb-1">Weekly Attendance</h3>
-          <p className="text-xs text-slate-500 mb-4">This week&apos;s overview</p>
-          <ResponsiveContainer width="100%" height={180}>
-            <BarChart data={attendanceWeekly} barGap={4}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="day" tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="present" name="Present" fill="#10b981" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="absent" name="Absent" fill="#f43f5e" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Leave requests */}
-        <div className="lg:col-span-3 glass rounded-xl p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-sm font-semibold text-white">Leave Requests</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Pending approvals</p>
-            </div>
-            <button onClick={() => showContact("View all leave requests")} className="text-xs text-brand-400 hover:text-brand-300">View All</button>
-          </div>
-          <div className="space-y-3">
-            {leaveRequests.map((req, i) => (
-              <div key={i} className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500/30 to-accent-violet/30 flex items-center justify-center text-white text-xs font-bold">
-                    {req.name.split(" ").map(n => n[0]).join("")}
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-white">{req.name}</div>
-                    <div className="text-[11px] text-slate-500">{req.type} · {req.from} - {req.to}</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full ${
-                    req.status === "approved" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
-                    "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                  }`}>
-                    {req.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Recent employees table */}
-      <div className="glass rounded-xl p-5">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h3 className="text-sm font-semibold text-white">Recent Employees</h3>
-            <p className="text-xs text-slate-500 mt-0.5">Latest additions to the team</p>
-          </div>
-          <button onClick={() => showContact("View all employees")} className="text-xs text-brand-400 hover:text-brand-300 flex items-center gap-1">
-            View All <ArrowUpRight className="w-3 h-3" />
-          </button>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-white/[0.06]">
-                <th className="text-left py-3 px-3 text-[11px] font-medium text-slate-500 uppercase tracking-wider">Employee</th>
-                <th className="text-left py-3 px-3 text-[11px] font-medium text-slate-500 uppercase tracking-wider">Department</th>
-                <th className="text-left py-3 px-3 text-[11px] font-medium text-slate-500 uppercase tracking-wider">Joined</th>
-                <th className="text-left py-3 px-3 text-[11px] font-medium text-slate-500 uppercase tracking-wider">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentEmployees.map((emp, i) => (
-                <tr key={i} className="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors">
-                  <td className="py-3 px-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500/20 to-accent-violet/20 flex items-center justify-center text-white text-xs font-bold border border-white/[0.06]">
-                        {emp.name.split(" ").map(n => n[0]).join("")}
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-white">{emp.name}</div>
-                        <div className="text-[11px] text-slate-500">{emp.role}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="py-3 px-3 text-sm text-slate-400">{emp.department}</td>
-                  <td className="py-3 px-3 text-sm text-slate-500">{emp.date}</td>
-                  <td className="py-3 px-3">
-                    <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full ${
-                      emp.status === "active" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
-                      "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                    }`}>
-                      {emp.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <ContactPersonModal
-        open={Boolean(contactFeature)}
-        onClose={() => setContactFeature(null)}
-        featureName={contactFeature ?? undefined}
-        appName="HRIS System"
-      />
-    </DashboardLayout>
+    <span className={`rounded-full border px-3 py-1 text-xs font-bold ${className}`}>
+      {value}
+    </span>
   );
 }
