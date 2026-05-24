@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   BarChart3,
@@ -7,7 +8,6 @@ import {
   ShoppingCart,
   type LucideIcon,
 } from "lucide-react";
-import type { ReactNode } from "react";
 
 const navItems = [
   { href: "/", icon: ShoppingCart, label: "Cashier" },

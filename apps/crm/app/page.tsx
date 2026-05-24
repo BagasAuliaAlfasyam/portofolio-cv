@@ -23,6 +23,7 @@ import {
   UserRound,
   type LucideIcon,
 } from "lucide-react";
+import { CrmActionButton } from "../components/action-button";
 import {
   Area,
   AreaChart,
@@ -224,10 +225,13 @@ export default function CrmDashboard() {
               <button className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-600">
                 <Bell className="h-4 w-4" />
               </button>
-              <button className="inline-flex h-10 items-center gap-2 rounded-lg bg-[#E8531A] px-4 text-sm font-bold text-white shadow-sm">
+              <CrmActionButton
+                className="inline-flex h-10 items-center gap-2 rounded-lg bg-[#E8531A] px-4 text-sm font-bold text-white shadow-sm"
+                featureName="Tambah deal baru"
+              >
                 <Plus className="h-4 w-4" />
                 Add deal
-              </button>
+              </CrmActionButton>
             </div>
           </header>
 

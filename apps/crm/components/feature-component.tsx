@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   BarChart3,
@@ -8,7 +9,6 @@ import {
   Target,
   type LucideIcon,
 } from "lucide-react";
-import type { ReactNode } from "react";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },

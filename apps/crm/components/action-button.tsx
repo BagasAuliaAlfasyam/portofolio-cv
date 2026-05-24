@@ -3,9 +3,9 @@
 import { useState, type ReactNode } from "react";
 import { ContactPersonModal } from "@repo/ui/contact-person-modal";
 
-export function HrisActionButton({
+export function CrmActionButton({
   children,
-  className = "inline-flex h-10 items-center gap-2 rounded-lg bg-brand-500 px-4 text-sm font-bold text-white",
+  className = "inline-flex h-10 items-center gap-2 rounded-lg bg-[#E8531A] px-4 text-sm font-bold text-white",
   featureName,
 }: {
   children: ReactNode;
@@ -20,7 +20,7 @@ export function HrisActionButton({
         {children}
       </button>
       <ContactPersonModal
-        appName="HRIS System"
+        appName="CRM System"
         featureName={featureName}
         onClose={() => setOpen(false)}
         open={open}

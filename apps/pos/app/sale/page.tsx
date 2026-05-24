@@ -1,6 +1,7 @@
 "use client";
 
 import { Minus, Plus, Receipt, Search, ShoppingCart, Trash2 } from "lucide-react";
+import { PosActionButton } from "../../components/action-button";
 import { formatCurrency, PosMetric, PosPageShell, PosPanel } from "../../components/feature-component";
 
 const products = [
@@ -22,7 +23,7 @@ export default function SalePage() {
 
   return (
     <PosPageShell
-      actions={<button className="h-10 rounded-lg bg-emerald-500 px-4 text-sm font-black text-white">Hold transaction</button>}
+      actions={<PosActionButton className="h-10 rounded-lg bg-emerald-500 px-4 text-sm font-black text-white" featureName="Hold transaction">Hold transaction</PosActionButton>}
       eyebrow="New sale"
       title="Cashier checkout workspace"
     >

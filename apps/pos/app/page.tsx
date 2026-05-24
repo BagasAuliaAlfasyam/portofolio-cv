@@ -21,6 +21,7 @@ import {
   WalletCards,
   type LucideIcon,
 } from "lucide-react";
+import { PosActionButton } from "../components/action-button";
 import {
   Bar,
   BarChart,
@@ -351,10 +352,14 @@ export default function POSDashboard() {
                   <span className="text-sm font-black uppercase tracking-[0.12em] text-emerald-300">Total</span>
                   <span className="text-2xl font-black text-white">{formatCurrency(total)}</span>
                 </div>
-                <button className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 text-base font-black text-white shadow-lg shadow-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50" disabled={cart.length === 0}>
+                <PosActionButton
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 text-base font-black text-white shadow-lg shadow-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={cart.length === 0}
+                  featureName="Checkout dan payment posting"
+                >
                   Charge {formatCurrency(total)}
                   <ChevronRight className="h-5 w-5" />
-                </button>
+                </PosActionButton>
               </div>
             </aside>
           </div>

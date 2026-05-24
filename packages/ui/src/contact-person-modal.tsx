@@ -10,9 +10,9 @@ type ContactPersonModalProps = {
 };
 
 const contact = {
-  email: "hello@catalystforge.id",
-  phone: "+62 812 3456 7890",
-  whatsappUrl: "https://wa.me/6281234567890",
+  email: "catalystforgetechnology@gmail.com",
+  phone: "085121379282",
+  whatsappUrl: "https://wa.me/6285121379282",
 };
 
 export function ContactPersonModal({
@@ -31,7 +31,7 @@ export function ContactPersonModal({
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300">
               Catalyst Forge
             </p>
-            <h2 className="mt-2 text-xl font-bold">Fitur demo belum diaktifkan</h2>
+            <h2 className="mt-2 text-xl font-bold">Hubungi Kami</h2>
           </div>
           <button
             type="button"
@@ -45,7 +45,7 @@ export function ContactPersonModal({
 
         <div className="space-y-5 p-5">
           <p className="text-sm leading-6 text-slate-300">
-            <span className="font-semibold text-white">{featureName}</span> di {appName} ini masih berupa showcase promosi. Untuk versi yang benar-benar terintegrasi dengan database, role, workflow, dan automation bisnis kamu, hubungi CV Catalyst Forge.
+            <span className="font-semibold text-white">{featureName}</span> di {appName} ini membutuhkan setup backend, database, role, workflow, dan automation yang sesuai proses bisnis kamu. Hubungi CatalystForge agar kami bantu lanjutkan ke versi siap pakai.
           </p>
 
           <div className="grid gap-3">
@@ -69,7 +69,7 @@ export function ContactPersonModal({
               {contact.email}
             </a>
             <a
-              href="tel:+6281234567890"
+              href="tel:+6285121379282"
               className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-slate-200 transition hover:bg-white/[0.08]"
             >
               <Phone className="h-5 w-5 text-cyan-300" />

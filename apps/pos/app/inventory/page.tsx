@@ -1,4 +1,5 @@
 import { AlertTriangle, Package, Plus, Search, Truck } from "lucide-react";
+import { PosActionButton } from "../../components/action-button";
 import { PosMetric, PosPageShell, PosPanel } from "../../components/feature-component";
 
 const inventory = [
@@ -11,7 +12,7 @@ const inventory = [
 
 export default function InventoryPage() {
   return (
-    <PosPageShell actions={<button className="inline-flex h-10 items-center gap-2 rounded-lg bg-emerald-500 px-4 text-sm font-black text-white"><Plus className="h-4 w-4" /> Add product</button>} eyebrow="Inventory" title="Stock control and reorder planning">
+    <PosPageShell actions={<PosActionButton featureName="Tambah produk dan sinkronisasi stok"><Plus className="h-4 w-4" /> Add product</PosActionButton>} eyebrow="Inventory" title="Stock control and reorder planning">
       <div className="grid gap-4 md:grid-cols-3">
         <PosMetric icon={Package} label="Active SKUs" note="Across 8 categories" value="184" />
         <PosMetric icon={AlertTriangle} label="Low stock" note="Needs restock today" value="18" />

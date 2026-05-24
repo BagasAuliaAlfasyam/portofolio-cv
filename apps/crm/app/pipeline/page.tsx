@@ -1,4 +1,5 @@
 import { CalendarClock, CircleDollarSign, Plus, Target } from "lucide-react";
+import { CrmActionButton } from "../../components/action-button";
 import { CrmBadge, CrmMetric, CrmPageShell, CrmPanel } from "../../components/feature-component";
 
 const columns = [
@@ -39,10 +40,10 @@ export default function PipelinePage() {
   return (
     <CrmPageShell
       actions={
-        <button className="inline-flex h-10 items-center gap-2 rounded-lg bg-[#E8531A] px-4 text-sm font-bold text-white">
+        <CrmActionButton featureName="Buat opportunity baru">
           <Plus className="h-4 w-4" />
           New opportunity
-        </button>
+        </CrmActionButton>
       }
       eyebrow="Pipeline"
       title="Stage-based opportunity board"

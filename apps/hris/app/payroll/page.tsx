@@ -1,6 +1,7 @@
 "use client";
 
 import { DashboardLayout } from "../../components/dashboard-layout";
+import { HrisActionButton } from "../../components/feature-component";
 import { Banknote, CheckCircle2, FileText, WalletCards } from "lucide-react";
 
 const payrollItems = [
@@ -21,7 +22,7 @@ export default function PayrollPage() {
         <section className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5">
           <h2 className="mb-5 text-lg font-black text-white">Approval checklist</h2>
           <div className="grid gap-3 md:grid-cols-2">{approvals.map((item, index) => <div className="flex items-center gap-3 rounded-lg border border-white/[0.08] bg-surface-50 p-4" key={item}>{index < 3 ? <CheckCircle2 className="h-5 w-5 text-emerald-300" /> : <FileText className="h-5 w-5 text-amber-300" />}<span className="font-bold text-slate-200">{item}</span></div>)}</div>
-          <button className="mt-5 inline-flex h-11 items-center gap-2 rounded-lg bg-brand-500 px-5 text-sm font-black text-white"><WalletCards className="h-4 w-4" /> Approve payroll batch</button>
+          <HrisActionButton className="mt-5 inline-flex h-11 items-center gap-2 rounded-lg bg-brand-500 px-5 text-sm font-black text-white" featureName="Approve payroll batch"><WalletCards className="h-4 w-4" /> Approve payroll batch</HrisActionButton>
         </section>
       </div>
     </DashboardLayout>

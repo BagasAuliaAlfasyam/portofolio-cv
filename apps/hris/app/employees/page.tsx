@@ -1,6 +1,7 @@
 "use client";
 
 import { DashboardLayout } from "../../components/dashboard-layout";
+import { HrisActionButton } from "../../components/feature-component";
 import { BriefcaseBusiness, Download, Search, UserPlus, Users } from "lucide-react";
 
 const employees = [
@@ -22,8 +23,8 @@ export default function EmployeesPage() {
             <p className="mt-2 text-sm font-medium text-slate-500">Central directory for employment status, managers, departments, and lifecycle actions.</p>
           </div>
           <div className="flex gap-2">
-            <button className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300"><Download className="h-4 w-4" /> Export</button>
-            <button className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-500 px-4 text-sm font-bold text-white"><UserPlus className="h-4 w-4" /> Add employee</button>
+            <HrisActionButton className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300" featureName="Export employee roster"><Download className="h-4 w-4" /> Export</HrisActionButton>
+            <HrisActionButton featureName="Tambah employee baru"><UserPlus className="h-4 w-4" /> Add employee</HrisActionButton>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-3">

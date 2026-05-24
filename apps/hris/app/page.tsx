@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
+import { HrisActionButton } from "../components/feature-component";
 import {
   BadgeCheck,
   Banknote,
@@ -124,14 +125,20 @@ export default function HRISDashboard() {
             <p className="mt-2 max-w-3xl text-sm font-medium text-slate-400">A professional HR workspace for employee lifecycle, leave approvals, workforce visibility, and payroll readiness.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300 hover:bg-white/[0.04]">
+            <HrisActionButton
+              className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300 hover:bg-white/[0.04]"
+              featureName="Export laporan HR"
+            >
               <Download className="h-4 w-4" />
               Export
-            </button>
-            <button className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-500 px-4 text-sm font-bold text-white shadow-lg shadow-brand-500/20">
+            </HrisActionButton>
+            <HrisActionButton
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-500 px-4 text-sm font-bold text-white shadow-lg shadow-brand-500/20"
+              featureName="Tambah employee baru"
+            >
               <UserPlus className="h-4 w-4" />
               Add employee
-            </button>
+            </HrisActionButton>
           </div>
         </div>
 
