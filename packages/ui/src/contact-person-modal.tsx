@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ExternalLink, Mail, MessageCircle, Phone, X } from "lucide-react";
 
 type ContactPersonModalProps = {
@@ -21,17 +23,58 @@ export function ContactPersonModal({
   featureName = "fitur ini",
   appName = "demo app",
 }: ContactPersonModalProps) {
-  if (!open) return null;
+  const [mounted, setMounted] = useState(false);
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-slate-950 text-white shadow-2xl">
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose, open]);
+
+  if (!open || !mounted) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[9999] flex min-h-dvh items-center justify-center overflow-y-auto bg-black/70 px-4 py-6 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="contact-modal-title"
+    >
+      <button
+        aria-label="Tutup popup kontak"
+        className="absolute inset-0 h-full w-full cursor-default"
+        onClick={onClose}
+        type="button"
+      />
+      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-slate-950 text-white shadow-2xl">
         <div className="flex items-start justify-between border-b border-white/10 p-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300">
               Catalyst Forge
             </p>
-            <h2 className="mt-2 text-xl font-bold">Hubungi Kami</h2>
+            <h2 className="mt-2 text-xl font-bold" id="contact-modal-title">
+              Hubungi Kami
+            </h2>
           </div>
           <button
             type="button"
@@ -86,6 +129,7 @@ export function ContactPersonModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

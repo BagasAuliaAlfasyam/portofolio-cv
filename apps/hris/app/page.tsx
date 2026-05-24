@@ -161,10 +161,13 @@ export default function HRISDashboard() {
                   value={query}
                 />
               </div>
-              <button className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300">
+              <HrisActionButton
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300"
+                featureName="Filter employee roster"
+              >
                 <Filter className="h-4 w-4" />
                 Filters
-              </button>
+              </HrisActionButton>
             </div>
             <div className="overflow-hidden rounded-lg border border-white/[0.08]">
               <table className="w-full text-left text-sm">

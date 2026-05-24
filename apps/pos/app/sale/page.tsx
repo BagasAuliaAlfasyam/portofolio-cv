@@ -40,11 +40,15 @@ export default function SalePage() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {products.map(([name, price, category]) => (
-              <button className="rounded-xl border border-white/[0.08] bg-surface-50 p-4 text-left hover:border-emerald-500/40" key={name as string}>
+              <PosActionButton
+                className="rounded-xl border border-white/[0.08] bg-surface-50 p-4 text-left hover:border-emerald-500/40"
+                featureName={`Tambah ${name as string} ke transaksi`}
+                key={name as string}
+              >
                 <p className="min-h-10 font-black text-white">{name}</p>
                 <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">{category}</p>
                 <p className="mt-4 text-lg font-black text-emerald-300">{formatCurrency(price as number)}</p>
-              </button>
+              </PosActionButton>
             ))}
           </div>
         </PosPanel>

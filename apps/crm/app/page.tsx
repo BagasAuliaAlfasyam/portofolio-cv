@@ -222,9 +222,12 @@ export default function CrmDashboard() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-600">
+              <CrmActionButton
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-600"
+                featureName="Notifikasi CRM dan follow-up reminder"
+              >
                 <Bell className="h-4 w-4" />
-              </button>
+              </CrmActionButton>
               <CrmActionButton
                 className="inline-flex h-10 items-center gap-2 rounded-lg bg-[#E8531A] px-4 text-sm font-bold text-white shadow-sm"
                 featureName="Tambah deal baru"
@@ -342,9 +345,12 @@ export default function CrmDashboard() {
                           </td>
                           <td className="px-4 py-3 font-semibold text-slate-600">{deal.owner}</td>
                           <td className="px-4 py-3">
-                            <button className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-bold text-[#1B3A5C]">
+                            <CrmActionButton
+                              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-bold text-[#1B3A5C]"
+                              featureName={`Detail account ${deal.company}`}
+                            >
                               Open <ChevronRight className="h-3.5 w-3.5" />
-                            </button>
+                            </CrmActionButton>
                           </td>
                         </tr>
                       ))}

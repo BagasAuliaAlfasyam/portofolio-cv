@@ -196,9 +196,12 @@ export default function POSDashboard() {
                 value={query}
               />
             </div>
-            <button className="ml-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] text-slate-400">
+            <PosActionButton
+              className="ml-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] text-slate-400"
+              featureName="Notifikasi cashier dan low stock"
+            >
               <Bell className="h-4 w-4" />
-            </button>
+            </PosActionButton>
           </header>
 
           <div className="grid h-[calc(100vh-4rem)] grid-cols-1 overflow-hidden xl:grid-cols-[1fr_420px]">
