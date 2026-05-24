@@ -19,7 +19,7 @@ export function Hero({ messages }: HeroProps) {
   const heroLabels =
     messages.locale === "id"
       ? {
-          badge: "Company Profile & Sistem Bisnis",
+          badge: "Solusi Digital untuk Bisnis",
           preview: "Snapshot Proyek",
           dashboard: "Digital Delivery",
           scope: "Scope",
@@ -27,7 +27,7 @@ export function Hero({ messages }: HeroProps) {
           security: "Review",
         }
       : {
-          badge: "Company Profile & Business Systems",
+          badge: "Building Digital Solutions",
           preview: "Project Snapshot",
           dashboard: "Digital Delivery",
           scope: "Scope",
