@@ -2,13 +2,28 @@
 
 Shared package instructions for `packages/*`.
 
-## Boundaries
+## Package Boundaries
 
 - Packages must never import from `apps/*`.
-- Packages may depend on other packages only when the dependency direction is reusable and stable.
-- Shared API response types/interfaces belong in `packages/api`, not individual apps.
+- Packages may depend on other packages only when the dependency direction is
+  reusable and stable.
+- Shared API response types/interfaces belong in `packages/api`, not individual
+  apps.
 - Reusable UI belongs in `packages/ui`, not app-local component folders.
 - Keep package exports explicit through each package's `package.json`.
+- Do not add app-specific copy, routes, or business flows to shared packages.
+
+## Current Packages
+
+- `@repo/api`: shared API client, local query/mutation hooks, and endpoint
+  wrapper modules. `client.ts` reads `NEXT_PUBLIC_API_URL` and defaults to
+  `http://localhost:8001`.
+- `@repo/ui`: shared React components and `cn` utility. The export map exposes
+  `./*` from `src/*.tsx` and `./lib/*` from `src/lib/*.ts`.
+- `@repo/config`: shared project/site constants. It currently contains
+  `site.ts`; do not rely on additional exports unless the files exist.
+- `@repo/eslint-config`: shared ESLint flat configs.
+- `@repo/typescript-config`: shared TypeScript presets.
 
 ## UI Components
 
@@ -51,25 +66,38 @@ Rules:
 - Use `lucide-react` for icons.
 - Do not add new UI libraries.
 
-The current `@repo/ui` export map exposes `./*` from `src/*.tsx` and `./lib/*` from `src/lib/*.ts`, so apps import components like:
+Apps import shared UI like:
 
 ```tsx
 import { Button } from "@repo/ui/button";
+import { cn } from "@repo/ui/lib/utils";
 ```
 
-## API Wrappers
+## API Client and Hooks
 
-Add API wrapper functions in `packages/api/src`.
+Add reusable API wrapper functions in `packages/api/src`.
 
-Pattern:
+Current backend routes include:
+
+- `/api/employees`
+- `/api/sales`
+- `/api/dashboard/stats`
+- `/api/contact`
+- `/ai/chat`
+- `/ai/predict`
+- `/ai/recommend`
+
+Preferred endpoint module pattern:
 
 ```ts
 import { apiClient } from "./client";
 
 export interface Employee {
-  id: string;
+  id: number;
   name: string;
-  email: string;
+  role: string;
+  department: string;
+  status: string;
 }
 
 export async function getEmployees(): Promise<Employee[]> {
@@ -79,14 +107,17 @@ export async function getEmployees(): Promise<Employee[]> {
 
 Rules:
 
-- Define request and response types in the same API module or a nearby shared API types module.
+- Define request and response types in the same API module or a nearby shared
+  API types module.
 - Export typed functions for each endpoint.
-- Keep raw `fetch` usage inside `packages/api`.
+- Keep raw `fetch` usage inside `packages/api` for shared calls.
 - Keep endpoint paths centralized in wrapper functions.
 - Make wrappers usable from Server Components and Client Components.
+- Keep hooks lightweight; do not recreate a full external query library.
+- Replace `any` in existing hooks when touching the related flow.
 - Do not add external fetching libraries.
 
-The current `@repo/api` export map exposes `./*` from `src/*.ts`, so apps import wrappers like:
+Apps import API wrappers like:
 
 ```tsx
 import { getEmployees, type Employee } from "@repo/api/employees";
@@ -98,7 +129,8 @@ import { getEmployees, type Employee } from "@repo/api/employees";
 - `packages/eslint-config`: shared lint rules.
 - `packages/typescript-config`: shared TypeScript presets.
 
-Avoid app-specific behavior in shared config packages.
+Avoid app-specific behavior in shared config packages. If adding an exported
+config file, create the file and update the export map in the same change.
 
 ## Validation
 

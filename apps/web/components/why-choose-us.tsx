@@ -30,30 +30,31 @@ export function WhyChooseUs({ messages }: WhyChooseUsProps) {
             <p className="text-base font-bold uppercase tracking-[0.16em] text-[#F4784A]">
               {messages.whyChooseUs.eyebrow}
             </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl md:text-5xl">
               {messages.whyChooseUs.title}
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-white/78">
+            <p className="mt-5 text-base leading-relaxed text-white/78 sm:mt-6 sm:text-lg">
               {messages.whyChooseUs.description}
             </p>
           </Reveal>
         </ScrollParallax>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2">
+        <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-2 lg:gap-6">
           {messages.whyChooseUs.items.map((item, index) => {
             const Icon = valueIcons[index] ?? ShieldCheck;
 
             return (
               <Reveal
+                className="h-full"
                 delay={index * 110}
                 direction={index % 2 === 0 ? "left" : "right"}
                 key={item.heading}
               >
-                <article className="rounded-lg border border-white/12 bg-white/[0.08] p-7 transition duration-300 hover:-translate-y-1 hover:bg-white/[0.12]">
+                <article className="h-full rounded-lg border border-white/12 bg-white/[0.08] p-5 transition duration-300 hover:-translate-y-1 hover:bg-white/[0.12] sm:p-7">
                   <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-[#E8531A]">
                     <Icon className="h-7 w-7" />
                   </div>
-                  <h3 className="mt-6 text-2xl font-bold tracking-tight">
+                  <h3 className="mt-6 text-xl font-bold tracking-tight sm:text-2xl">
                     {item.heading}
                   </h3>
                   <p className="mt-4 text-base leading-relaxed text-white/76">

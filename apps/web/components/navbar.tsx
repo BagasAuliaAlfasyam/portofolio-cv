@@ -20,9 +20,12 @@ export function Navbar({ messages, locale }: NavbarProps) {
 
   return (
     <header className="relative sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur">
-      <div className="section-container flex min-h-20 items-center justify-between gap-5">
-        <a className="flex shrink-0 items-center gap-3" href={prefix || "/"}>
-          <span className="relative block h-12 w-12 overflow-hidden rounded-md">
+      <div className="section-container flex min-h-14 items-center justify-between gap-2 px-3 sm:min-h-20 sm:gap-5 sm:px-6 lg:px-8">
+        <a
+          className="flex min-w-0 shrink items-center gap-2 sm:gap-3"
+          href={prefix || "/"}
+        >
+          <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-md sm:h-12 sm:w-12">
             <Image
               alt={messages.brand.logoAlt}
               className="object-cover"
@@ -32,11 +35,11 @@ export function Navbar({ messages, locale }: NavbarProps) {
               src="/logo_icon_only.png"
             />
           </span>
-          <span className="leading-tight">
-            <span className="block text-2xl font-bold tracking-tight text-[#1B3A5C]">
+          <span className="min-w-0 leading-tight">
+            <span className="block truncate text-[1.05rem] font-bold tracking-tight text-[#1B3A5C] min-[390px]:text-lg sm:text-2xl">
               {messages.brand.name}
             </span>
-            <span className="hidden text-base font-semibold uppercase tracking-[0.18em] text-[#1A1A2E]/70 sm:block">
+            <span className="hidden text-sm font-semibold uppercase tracking-[0.14em] text-[#1A1A2E]/70 xl:block">
               {messages.brand.tagline}
             </span>
           </span>
@@ -54,9 +57,10 @@ export function Navbar({ messages, locale }: NavbarProps) {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
           <LanguageSwitcher
             ariaLabel={messages.language.label}
+            className="shrink-0 p-0.5 [&_a]:px-2 [&_a]:py-1.5 [&_a]:text-xs sm:p-1 sm:[&_a]:px-3 sm:[&_a]:text-sm"
             currentLocale={locale}
             locales={[
               { code: "id", href: "/", label: messages.language.id },
@@ -64,7 +68,7 @@ export function Navbar({ messages, locale }: NavbarProps) {
             ]}
           />
           <a
-            className="hidden rounded-full bg-[#E8531A] px-5 py-3 text-base font-bold text-white shadow-md transition hover:bg-[#F4784A] md:inline-flex"
+            className="hidden rounded-full bg-[#E8531A] px-5 py-3 text-base font-bold text-white shadow-md transition hover:bg-[#F4784A] xl:inline-flex"
             href="#contact"
           >
             {messages.navbar.cta}

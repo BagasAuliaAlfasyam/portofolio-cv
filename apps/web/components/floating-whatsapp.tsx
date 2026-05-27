@@ -15,12 +15,12 @@ export function FloatingWhatsapp({ messages }: FloatingWhatsappProps) {
   return (
     <a
       aria-label={messages.whatsapp.label}
-      className="fixed bottom-5 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#E8531A] text-white shadow-xl shadow-[#E8531A]/30 transition hover:-translate-y-1 hover:bg-[#F4784A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B3A5C] focus-visible:ring-offset-2"
+      className="fixed bottom-4 right-4 z-50 hidden h-12 w-12 items-center justify-center rounded-full bg-[#E8531A] text-white shadow-xl shadow-[#E8531A]/30 transition hover:-translate-y-1 hover:bg-[#F4784A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B3A5C] focus-visible:ring-offset-2 sm:bottom-5 sm:right-5 sm:inline-flex sm:h-14 sm:w-14"
       href={href}
       rel="noreferrer"
       target="_blank"
     >
-      <MessageCircle className="h-7 w-7" />
+      <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" />
     </a>
   );
 }

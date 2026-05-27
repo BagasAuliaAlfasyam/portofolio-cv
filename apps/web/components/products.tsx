@@ -36,39 +36,38 @@ export function Products({ messages }: ProductsProps) {
             <p className="text-base font-bold uppercase tracking-[0.16em] text-[#E8531A]">
               {messages.products.eyebrow}
             </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#1B3A5C] md:text-5xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-[#1B3A5C] sm:text-3xl md:text-5xl">
               {messages.products.title}
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-[#1A1A2E]/72">
+            <p className="mt-5 text-base leading-relaxed text-[#1A1A2E]/72 sm:mt-6 sm:text-lg">
               {messages.products.description}
             </p>
           </Reveal>
         </ScrollParallax>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {messages.products.items.map((product, index) => {
             const Icon = productIcons[index] ?? MonitorSmartphone;
 
             return (
               <Reveal
+                className="h-full"
                 delay={index * 100}
                 direction={index % 2 === 0 ? "left" : "right"}
                 key={product.name}
               >
-                <article
-                  className="product-card-motion group relative overflow-hidden rounded-lg border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#E8531A]/30 hover:shadow-xl"
-                >
+                <article className="product-card-motion group relative flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#E8531A]/30 hover:shadow-xl sm:p-7">
                   <div className="relative flex h-14 w-14 items-center justify-center rounded-lg bg-[#FAF8F5] text-[#E8531A] transition duration-300 group-hover:-translate-y-1 group-hover:bg-[#FFF4EF]">
                     <Icon className="h-7 w-7" />
                   </div>
                   <h3 className="relative mt-6 text-2xl font-bold tracking-tight text-[#1B3A5C]">
                     {product.name}
                   </h3>
-                  <p className="relative mt-4 min-h-24 text-base leading-relaxed text-[#1A1A2E]/72">
+                  <p className="relative mt-4 text-base leading-relaxed text-[#1A1A2E]/72 md:min-h-24">
                     {product.description}
                   </p>
                   <a
-                    className="relative mt-6 inline-flex items-center gap-2 text-base font-bold text-[#E8531A] transition group-hover:text-[#1B3A5C]"
+                    className="relative mt-6 inline-flex items-center gap-2 text-base font-bold text-[#E8531A] transition group-hover:text-[#1B3A5C] md:mt-auto md:pt-6"
                     href={product.href}
                     rel="noreferrer"
                     target="_blank"

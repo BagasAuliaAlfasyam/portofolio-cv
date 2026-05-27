@@ -9,6 +9,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -21,6 +22,13 @@
     font-family: Arial, Helvetica, system-ui, sans-serif;
   }
 
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
   ::selection {
     background: rgba(232, 83, 26, 0.22);
     color: #1a1a2e;
@@ -29,11 +37,11 @@
 
 @layer components {
   .section-container {
-    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
   .section-padding {
-    @apply py-20 md:py-28;
+    @apply py-14 sm:py-16 md:py-24 lg:py-28;
   }
 
   .fade-in {
@@ -142,6 +150,13 @@
 
   .reveal-fade {
     transform: scale(0.99);
+  }
+}
+
+@media (max-width: 767px) {
+  .reveal-left,
+  .reveal-right {
+    transform: translate3d(0, 26px, 0) scale(0.99);
   }
 }
 

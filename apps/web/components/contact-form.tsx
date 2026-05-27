@@ -130,7 +130,7 @@ export function ContactForm({ messages }: ContactFormProps) {
   }
 
   return (
-    <form className="grid gap-4" onSubmit={handleSubmit}>
+    <form className="grid min-w-0 gap-4" onSubmit={handleSubmit}>
       <input
         autoComplete="off"
         className="hidden"
@@ -182,7 +182,7 @@ export function ContactForm({ messages }: ContactFormProps) {
       </label>
 
       <button
-        className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[#E8531A] px-7 py-3 text-base font-bold text-white shadow-lg transition hover:bg-[#F4784A] disabled:cursor-not-allowed disabled:opacity-70"
+        className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-[#E8531A] px-7 py-3 text-base font-bold text-white shadow-lg transition hover:bg-[#F4784A] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
         disabled={status === "sending"}
         type="submit"
       >
@@ -335,9 +335,9 @@ function FormAlert({
         {isSuccess && nextMessage ? (
           <>
             <span className="mt-2 text-sm leading-relaxed">{nextMessage}</span>
-            <span className="mt-3 flex flex-col gap-2 sm:flex-row">
+            <span className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <a
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-emerald-700"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-center text-sm font-bold text-white transition hover:bg-emerald-700"
                 href={contactLinks.whatsapp}
                 rel="noopener noreferrer"
                 target="_blank"
@@ -346,7 +346,7 @@ function FormAlert({
                 {whatsappCta}
               </a>
               <a
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-2 text-sm font-bold text-emerald-900 transition hover:bg-emerald-50"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-2 text-center text-sm font-bold text-emerald-900 transition hover:bg-emerald-50"
                 href={contactLinks.email}
               >
                 <Mail className="h-4 w-4" />
@@ -381,7 +381,7 @@ function Field({
         {label}
       </span>
       <input
-        className="h-12 rounded-lg border border-slate-200 bg-white px-4 text-base text-[#1A1A2E] outline-none transition focus:border-[#E8531A] focus:ring-4 focus:ring-[#E8531A]/12"
+        className="h-12 min-w-0 rounded-lg border border-slate-200 bg-white px-4 text-base text-[#1A1A2E] outline-none transition focus:border-[#E8531A] focus:ring-4 focus:ring-[#E8531A]/12"
         maxLength={120}
         minLength={minLength}
         name={name}

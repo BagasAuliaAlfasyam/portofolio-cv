@@ -19,7 +19,7 @@ export function MobileMenu({ ctaLabel, items }: MobileMenuProps) {
       <button
         aria-expanded={isOpen}
         aria-label="Toggle navigation"
-        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-[#1B3A5C]"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-[#1B3A5C] sm:h-11 sm:w-11"
         onClick={() => setIsOpen((value) => !value)}
         type="button"
       >
@@ -27,7 +27,7 @@ export function MobileMenu({ ctaLabel, items }: MobileMenuProps) {
       </button>
 
       {isOpen ? (
-        <div className="absolute left-5 right-5 top-[calc(100%+8px)] rounded-lg border border-slate-200 bg-white p-4 shadow-xl">
+        <div className="absolute left-4 right-4 top-[calc(100%+8px)] max-h-[calc(100dvh-5.5rem)] overflow-y-auto rounded-lg border border-slate-200 bg-white p-3 shadow-xl sm:left-6 sm:right-6 sm:p-4">
           <nav className="grid gap-2">
             {items.map((item) => (
               <a

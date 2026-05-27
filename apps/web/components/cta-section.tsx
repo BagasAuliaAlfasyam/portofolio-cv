@@ -14,10 +14,10 @@ export function CtaSection({ messages }: CtaSectionProps) {
   )}`;
 
   return (
-    <section className="overflow-hidden bg-white py-20 text-[#1A1A2E] md:py-28">
+    <section className="overflow-hidden bg-white py-14 text-[#1A1A2E] sm:py-16 md:py-24 lg:py-28">
       <div className="section-container">
         <div
-          className="grid scroll-mt-40 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start"
+          className="grid scroll-mt-40 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-12"
           id="contact"
         >
           <ScrollParallax maxOffset={38}>
@@ -25,16 +25,16 @@ export function CtaSection({ messages }: CtaSectionProps) {
               <p className="text-base font-bold uppercase tracking-[0.16em] text-[#E8531A]">
                 {messages.navbar.contact}
               </p>
-              <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-[#1B3A5C] md:text-5xl">
+              <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-[#1B3A5C] sm:text-3xl md:text-5xl">
                 {messages.cta.headline}
               </h2>
-              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#1A1A2E]/72">
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#1A1A2E]/72 sm:mt-6 sm:text-lg">
                 {messages.cta.subtext}
               </p>
 
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:gap-4">
                 <a
-                  className="inline-flex items-center justify-center gap-3 rounded-full bg-[#E8531A] px-7 py-4 text-base font-bold text-white shadow-lg transition hover:bg-[#F4784A]"
+                  className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#E8531A] px-6 py-3.5 text-base font-bold text-white shadow-lg transition hover:bg-[#F4784A] sm:w-auto sm:px-7 sm:py-4"
                   href={whatsappHref}
                   rel="noreferrer"
                   target="_blank"
@@ -43,7 +43,7 @@ export function CtaSection({ messages }: CtaSectionProps) {
                   {messages.cta.button}
                 </a>
                 <a
-                  className="inline-flex items-center justify-center gap-3 rounded-full border border-[#1B3A5C]/20 px-7 py-4 text-base font-bold text-[#1B3A5C] transition hover:border-[#E8531A] hover:text-[#E8531A]"
+                  className="inline-flex w-full min-w-0 items-center justify-center gap-3 break-all rounded-full border border-[#1B3A5C]/20 px-6 py-3.5 text-center text-base font-bold text-[#1B3A5C] transition hover:border-[#E8531A] hover:text-[#E8531A] sm:w-auto sm:px-7 sm:py-4"
                   href={`mailto:${messages.footer.contactEmail}`}
                 >
                   <Mail className="h-5 w-5" />
@@ -53,8 +53,8 @@ export function CtaSection({ messages }: CtaSectionProps) {
             </Reveal>
           </ScrollParallax>
 
-          <Reveal direction="right">
-            <div className="rounded-lg border border-slate-200 bg-[#FAF8F5] p-6 shadow-sm md:p-8">
+          <Reveal className="min-w-0" direction="right">
+            <div className="rounded-lg border border-slate-200 bg-[#FAF8F5] p-4 shadow-sm sm:p-6 md:p-8">
               <ContactForm messages={messages} />
               <div className="mt-6 grid gap-3 border-t border-slate-200 pt-6">
                 {[

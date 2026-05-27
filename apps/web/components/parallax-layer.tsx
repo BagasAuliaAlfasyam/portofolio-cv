@@ -21,14 +21,21 @@ export function ParallaxLayer({
   useEffect(() => {
     const layer = layerRef.current;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactViewport = window.matchMedia("(max-width: 767px)");
 
-    if (!layer || reduceMotion.matches) {
+    if (!layer) {
       return;
     }
 
     let frameId = 0;
 
     const update = () => {
+      if (reduceMotion.matches || compactViewport.matches) {
+        layer.style.transform = "translate3d(0, 0, 0)";
+        frameId = 0;
+        return;
+      }
+
       const offset = Math.max(
         -maxOffset,
         Math.min(maxOffset, window.scrollY * speed),
@@ -46,9 +53,15 @@ export function ParallaxLayer({
 
     update();
     window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    reduceMotion.addEventListener("change", requestUpdate);
+    compactViewport.addEventListener("change", requestUpdate);
 
     return () => {
       window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      reduceMotion.removeEventListener("change", requestUpdate);
+      compactViewport.removeEventListener("change", requestUpdate);
 
       if (frameId !== 0) {
         window.cancelAnimationFrame(frameId);

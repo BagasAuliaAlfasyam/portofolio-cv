@@ -29,6 +29,8 @@ export function ScrollParallax({
       return;
     }
 
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactViewport = window.matchMedia("(max-width: 767px)");
     let frameId = 0;
     let currentX = 0;
     let currentY = 0;
@@ -36,7 +38,18 @@ export function ScrollParallax({
     let targetY = 0;
     let isRunning = false;
 
+    const shouldDisableMotion = () =>
+      reduceMotion.matches || compactViewport.matches;
+
     const measure = () => {
+      if (shouldDisableMotion()) {
+        targetX = 0;
+        targetY = 0;
+        element.dataset.parallaxProgress = "1";
+        element.style.opacity = "1";
+        return;
+      }
+
       const rect = element.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
       const rawProgress =
@@ -97,12 +110,16 @@ export function ScrollParallax({
     window.addEventListener("resize", requestUpdate);
     window.addEventListener("wheel", requestUpdate, { passive: true });
     window.addEventListener("touchmove", requestUpdate, { passive: true });
+    reduceMotion.addEventListener("change", requestUpdate);
+    compactViewport.addEventListener("change", requestUpdate);
 
     return () => {
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
       window.removeEventListener("wheel", requestUpdate);
       window.removeEventListener("touchmove", requestUpdate);
+      reduceMotion.removeEventListener("change", requestUpdate);
+      compactViewport.removeEventListener("change", requestUpdate);
 
       if (frameId !== 0) {
         window.cancelAnimationFrame(frameId);
