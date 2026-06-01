@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { DemoLeadBar } from "@repo/ui/demo-lead-bar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,15 +25,17 @@ export const metadata: Metadata = {
     title: "Catalyst CRM | Sales Pipeline Demo",
     description:
       "Demo CRM profesional untuk pipeline, accounts, tasks, dan sales reports.",
+    images: ["https://catalystforge.web.id/opengraph-image"],
     url: "https://crm.catalystforge.web.id",
     siteName: "Catalyst CRM",
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Catalyst CRM | Sales Pipeline Demo",
     description:
       "Pipeline, accounts, follow-up, dan reporting untuk tim sales.",
+    images: ["https://catalystforge.web.id/twitter-image"],
   },
 };
 
@@ -43,7 +46,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased">
+        {children}
+        <DemoLeadBar appName="Catalyst CRM" />
+      </body>
     </html>
   );
 }

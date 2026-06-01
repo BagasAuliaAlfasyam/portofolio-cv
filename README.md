@@ -27,36 +27,36 @@ The platform is designed for enterprise and corporate clients, especially organi
 
 ```text
 portofolio cv/
-├── apps/
-│   ├── ai-support/          AI chatbot and support application
-│   ├── company/             Company landing page
-│   ├── crm/                 Customer relationship management app
-│   ├── hris/                Human resources information system app
-│   ├── pos/                 Point-of-sale and sales operations app
-│   └── web/                 Main CatalystForge website and portfolio
-│
-├── backend/
-│   ├── api/
-│   │   ├── router.py        FastAPI router composition
-│   │   └── routes/          REST API endpoint modules
-│   ├── core/                Configuration, database, security, and services
-│   ├── models/              SQLAlchemy model placeholders
-│   ├── schemas/             Pydantic schema placeholders
-│   ├── Dockerfile           Backend container definition
-│   ├── main.py              FastAPI application entrypoint
-│   └── requirements.txt     Python dependencies
-│
-├── packages/
-│   ├── api/                 Shared API client, endpoint wrappers, and types
-│   ├── config/              Shared site and application configuration
-│   ├── eslint-config/       Shared ESLint configuration
-│   ├── typescript-config/   Shared TypeScript configuration
-│   └── ui/                  Shared React UI components
-│
-├── package.json             Workspace scripts and Turborepo commands
-├── package-lock.json        npm lockfile
-├── turbo.json               Turborepo task pipeline
-└── README.md
+|-- apps/
+|   |-- ai-support/          AI chatbot and support application
+|   |-- company/             Company landing page
+|   |-- crm/                 Customer relationship management app
+|   |-- hris/                Human resources information system app
+|   |-- pos/                 Point-of-sale and sales operations app
+|   `-- web/                 Main CatalystForge website and portfolio
+|
+|-- backend/
+|   |-- api/
+|   |   |-- router.py        FastAPI router composition
+|   |   `-- routes/          REST API endpoint modules
+|   |-- core/                Configuration, database, security, and services
+|   |-- models/              SQLAlchemy model placeholders
+|   |-- schemas/             Pydantic response and request schemas
+|   |-- Dockerfile           Backend container definition
+|   |-- main.py              FastAPI application entrypoint
+|   `-- requirements.txt     Python dependencies
+|
+|-- packages/
+|   |-- api/                 Shared API client, endpoint wrappers, and types
+|   |-- config/              Shared site and application configuration
+|   |-- eslint-config/       Shared ESLint configuration
+|   |-- typescript-config/   Shared TypeScript configuration
+|   `-- ui/                  Shared React UI components
+|
+|-- package.json             Workspace scripts and Turborepo commands
+|-- package-lock.json        npm lockfile
+|-- turbo.json               Turborepo task pipeline
+`-- README.md
 ```
 
 ## Apps
@@ -102,7 +102,8 @@ portofolio cv/
 - Python 3.11 or newer
 - PostgreSQL 14 or newer
 - Docker and Nginx for deployment workflows
-- pnpm support is 🚧 WIP; this repository currently uses `package-lock.json` and `npm@10.9.2`.
+- pnpm support is not configured; this repository currently uses
+  `package-lock.json` and `npm@10.9.2`.
 
 ### Clone the Repository
 
@@ -140,7 +141,8 @@ Create local `.env` files from the relevant examples when available.
 cp backend/.env.example backend/.env
 ```
 
-`.env.example` files are 🚧 coming soon. Until then, use the environment variable table below as the source of truth.
+Use `backend/.env.example` as the backend starting point, then keep local
+secrets in `backend/.env`.
 
 ### Run Development Servers
 
@@ -170,23 +172,23 @@ uvicorn main:app --host 0.0.0.0 --port 8001 --reload
 
 ## Development Commands
 
-| Command                               | Description                                                |
-| ------------------------------------- | ---------------------------------------------------------- |
-| `npm run dev`                         | Start all app/package dev tasks through Turbo.             |
-| `npm run dev:web`                     | Start only the main website app.                           |
-| `npm run dev:crm`                     | Start only the CRM app.                                    |
-| `npm run dev:hris`                    | Start only the HRIS app.                                   |
-| `npm run dev:pos`                     | Start only the POS app.                                    |
-| `npm run dev:ai-support`              | Start only the AI support app.                             |
-| `npm run dev:company`                 | Start only the company landing page app.                   |
-| `npm run build`                       | Build all apps and packages through Turbo.                 |
-| `npm run lint`                        | Lint all configured workspaces.                            |
-| `npm run check-types`                 | Run TypeScript checks across workspaces.                   |
-| `npm run format`                      | Format TypeScript, TSX, and Markdown files.                |
-| `npm --workspace web run build`       | Build a specific app directly.                             |
-| `npm --workspace web run check-types` | Type-check a specific app directly.                        |
-| `npm --workspace @repo/ui run lint`   | Lint a specific shared package directly.                   |
-| `npm run test`                        | 🚧 Coming soon. Root test pipeline is not yet implemented. |
+| Command                               | Description                                                          |
+| ------------------------------------- | -------------------------------------------------------------------- |
+| `npm run dev`                         | Start all app/package dev tasks through Turbo.                       |
+| `npm run dev:web`                     | Start only the main website app.                                     |
+| `npm run dev:crm`                     | Start only the CRM app.                                              |
+| `npm run dev:hris`                    | Start only the HRIS app.                                             |
+| `npm run dev:pos`                     | Start only the POS app.                                              |
+| `npm run dev:ai-support`              | Start only the AI support app.                                       |
+| `npm run dev:company`                 | Start only the company landing page app.                             |
+| `npm run build`                       | Build all apps and packages through Turbo.                           |
+| `npm run lint`                        | Lint all configured workspaces.                                      |
+| `npm run check-types`                 | Run TypeScript checks across workspaces.                             |
+| `npm run format`                      | Format TypeScript, TSX, and Markdown files.                          |
+| `npm --workspace web run build`       | Build a specific app directly.                                       |
+| `npm --workspace web run check-types` | Type-check a specific app directly.                                  |
+| `npm --workspace @repo/ui run lint`   | Lint a specific shared package directly.                             |
+| `npm run test`                        | Not implemented yet. Add it through Turbo when tests are introduced. |
 
 ## Environment Variables
 
@@ -194,25 +196,27 @@ Never commit `.env` files. Keep secrets in local environment files, VPS secrets,
 
 ### Backend
 
-| Variable               | Description                                           |
-| ---------------------- | ----------------------------------------------------- |
-| `PROJECT_NAME`         | FastAPI project name.                                 |
-| `API_V1_STR`           | API route prefix.                                     |
-| `BACKEND_CORS_ORIGINS` | JSON list or comma-separated list of allowed origins. |
-| `DATABASE_URL`         | Full PostgreSQL connection URL.                       |
-| `POSTGRES_SERVER`      | PostgreSQL host.                                      |
-| `POSTGRES_USER`        | PostgreSQL username.                                  |
-| `POSTGRES_PASSWORD`    | PostgreSQL password.                                  |
-| `POSTGRES_DB`          | PostgreSQL database name.                             |
-| `GEMINI_API_KEY`       | Google Gemini API key for AI features.                |
-| `OPENAI_API_KEY`       | OpenAI API key for AI features.                       |
+| Variable               | Description                                       |
+| ---------------------- | ------------------------------------------------- |
+| `PROJECT_NAME`         | FastAPI project name.                             |
+| `API_V1_STR`           | API route prefix.                                 |
+| `BACKEND_CORS_ORIGINS` | Comma-separated list of allowed frontend origins. |
+| `DATABASE_URL`         | Full PostgreSQL connection URL.                   |
+| `POSTGRES_SERVER`      | PostgreSQL host.                                  |
+| `POSTGRES_USER`        | PostgreSQL username.                              |
+| `POSTGRES_PASSWORD`    | PostgreSQL password.                              |
+| `POSTGRES_DB`          | PostgreSQL database name.                         |
+| `GEMINI_API_KEY`       | Google Gemini API key for AI features.            |
+| `OPENAI_API_KEY`       | OpenAI API key for AI features.                   |
 
 ### Frontend Apps
 
-| Variable              | Description                                           |
-| --------------------- | ----------------------------------------------------- |
-| `NEXT_PUBLIC_API_URL` | Public backend API base URL used by `@repo/api`.      |
-| `NEXT_LOCALE`         | Browser cookie used by the website language switcher. |
+| Variable                   | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL`      | Public backend API base URL used by `@repo/api`.              |
+| `NEXT_PUBLIC_API_BASE_URL` | Compatibility alias used by public contact form submissions.  |
+| `NEXT_PUBLIC_GA_ID`        | Optional Google Analytics measurement ID for conversion data. |
+| `NEXT_LOCALE`              | Browser cookie used by the website language switcher.         |
 
 App-specific environment variables should be documented in each app as they are introduced.
 
@@ -227,10 +231,11 @@ The target deployment model is VPS-based:
 
 Current deployment status:
 
-- `backend/Dockerfile` exists for the FastAPI service.
-- `docker-compose.yml` is 🚧 coming soon.
-- Production Nginx configuration is 🚧 coming soon.
-- JWT authentication is 🚧 WIP and the backend structure is prepared for it.
+- `backend/Dockerfile` exists and runs the FastAPI service on port `8001`.
+- `scripts/vps-pull-deploy.sh` generates systemd services and Nginx routing for
+  all public and demo apps.
+- `docs/deployment.md` documents the current VPS pull-deploy flow.
+- JWT authentication is WIP and the backend structure is prepared for it.
 
 ## Contributing
 
@@ -260,4 +265,5 @@ Pull request expectations:
 
 ## License
 
-MIT License placeholder. Full license text is 🚧 coming soon.
+MIT License placeholder. Add the full license text before publishing this repo
+as an open-source package.

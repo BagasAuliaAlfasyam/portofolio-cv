@@ -80,7 +80,7 @@ export function Hero({ messages }: HeroProps) {
             <div className="mt-7 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
               <a
                 className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#E8531A] px-6 py-3.5 text-base font-bold text-white shadow-lg transition hover:bg-[#F4784A] sm:w-auto sm:px-7 sm:py-4"
-                href="#products"
+                href="#offers"
               >
                 {messages.hero.primaryCta}
                 <ArrowRight className="h-5 w-5" />

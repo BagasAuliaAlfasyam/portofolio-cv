@@ -8,6 +8,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { type Messages } from "@/lib/i18n";
+import { ConversionLink } from "./conversion-link";
 import { Reveal } from "./reveal";
 import { ScrollParallax } from "./scroll-parallax";
 
@@ -42,6 +43,9 @@ export function Products({ messages }: ProductsProps) {
             <p className="mt-5 text-base leading-relaxed text-[#1A1A2E]/72 sm:mt-6 sm:text-lg">
               {messages.products.description}
             </p>
+            <p className="mx-auto mt-4 max-w-2xl rounded-lg border border-[#E8531A]/18 bg-[#FFF4EF] px-4 py-3 text-sm font-semibold leading-6 text-[#1B3A5C]">
+              {messages.products.demoNote}
+            </p>
           </Reveal>
         </ScrollParallax>
 
@@ -66,15 +70,17 @@ export function Products({ messages }: ProductsProps) {
                   <p className="relative mt-4 text-base leading-relaxed text-[#1A1A2E]/72 md:min-h-24">
                     {product.description}
                   </p>
-                  <a
+                  <ConversionLink
                     className="relative mt-6 inline-flex items-center gap-2 text-base font-bold text-[#E8531A] transition group-hover:text-[#1B3A5C] md:mt-auto md:pt-6"
+                    eventLabel={`demo_${product.name}`}
+                    eventName="demo_click"
                     href={product.href}
                     rel="noreferrer"
                     target="_blank"
                   >
                     {product.cta ?? messages.products.learnMore}
                     <ArrowRight className="h-5 w-5" />
-                  </a>
+                  </ConversionLink>
                 </article>
               </Reveal>
             );

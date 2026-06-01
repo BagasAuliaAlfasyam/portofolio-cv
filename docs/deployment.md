@@ -14,7 +14,7 @@ VPS_SSH_KEY=<private key that can SSH to the VPS>
 
 NEXT_PUBLIC_API_BASE_URL=https://catalystforge.web.id
 NEXT_PUBLIC_API_URL=https://catalystforge.web.id
-BACKEND_CORS_ORIGINS=https://catalystforge.web.id
+BACKEND_CORS_ORIGINS=https://catalystforge.web.id,https://company.catalystforge.web.id,https://hris.catalystforge.web.id,https://crm.catalystforge.web.id,https://pos.catalystforge.web.id,https://ai.catalystforge.web.id,https://ai-support.catalystforge.web.id
 
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
 CONTACT_FROM=CatalystForge <noreply@catalystforge.web.id>
@@ -32,6 +32,7 @@ POS_PORT=3003
 AI_SUPPORT_PORT=3004
 COMPANY_PORT=3005
 BACKEND_PORT=8001
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 NGINX_SERVER_NAME="catalystforge.web.id www.catalystforge.web.id"
 ```
 
@@ -77,16 +78,18 @@ sudo certbot --nginx --expand \
 
 The contact form uses Resend from the FastAPI backend. Verify the sender domain
 in Resend first, then set `CONTACT_FROM` to an address on that verified domain.
+Keep `BACKEND_CORS_ORIGINS` aligned with every deployed frontend origin that
+calls the shared backend.
 
 ## How It Works
 
-1. `CI` validates TypeScript and backend imports.
-2. `Deploy VPS` builds `apps/web` with Next.js standalone output.
-3. GitHub Actions uploads web and backend artifacts to the VPS.
-4. The deploy script creates systemd services:
-   - `catalyst-web`
-   - `catalyst-backend`
-5. Nginx proxies `/` to Next.js and `/api` to FastAPI.
+1. `CI` validates TypeScript, lint, production builds, and backend imports.
+2. The VPS pull-deploy flow builds all configured Next.js apps with standalone
+   output.
+3. The deploy script creates systemd services for each app plus
+   `catalyst-backend`.
+4. Nginx proxies each domain to its Next.js app and `/api` plus `/ai` to
+   FastAPI.
 
 Manual deploy is available from GitHub Actions through `workflow_dispatch`.
 
@@ -103,7 +106,8 @@ REPO_URL=https://github.com/BagasAuliaAlfasyam/portofolio-cv.git \
 BRANCH=main \
 NEXT_PUBLIC_API_BASE_URL=https://catalystforge.web.id \
 NEXT_PUBLIC_API_URL=https://catalystforge.web.id \
-BACKEND_CORS_ORIGINS=https://catalystforge.web.id \
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX \
+BACKEND_CORS_ORIGINS=https://catalystforge.web.id,https://company.catalystforge.web.id,https://hris.catalystforge.web.id,https://crm.catalystforge.web.id,https://pos.catalystforge.web.id,https://ai.catalystforge.web.id,https://ai-support.catalystforge.web.id \
 CONTACT_FROM='CatalystForge <noreply@catalystforge.web.id>' \
 CONTACT_TO=catalystforgetechnology@gmail.com \
 NGINX_SERVER_NAME='catalystforge.web.id www.catalystforge.web.id' \

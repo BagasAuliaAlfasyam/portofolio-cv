@@ -35,6 +35,22 @@ export const nextJsConfig = [
     },
   },
   {
+    files: [
+      "*.config.js",
+      "next.config.js",
+      "postcss.config.js",
+      "tailwind.config.js",
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
+  {
     plugins: {
       "@next/next": pluginNext,
     },
@@ -52,6 +68,8 @@ export const nextJsConfig = [
       ...pluginReactHooks.configs.recommended.rules,
       // React scope no longer necessary with new JSX transform.
       "react/react-in-jsx-scope": "off",
+      // TypeScript owns component prop validation in this repository.
+      "react/prop-types": "off",
     },
   },
 ];

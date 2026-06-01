@@ -23,13 +23,13 @@
     "howWeWork": "Cara Kerja",
     "testimonials": "Project",
     "contact": "Kontak",
-    "cta": "Hubungi Kami"
+    "cta": "Konsultasi"
   },
   "hero": {
-    "headline": "Partner Teknologi untuk Transformasi Digital Perusahaan",
-    "subheadline": "CatalystForge merancang dan membangun website korporat, sistem operasional, dashboard, dan otomasi AI yang siap dipakai oleh tim bisnis Indonesia.",
-    "primaryCta": "Lihat Solusi",
-    "secondaryCta": "Hubungi Kami",
+    "headline": "Bangun Website, Sistem Operasional, dan Otomasi AI yang Siap Dipakai Tim Anda",
+    "subheadline": "CatalystForge membantu bisnis Indonesia mengubah kebutuhan digital menjadi company profile, CRM, HRIS, POS, dashboard, dan workflow automation yang jelas scope-nya dan siap deploy.",
+    "primaryCta": "Lihat Paket Solusi",
+    "secondaryCta": "Minta Estimasi",
     "trustIndicators": [
       "Konsultasi Bisnis",
       "UI/UX & Engineering",
@@ -69,10 +69,52 @@
       }
     ]
   },
+  "offers": {
+    "eyebrow": "Paket Solusi",
+    "title": "Pilih jalur kerja yang paling dekat dengan kebutuhan bisnis Anda",
+    "description": "Setiap paket bisa dimulai kecil lalu dikembangkan bertahap. Cocok untuk validasi kebutuhan, presentasi ke manajemen, atau langsung masuk fase produksi.",
+    "cta": "Diskusikan Paket Ini",
+    "items": [
+      {
+        "name": "Company Profile Launch",
+        "timeline": "2-4 minggu",
+        "bestFor": "Untuk bisnis yang butuh kredibilitas digital cepat",
+        "deliverables": [
+          "Website company profile responsif",
+          "Copywriting struktur layanan dan keunggulan",
+          "Form inquiry, WhatsApp CTA, SEO dasar",
+          "Deploy domain dan handover konten"
+        ]
+      },
+      {
+        "name": "Operational System MVP",
+        "timeline": "4-8 minggu",
+        "bestFor": "Untuk tim yang mulai mengganti spreadsheet/manual process",
+        "deliverables": [
+          "Dashboard role-based sesuai workflow",
+          "CRUD data inti dan approval sederhana",
+          "Integrasi API atau import/export data",
+          "Deploy, dokumentasi, dan support awal"
+        ]
+      },
+      {
+        "name": "AI Automation Sprint",
+        "timeline": "1-3 minggu",
+        "bestFor": "Untuk customer support, knowledge base, atau task automation",
+        "deliverables": [
+          "AI chatbot atau automation flow",
+          "Prompt dan knowledge base terstruktur",
+          "Fallback human handoff dan audit percakapan",
+          "Monitoring hasil dan iterasi respons"
+        ]
+      }
+    ]
+  },
   "products": {
     "eyebrow": "Kapabilitas",
     "title": "Solusi digital yang bisa langsung dipetakan ke kebutuhan bisnis",
     "description": "Kami mengerjakan company profile, sistem operasional, dashboard, dan otomasi yang dirancang sesuai alur kerja perusahaan.",
+    "demoNote": "Demo berikut adalah referensi flow dan kualitas interface. Versi produksi akan disesuaikan dengan data, role, approval, dan proses bisnis Anda.",
     "learnMore": "Buka Demo",
     "items": [
       {
@@ -217,9 +259,9 @@
     ]
   },
   "cta": {
-    "headline": "Siap Membawa Bisnis Anda ke Level Berikutnya?",
-    "subtext": "Konsultasikan kebutuhan digital perusahaan Anda bersama tim kami",
-    "button": "Diskusi Kebutuhan Sistem",
+    "headline": "Butuh estimasi untuk website, sistem operasional, atau AI automation?",
+    "subtext": "Ceritakan kondisi bisnis Anda. Kami bantu petakan scope, prioritas fitur, dan jalur delivery yang realistis.",
+    "button": "Konsultasi Gratis via WhatsApp",
     "emailLabel": "Email",
     "phoneLabel": "Telepon",
     "addressLabel": "Alamat"

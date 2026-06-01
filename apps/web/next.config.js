@@ -1,5 +1,3 @@
-/* global __dirname, module, require */
-
 const path = require("path");
 const { headers } = require("../../next-security-headers.cjs");
 

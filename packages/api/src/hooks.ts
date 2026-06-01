@@ -1,5 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { apiClient } from "./client";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type {
+  AiChatRequest,
+  AiChatResponse,
+  AiPredictRequest,
+  AiPredictResponse,
+  AiRecommendationItem,
+} from "./ai";
+import { apiClient, type ApiQueryParams } from "./client";
+import type { DashboardStats } from "./dashboard";
+import type { Employee } from "./employees";
+import type { Sale } from "./sales";
+
+type ApiRecord = Record<string, unknown>;
 
 type ApiQueryOptions<T> = {
   enabled?: boolean;
@@ -14,7 +26,7 @@ type ApiMutationOptions<TData, TVariables> = {
   onSettled?: (
     data: TData | undefined,
     error: Error | null,
-    variables: TVariables
+    variables: TVariables,
   ) => void;
 };
 
@@ -23,19 +35,32 @@ type MutateOptions<TData, TVariables> = ApiMutationOptions<TData, TVariables>;
 export function useApiQuery<T>(
   key: string[],
   endpoint: string,
-  params?: Record<string, string>,
-  options: ApiQueryOptions<T> = {}
+  params?: ApiQueryParams,
+  options: ApiQueryOptions<T> = {},
 ) {
   const { enabled = true, initialData, onSuccess, onError } = options;
   const [data, setData] = useState<T | undefined>(initialData);
   const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState(enabled && initialData === undefined);
+  const [isLoading, setIsLoading] = useState(
+    enabled && initialData === undefined,
+  );
   const [isFetching, setIsFetching] = useState(false);
   const requestIdRef = useRef(0);
+  const paramsRef = useRef<ApiQueryParams | undefined>(params);
+  const onSuccessRef = useRef(onSuccess);
+  const onErrorRef = useRef(onError);
 
   const keySignature = JSON.stringify(key);
   const paramsSignature = JSON.stringify(params ?? {});
-  const stableParams = useMemo(() => params, [paramsSignature]);
+
+  useEffect(() => {
+    paramsRef.current = params;
+  }, [params, paramsSignature]);
+
+  useEffect(() => {
+    onSuccessRef.current = onSuccess;
+    onErrorRef.current = onError;
+  }, [onError, onSuccess]);
 
   const refetch = useCallback(async () => {
     const requestId = requestIdRef.current + 1;
@@ -45,11 +70,11 @@ export function useApiQuery<T>(
     setError(null);
 
     try {
-      const result = await apiClient.get<T>(endpoint, stableParams);
+      const result = await apiClient.get<T>(endpoint, paramsRef.current);
 
       if (requestIdRef.current === requestId) {
         setData(result);
-        onSuccess?.(result);
+        onSuccessRef.current?.(result);
       }
 
       return result;
@@ -59,7 +84,7 @@ export function useApiQuery<T>(
 
       if (requestIdRef.current === requestId) {
         setError(nextError);
-        onError?.(nextError);
+        onErrorRef.current?.(nextError);
       }
 
       throw nextError;
@@ -69,7 +94,7 @@ export function useApiQuery<T>(
         setIsFetching(false);
       }
     }
-  }, [endpoint, onError, onSuccess, stableParams]);
+  }, [endpoint]);
 
   useEffect(() => {
     if (!enabled) {
@@ -94,16 +119,21 @@ export function useApiQuery<T>(
 export function useApiMutation<TData, TVariables>(
   endpoint: string,
   method: "POST" | "PUT" | "DELETE" = "POST",
-  options: ApiMutationOptions<TData, TVariables> = {}
+  options: ApiMutationOptions<TData, TVariables> = {},
 ) {
   const [data, setData] = useState<TData | undefined>(undefined);
   const [error, setError] = useState<Error | null>(null);
   const [isPending, setIsPending] = useState(false);
+  const optionsRef = useRef(options);
+
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
 
   const mutateAsync = useCallback(
     async (
       variables: TVariables,
-      mutateOptions: MutateOptions<TData, TVariables> = {}
+      mutateOptions: MutateOptions<TData, TVariables> = {},
     ) => {
       setIsPending(true);
       setError(null);
@@ -125,10 +155,11 @@ export function useApiMutation<TData, TVariables>(
             throw new Error(`Unsupported method: ${method}`);
         }
 
+        const baseOptions = optionsRef.current;
         setData(result);
-        options.onSuccess?.(result, variables);
+        baseOptions.onSuccess?.(result, variables);
         mutateOptions.onSuccess?.(result, variables);
-        options.onSettled?.(result, null, variables);
+        baseOptions.onSettled?.(result, null, variables);
         mutateOptions.onSettled?.(result, null, variables);
         return result;
       } catch (caught) {
@@ -136,26 +167,27 @@ export function useApiMutation<TData, TVariables>(
           caught instanceof Error ? caught : new Error("Unknown API error");
 
         setError(nextError);
-        options.onError?.(nextError, variables);
+        const baseOptions = optionsRef.current;
+        baseOptions.onError?.(nextError, variables);
         mutateOptions.onError?.(nextError, variables);
-        options.onSettled?.(undefined, nextError, variables);
+        baseOptions.onSettled?.(undefined, nextError, variables);
         mutateOptions.onSettled?.(undefined, nextError, variables);
         throw nextError;
       } finally {
         setIsPending(false);
       }
     },
-    [endpoint, method, options]
+    [endpoint, method],
   );
 
   const mutate = useCallback(
     (
       variables: TVariables,
-      mutateOptions: MutateOptions<TData, TVariables> = {}
+      mutateOptions: MutateOptions<TData, TVariables> = {},
     ) => {
       mutateAsync(variables, mutateOptions).catch(() => undefined);
     },
-    [mutateAsync]
+    [mutateAsync],
   );
 
   return {
@@ -169,45 +201,60 @@ export function useApiMutation<TData, TVariables>(
   };
 }
 
-export function useEmployees(params?: Record<string, string>) {
-  return useApiQuery<any[]>(["employees"], "/api/employees", params);
+export function useEmployees(params?: ApiQueryParams) {
+  return useApiQuery<Employee[]>(["employees"], "/api/employees", params);
 }
 
-export function useEmployee(id: string) {
-  return useApiQuery<any>(["employee", id], `/api/employees/${id}`, undefined, {
-    enabled: Boolean(id),
-  });
+export function useEmployee(id: number | string) {
+  return useApiQuery<Employee>(
+    ["employee", String(id)],
+    `/api/employees/${id}`,
+    undefined,
+    {
+      enabled: Boolean(id),
+    },
+  );
 }
 
-export function useSales(params?: Record<string, string>) {
-  return useApiQuery<any[]>(["sales"], "/api/sales", params);
+export function useSales(params?: ApiQueryParams) {
+  return useApiQuery<Sale[]>(["sales"], "/api/sales", params);
 }
 
-export function useTasks(params?: Record<string, string>) {
-  return useApiQuery<any[]>(["tasks"], "/api/tasks", params);
+export function useTasks(params?: ApiQueryParams) {
+  return useApiQuery<ApiRecord[]>(["tasks"], "/api/tasks", params);
 }
 
-export function useTransactions(params?: Record<string, string>) {
-  return useApiQuery<any[]>(["transactions"], "/api/transactions", params);
+export function useTransactions(params?: ApiQueryParams) {
+  return useApiQuery<ApiRecord[]>(
+    ["transactions"],
+    "/api/transactions",
+    params,
+  );
 }
 
 export function useAiChat() {
-  return useApiMutation<any, { message: string }>("/ai/chat", "POST");
+  return useApiMutation<AiChatResponse, AiChatRequest>("/ai/chat", "POST");
 }
 
 export function useAiPredict() {
-  return useApiMutation<any, any>("/ai/predict", "POST");
+  return useApiMutation<AiPredictResponse, AiPredictRequest>(
+    "/ai/predict",
+    "POST",
+  );
 }
 
 export function useAiRecommend(userId: string) {
-  return useApiQuery<any[]>(
+  return useApiQuery<AiRecommendationItem[]>(
     ["ai-recommend", userId],
     "/ai/recommend",
     { user_id: userId },
-    { enabled: Boolean(userId) }
+    { enabled: Boolean(userId) },
   );
 }
 
 export function useDashboardStats() {
-  return useApiQuery<any>(["dashboard-stats"], "/api/dashboard/stats");
+  return useApiQuery<DashboardStats>(
+    ["dashboard-stats"],
+    "/api/dashboard/stats",
+  );
 }

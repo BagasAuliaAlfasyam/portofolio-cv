@@ -4,12 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import {
   MessageSquareText,
-  Zap,
   Send,
   User,
   Bot,
   Sparkles,
-  AlertCircle,
   CheckCircle2,
   ChevronRight,
   BarChart3,

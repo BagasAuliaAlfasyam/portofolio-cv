@@ -247,6 +247,7 @@ Environment=HOSTNAME=127.0.0.1
 Environment=PORT=$app_port_value
 Environment=NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-https://$PRIMARY_DOMAIN}
 Environment=NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://$PRIMARY_DOMAIN}
+Environment=NEXT_PUBLIC_GA_ID=${NEXT_PUBLIC_GA_ID:-}
 ExecStart=/usr/bin/node $APP_DIR/current/apps/$app/apps/$app/server.js
 Restart=always
 RestartSec=5
@@ -291,6 +292,7 @@ set -a
 source "$SHARED_DIR/web.env"
 NEXT_PUBLIC_API_URL="${NEXT_PUBLIC_API_URL:-${NEXT_PUBLIC_API_BASE_URL:-https://$PRIMARY_DOMAIN}}"
 NEXT_PUBLIC_API_BASE_URL="${NEXT_PUBLIC_API_BASE_URL:-$NEXT_PUBLIC_API_URL}"
+NEXT_PUBLIC_GA_ID="${NEXT_PUBLIC_GA_ID:-}"
 set +a
 
 npm ci --include=dev

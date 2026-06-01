@@ -23,13 +23,13 @@
     "howWeWork": "How We Work",
     "testimonials": "Projects",
     "contact": "Contact",
-    "cta": "Contact Us"
+    "cta": "Consult"
   },
   "hero": {
-    "headline": "A Technology Partner for Corporate Digital Transformation",
-    "subheadline": "CatalystForge designs and builds corporate websites, operational systems, dashboards, and AI automation that Indonesian business teams can actually use.",
-    "primaryCta": "View Solutions",
-    "secondaryCta": "Contact Us",
+    "headline": "Build Websites, Operational Systems, and AI Automation Your Team Can Actually Use",
+    "subheadline": "CatalystForge helps Indonesian businesses turn digital needs into company profiles, CRM, HRIS, POS, dashboards, and workflow automation with clear scope and deployment-ready delivery.",
+    "primaryCta": "View Solution Packages",
+    "secondaryCta": "Request Estimate",
     "trustIndicators": [
       "Business Consulting",
       "UI/UX & Engineering",
@@ -69,10 +69,52 @@
       }
     ]
   },
+  "offers": {
+    "eyebrow": "Solution Packages",
+    "title": "Choose the delivery path closest to your business need",
+    "description": "Each package can start small and grow in phases. It works for requirement validation, management presentation, or direct production delivery.",
+    "cta": "Discuss This Package",
+    "items": [
+      {
+        "name": "Company Profile Launch",
+        "timeline": "2-4 weeks",
+        "bestFor": "For businesses that need stronger digital credibility fast",
+        "deliverables": [
+          "Responsive company profile website",
+          "Service structure and value proposition copy",
+          "Inquiry form, WhatsApp CTA, basic SEO",
+          "Domain deployment and content handover"
+        ]
+      },
+      {
+        "name": "Operational System MVP",
+        "timeline": "4-8 weeks",
+        "bestFor": "For teams replacing spreadsheets or manual processes",
+        "deliverables": [
+          "Role-based dashboard aligned to workflow",
+          "Core data CRUD and simple approval",
+          "API integration or data import/export",
+          "Deployment, documentation, and initial support"
+        ]
+      },
+      {
+        "name": "AI Automation Sprint",
+        "timeline": "1-3 weeks",
+        "bestFor": "For customer support, knowledge base, or task automation",
+        "deliverables": [
+          "AI chatbot or automation flow",
+          "Structured prompts and knowledge base",
+          "Human handoff fallback and conversation audit",
+          "Result monitoring and response iteration"
+        ]
+      }
+    ]
+  },
   "products": {
     "eyebrow": "Capabilities",
     "title": "Digital solutions mapped directly to business needs",
     "description": "We build company profiles, operational systems, dashboards, and automation tailored to your company's workflow.",
+    "demoNote": "These demos show reference flows and interface quality. The production version is customized around your data, roles, approvals, and business process.",
     "learnMore": "Open Demo",
     "items": [
       {
@@ -217,9 +259,9 @@
     ]
   },
   "cta": {
-    "headline": "Ready to Take Your Business to the Next Level?",
-    "subtext": "Consult your company's digital needs with our team",
-    "button": "Discuss System Needs",
+    "headline": "Need an estimate for a website, operational system, or AI automation?",
+    "subtext": "Tell us your business context. We will help map the scope, feature priorities, and a realistic delivery path.",
+    "button": "Free Consultation via WhatsApp",
     "emailLabel": "Email",
     "phoneLabel": "Phone",
     "addressLabel": "Address"

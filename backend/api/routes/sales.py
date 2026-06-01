@@ -1,13 +1,20 @@
 from fastapi import APIRouter
-from typing import List, Dict, Any
+
+from schemas.sale import SaleResponse
 
 router = APIRouter()
 
-mock_sales = [
-    {"id": 1, "company": "PT Maju Bersama", "value": 180000000, "status": "won"},
-    {"id": 2, "company": "CV Digital Nusantara", "value": 95000000, "status": "negotiation"},
+demo_sales = [
+    SaleResponse(id=1, company="PT Maju Bersama", value=180000000, status="won"),
+    SaleResponse(
+        id=2,
+        company="CV Digital Nusantara",
+        value=95000000,
+        status="negotiation",
+    ),
 ]
 
-@router.get("/", response_model=List[Dict[str, Any]])
-def read_sales():
-    return mock_sales
+
+@router.get("/", response_model=list[SaleResponse])
+def read_sales() -> list[SaleResponse]:
+    return demo_sales

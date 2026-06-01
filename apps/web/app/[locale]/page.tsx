@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { HowWeWork } from "@/components/how-we-work";
 import { Navbar } from "@/components/navbar";
+import { OfferPackages } from "@/components/offer-packages";
 import { Products } from "@/components/products";
 import { TrustBar } from "@/components/trust-bar";
 import { WhyChooseUs } from "@/components/why-choose-us";
@@ -73,6 +74,7 @@ function MarketingPage({ locale }: { locale: Locale }) {
       <Hero messages={messages} />
       <TrustBar messages={messages} />
       <AboutCompany messages={messages} />
+      <OfferPackages messages={messages} />
       <Products messages={messages} />
       <WhyChooseUs messages={messages} />
       <HowWeWork messages={messages} />
