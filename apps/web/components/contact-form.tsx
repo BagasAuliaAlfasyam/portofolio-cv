@@ -9,6 +9,7 @@ import {
   Send,
 } from "lucide-react";
 import { type Messages } from "@/lib/i18n";
+import { UTM_STORAGE_KEY, type StoredUtm } from "./utm-capture";
 
 type ContactFormProps = {
   messages: Messages;
@@ -28,16 +29,44 @@ export function ContactForm({ messages }: ContactFormProps) {
   const labels =
     messages.locale === "id"
       ? {
+          budgetRange: "Estimasi Budget",
           company: "Perusahaan",
           email: "Email",
           message: "Pesan",
           name: "Nama",
+          needType: "Kebutuhan Utama",
           phone: "Nomor WhatsApp",
+          timeline: "Target Waktu",
+          budgetRangeOptions: [
+            "Belum ditentukan / butuh arahan",
+            "< Rp10 juta",
+            "Rp10-25 juta",
+            "Rp25-50 juta",
+            "Rp50 juta+",
+          ],
+          needTypeOptions: [
+            "Company Profile / Website",
+            "Custom CRM",
+            "Custom HRIS",
+            "Custom POS",
+            "AI Support / Chatbot",
+            "Dashboard / Sistem Internal",
+          ],
+          timelineOptions: [
+            "Secepatnya",
+            "1 bulan",
+            "2-3 bulan",
+            "3+ bulan",
+            "Masih eksplorasi",
+          ],
           placeholderCompany: "Nama perusahaan",
+          placeholderBudgetRange: "Pilih estimasi budget",
           placeholderEmail: "nama@perusahaan.com",
           placeholderMessage: "Ceritakan kebutuhan sistem atau website Anda...",
           placeholderName: "Nama lengkap",
+          placeholderNeedType: "Pilih kebutuhan utama",
           placeholderPhone: "08xxxxxxxxxx",
+          placeholderTimeline: "Pilih target waktu",
           send: "Kirim Inquiry",
           sending: "Mengirim...",
           successTitle: "Inquiry terkirim",
@@ -53,18 +82,49 @@ export function ContactForm({ messages }: ContactFormProps) {
           invalidEmail: "Email belum valid.",
           invalidPhone: "Nomor WhatsApp minimal 8 digit.",
           invalidMessage: "Pesan minimal 10 karakter agar konteksnya jelas.",
+          invalidNeedType: "Pilih kebutuhan utama.",
+          invalidBudgetRange: "Pilih estimasi budget.",
+          invalidTimeline: "Pilih target waktu.",
         }
       : {
+          budgetRange: "Estimated Budget",
           company: "Company",
           email: "Email",
           message: "Message",
           name: "Name",
+          needType: "Main Need",
           phone: "WhatsApp Number",
+          timeline: "Target Timeline",
+          budgetRangeOptions: [
+            "Not decided / need guidance",
+            "< IDR 10 million",
+            "IDR 10-25 million",
+            "IDR 25-50 million",
+            "IDR 50 million+",
+          ],
+          needTypeOptions: [
+            "Company Profile / Website",
+            "Custom CRM",
+            "Custom HRIS",
+            "Custom POS",
+            "AI Support / Chatbot",
+            "Dashboard / Internal System",
+          ],
+          timelineOptions: [
+            "As soon as possible",
+            "1 month",
+            "2-3 months",
+            "3+ months",
+            "Still exploring",
+          ],
           placeholderCompany: "Company name",
+          placeholderBudgetRange: "Choose budget estimate",
           placeholderEmail: "name@company.com",
           placeholderMessage: "Tell us about your system or website needs...",
           placeholderName: "Full name",
+          placeholderNeedType: "Choose main need",
           placeholderPhone: "+62...",
+          placeholderTimeline: "Choose target timeline",
           send: "Send Inquiry",
           sending: "Sending...",
           successTitle: "Inquiry sent",
@@ -80,6 +140,9 @@ export function ContactForm({ messages }: ContactFormProps) {
           invalidPhone: "WhatsApp number must contain at least 8 digits.",
           invalidMessage:
             "Message must be at least 10 characters for clear context.",
+          invalidNeedType: "Choose the main need.",
+          invalidBudgetRange: "Choose the budget estimate.",
+          invalidTimeline: "Choose the target timeline.",
         };
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -167,6 +230,29 @@ export function ContactForm({ messages }: ContactFormProps) {
           placeholder={labels.placeholderCompany}
         />
       </div>
+      <div className="grid gap-4 lg:grid-cols-3">
+        <SelectField
+          label={labels.needType}
+          name="needType"
+          options={labels.needTypeOptions}
+          placeholder={labels.placeholderNeedType}
+          required
+        />
+        <SelectField
+          label={labels.budgetRange}
+          name="budgetRange"
+          options={labels.budgetRangeOptions}
+          placeholder={labels.placeholderBudgetRange}
+          required
+        />
+        <SelectField
+          label={labels.timeline}
+          name="timeline"
+          options={labels.timelineOptions}
+          placeholder={labels.placeholderTimeline}
+          required
+        />
+      </div>
       <label className="grid gap-2">
         <span className="text-sm font-bold uppercase tracking-[0.12em] text-[#1B3A5C]/58">
           {labels.message}
@@ -212,11 +298,20 @@ export function ContactForm({ messages }: ContactFormProps) {
 }
 
 type ContactPayload = {
+  budgetRange: string;
   company: string;
   email: string;
   message: string;
   name: string;
+  needType: string;
+  pagePath: string;
   phone: string;
+  timeline: string;
+  utmCampaign: string;
+  utmContent: string;
+  utmMedium: string;
+  utmSource: string;
+  utmTerm: string;
   website: string;
 };
 
@@ -226,19 +321,88 @@ type ContactErrorResponse = {
 };
 
 function createContactPayload(formData: FormData): ContactPayload {
+  const storedUtm = getStoredUtmPayload();
+
   return {
+    budgetRange: getFormValue(formData, "budgetRange"),
     company: getFormValue(formData, "company"),
     email: getFormValue(formData, "email"),
     message: getFormValue(formData, "message"),
     name: getFormValue(formData, "name"),
+    needType: getFormValue(formData, "needType"),
+    pagePath: getCurrentPagePath(),
     phone: getFormValue(formData, "phone"),
+    timeline: getFormValue(formData, "timeline"),
+    utmCampaign: storedUtm.utmCampaign ?? "",
+    utmContent: storedUtm.utmContent ?? "",
+    utmMedium: storedUtm.utmMedium ?? "",
+    utmSource: storedUtm.utmSource ?? "",
+    utmTerm: storedUtm.utmTerm ?? "",
     website: getFormValue(formData, "website"),
   };
 }
 
-function getFormValue(formData: FormData, key: keyof ContactPayload) {
+type ContactFormField =
+  | "budgetRange"
+  | "company"
+  | "email"
+  | "message"
+  | "name"
+  | "needType"
+  | "phone"
+  | "timeline"
+  | "website";
+
+function getFormValue(formData: FormData, key: ContactFormField) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
+}
+
+function getCurrentPagePath() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return `${window.location.pathname}${window.location.search}`.slice(0, 240);
+}
+
+function getStoredUtmPayload(): StoredUtm {
+  if (typeof window === "undefined") {
+    return {};
+  }
+
+  try {
+    const value = window.localStorage.getItem(UTM_STORAGE_KEY);
+
+    if (!value) {
+      return {};
+    }
+
+    const parsed: unknown = JSON.parse(value);
+
+    if (!isRecord(parsed)) {
+      return {};
+    }
+
+    return {
+      utmCampaign: getStoredString(parsed, "utmCampaign"),
+      utmContent: getStoredString(parsed, "utmContent"),
+      utmMedium: getStoredString(parsed, "utmMedium"),
+      utmSource: getStoredString(parsed, "utmSource"),
+      utmTerm: getStoredString(parsed, "utmTerm"),
+    };
+  } catch {
+    return {};
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function getStoredString(source: Record<string, unknown>, key: string) {
+  const value = source[key];
+  return typeof value === "string" ? value.slice(0, 120) : "";
 }
 
 function validateContactPayload(
@@ -261,6 +425,18 @@ function validateContactPayload(
     return labels.invalidMessage;
   }
 
+  if (!payload.needType) {
+    return labels.invalidNeedType;
+  }
+
+  if (!payload.budgetRange) {
+    return labels.invalidBudgetRange;
+  }
+
+  if (!payload.timeline) {
+    return labels.invalidTimeline;
+  }
+
   return "";
 }
 
@@ -268,7 +444,10 @@ type ContactValidationLabels = {
   invalidEmail: string;
   invalidMessage: string;
   invalidName: string;
+  invalidNeedType: string;
   invalidPhone: string;
+  invalidBudgetRange: string;
+  invalidTimeline: string;
 };
 
 function getContactErrorMessage(
@@ -389,6 +568,40 @@ function Field({
         required={required}
         type={type}
       />
+    </label>
+  );
+}
+
+function SelectField({
+  label,
+  name,
+  options,
+  placeholder,
+  required,
+}: {
+  label: string;
+  name: ContactFormField;
+  options: string[];
+  placeholder: string;
+  required?: boolean;
+}) {
+  return (
+    <label className="grid gap-2">
+      <span className="text-sm font-bold uppercase tracking-[0.12em] text-[#1B3A5C]/58">
+        {label}
+      </span>
+      <select
+        className="h-12 min-w-0 rounded-lg border border-slate-200 bg-white px-4 text-base text-[#1A1A2E] outline-none transition focus:border-[#E8531A] focus:ring-4 focus:ring-[#E8531A]/12"
+        name={name}
+        required={required}
+      >
+        <option value="">{placeholder}</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
     </label>
   );
 }

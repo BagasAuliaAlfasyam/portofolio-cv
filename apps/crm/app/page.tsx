@@ -311,13 +311,13 @@ export default function CrmDashboard() {
             </div>
           </header>
 
-          <section className="space-y-6 p-4 app-fade-in md:p-8">
+          <section className="space-y-6 p-4 pb-40 app-fade-in md:p-8 md:pb-44">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-black uppercase tracking-[0.16em] text-[#E8531A]">
                   CRM Dashboard
                 </p>
-                <h1 className="mt-2 text-3xl font-black tracking-tight text-[#1B3A5C] md:text-4xl">
+                <h1 className="mt-2 text-2xl font-black tracking-tight text-[#1B3A5C] sm:text-3xl md:text-4xl">
                   Pipeline, contacts, and sales follow-up in one view
                 </h1>
                 <p className="mt-2 max-w-3xl text-base font-medium text-slate-600">
@@ -475,7 +475,51 @@ export default function CrmDashboard() {
 
             <div className="grid gap-6 app-slide-up xl:grid-cols-[1fr_0.9fr]">
               <Panel title="Contact management" action="Account health">
-                <div className="overflow-x-auto rounded-lg border border-slate-200">
+                <div className="grid gap-3 md:hidden">
+                  {filteredDeals.slice(0, 5).map((deal) => (
+                    <article
+                      className="rounded-lg border border-slate-200 bg-white p-4"
+                      key={deal.company}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="break-words font-black text-slate-900">
+                            {deal.company}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-slate-600">
+                            {deal.contact}
+                          </p>
+                        </div>
+                        <button
+                          className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-bold text-[#1B3A5C]"
+                          onClick={() => setSelectedDeal(deal)}
+                          type="button"
+                        >
+                          Open
+                        </button>
+                      </div>
+                      <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                            Owner
+                          </p>
+                          <p className="mt-1 font-bold text-slate-700">
+                            {deal.owner}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                            Stage
+                          </p>
+                          <p className="mt-1 font-bold text-[#E8531A]">
+                            {deal.stage}
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+                <div className="hidden overflow-x-auto rounded-lg border border-slate-200 md:block">
                   <table className="min-w-[720px] w-full text-left text-sm">
                     <thead className="bg-slate-50 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
                       <tr>

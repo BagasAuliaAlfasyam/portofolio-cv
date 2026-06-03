@@ -211,12 +211,13 @@ Never commit `.env` files. Keep secrets in local environment files, VPS secrets,
 
 ### Frontend Apps
 
-| Variable                   | Description                                                   |
-| -------------------------- | ------------------------------------------------------------- |
-| `NEXT_PUBLIC_API_URL`      | Public backend API base URL used by `@repo/api`.              |
-| `NEXT_PUBLIC_API_BASE_URL` | Compatibility alias used by public contact form submissions.  |
-| `NEXT_PUBLIC_GA_ID`        | Optional Google Analytics measurement ID for conversion data. |
-| `NEXT_LOCALE`              | Browser cookie used by the website language switcher.         |
+| Variable                               | Description                                                   |
+| -------------------------------------- | ------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL`                  | Public backend API base URL used by `@repo/api`.              |
+| `NEXT_PUBLIC_API_BASE_URL`             | Compatibility alias used by public contact form submissions.  |
+| `NEXT_PUBLIC_GA_ID`                    | Optional Google Analytics measurement ID for conversion data. |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional Google Search Console verification token.            |
+| `NEXT_LOCALE`                          | Browser cookie used by the website language switcher.         |
 
 App-specific environment variables should be documented in each app as they are introduced.
 

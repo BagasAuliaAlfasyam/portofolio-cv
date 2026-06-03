@@ -62,7 +62,7 @@ export default function EmployeesPage() {
             <p className="text-sm font-black uppercase tracking-[0.16em] text-brand-400">
               Employees
             </p>
-            <h1 className="mt-2 text-3xl font-black text-white">
+            <h1 className="mt-2 text-2xl font-black text-white sm:text-3xl">
               Employee master data
             </h1>
             <p className="mt-2 text-sm font-medium text-slate-500">
@@ -70,7 +70,7 @@ export default function EmployeesPage() {
               and lifecycle actions.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <HrisActionButton
               className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/[0.08] px-4 text-sm font-bold text-slate-300"
               featureName="Export employee roster"
@@ -98,7 +98,55 @@ export default function EmployeesPage() {
               />
             </div>
           </div>
-          <div className="overflow-x-auto rounded-lg border border-white/[0.08]">
+          <div className="grid gap-3 md:hidden">
+            {employees.map(
+              ([name, role, department, manager, employment, status]) => (
+                <article
+                  className="rounded-lg border border-white/[0.08] bg-surface-50 p-4"
+                  key={name}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="break-words font-black text-white">
+                        {name}
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-slate-500">
+                        {role}
+                      </p>
+                    </div>
+                    <span className="shrink-0 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-black text-emerald-300">
+                      {status}
+                    </span>
+                  </div>
+                  <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                        Department
+                      </p>
+                      <p className="mt-1 font-bold text-slate-300">
+                        {department}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                        Manager
+                      </p>
+                      <p className="mt-1 font-bold text-slate-300">{manager}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                        Employment
+                      </p>
+                      <p className="mt-1 font-bold text-slate-300">
+                        {employment}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ),
+            )}
+          </div>
+          <div className="hidden overflow-x-auto rounded-lg border border-white/[0.08] md:block">
             <table className="w-full min-w-[900px] text-left text-sm">
               <thead className="bg-white/[0.03] text-xs font-black uppercase tracking-[0.12em] text-slate-500">
                 <tr>

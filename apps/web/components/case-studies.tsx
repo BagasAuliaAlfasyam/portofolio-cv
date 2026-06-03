@@ -66,6 +66,21 @@ export function CaseStudies({ messages }: CaseStudiesProps) {
                     text={item.impact}
                   />
                 </div>
+                <div className="mt-6 rounded-lg border border-[#E8531A]/12 bg-[#FFF4EF] p-4">
+                  <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#E8531A]">
+                    {messages.caseStudies.metricsLabel}
+                  </p>
+                  <div className="mt-3 grid gap-2">
+                    {item.metrics.map((metric) => (
+                      <div className="flex gap-2" key={metric}>
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#E8531A]" />
+                        <span className="text-sm font-semibold leading-6 text-[#1A1A2E]/76">
+                          {metric}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </article>
             </Reveal>
           ))}

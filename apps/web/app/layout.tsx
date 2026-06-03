@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Analytics } from "@/components/analytics";
+import { UtmCapture } from "@/components/utm-capture";
 import "./globals.css";
 
 const siteUrl = "https://catalystforge.web.id";
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -63,6 +65,13 @@ export const metadata: Metadata = {
     shortcut: "/logo_icon_only.png",
     apple: "/logo_icon_only.png",
   },
+  ...(googleSiteVerification
+    ? {
+        verification: {
+          google: googleSiteVerification,
+        },
+      }
+    : {}),
 };
 
 const organizationJsonLd = {
@@ -116,6 +125,7 @@ export default function RootLayout({
     <html lang="id">
       <body>
         {children}
+        <UtmCapture />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

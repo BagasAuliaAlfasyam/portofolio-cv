@@ -1,8 +1,20 @@
 "use client";
 
-import { Minus, Plus, Receipt, Search, ShoppingCart, Trash2 } from "lucide-react";
+import {
+  Minus,
+  Plus,
+  Receipt,
+  Search,
+  ShoppingCart,
+  Trash2,
+} from "lucide-react";
 import { PosActionButton } from "../../components/action-button";
-import { formatCurrency, PosMetric, PosPageShell, PosPanel } from "../../components/feature-component";
+import {
+  formatCurrency,
+  PosMetric,
+  PosPageShell,
+  PosPanel,
+} from "../../components/feature-component";
 
 const products = [
   ["Kopi Susu Gula Aren", 30000, "Drink"],
@@ -23,20 +35,45 @@ export default function SalePage() {
 
   return (
     <PosPageShell
-      actions={<PosActionButton className="h-10 rounded-lg bg-emerald-500 px-4 text-sm font-black text-white" featureName="Hold transaction">Hold transaction</PosActionButton>}
+      actions={
+        <PosActionButton
+          className="h-10 rounded-lg bg-emerald-500 px-4 text-sm font-black text-white"
+          featureName="Hold transaction"
+        >
+          Hold transaction
+        </PosActionButton>
+      }
       eyebrow="New sale"
       title="Cashier checkout workspace"
     >
       <div className="grid gap-4 md:grid-cols-3">
-        <PosMetric icon={ShoppingCart} label="Items in cart" note="Current transaction" value="3" />
-        <PosMetric icon={Receipt} label="Subtotal" note="Before tax" value={formatCurrency(subtotal)} />
-        <PosMetric icon={Plus} label="Service speed" note="Avg checkout time" value="1m 42s" />
+        <PosMetric
+          icon={ShoppingCart}
+          label="Items in cart"
+          note="Current transaction"
+          value="3"
+        />
+        <PosMetric
+          icon={Receipt}
+          label="Subtotal"
+          note="Before tax"
+          value={formatCurrency(subtotal)}
+        />
+        <PosMetric
+          icon={Plus}
+          label="Service speed"
+          note="Avg checkout time"
+          value="1m 42s"
+        />
       </div>
       <div className="grid gap-6 xl:grid-cols-[1fr_420px]">
         <PosPanel title="Product catalog">
           <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-            <input className="h-10 w-full rounded-lg border border-white/[0.08] bg-surface-50 pl-10 pr-4 text-sm text-slate-200 outline-none" placeholder="Search product or scan barcode..." />
+            <input
+              className="h-10 w-full rounded-lg border border-white/[0.08] bg-surface-50 pl-10 pr-4 text-sm text-slate-200 outline-none"
+              placeholder="Search product or scan barcode..."
+            />
           </div>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {products.map(([name, price, category]) => (
@@ -46,8 +83,12 @@ export default function SalePage() {
                 key={name as string}
               >
                 <p className="min-h-10 font-black text-white">{name}</p>
-                <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">{category}</p>
-                <p className="mt-4 text-lg font-black text-emerald-300">{formatCurrency(price as number)}</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+                  {category}
+                </p>
+                <p className="mt-4 text-lg font-black text-emerald-300">
+                  {formatCurrency(price as number)}
+                </p>
               </PosActionButton>
             ))}
           </div>
@@ -55,16 +96,49 @@ export default function SalePage() {
         <PosPanel title="Receipt summary">
           <div className="grid gap-3">
             {cart.map(([name, price, qty]) => (
-              <div className="rounded-lg border border-white/[0.08] bg-surface-50 p-4" key={name}>
-                <div className="flex items-start justify-between"><div><p className="font-black text-white">{name}</p><p className="text-sm font-semibold text-slate-500">{formatCurrency(price)} each</p></div><Trash2 className="h-4 w-4 text-slate-500" /></div>
-                <div className="mt-4 flex items-center justify-between"><div className="flex items-center rounded-lg border border-white/[0.08]"><Minus className="m-2 h-4 w-4 text-slate-400" /><span className="min-w-10 text-center font-black text-white">{qty}</span><Plus className="m-2 h-4 w-4 text-slate-400" /></div><p className="font-black text-emerald-300">{formatCurrency(price * qty)}</p></div>
+              <div
+                className="rounded-lg border border-white/[0.08] bg-surface-50 p-4"
+                key={name}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="break-words font-black text-white">{name}</p>
+                    <p className="text-sm font-semibold text-slate-500">
+                      {formatCurrency(price)} each
+                    </p>
+                  </div>
+                  <Trash2 className="h-4 w-4 shrink-0 text-slate-500" />
+                </div>
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center rounded-lg border border-white/[0.08]">
+                    <Minus className="m-2 h-4 w-4 text-slate-400" />
+                    <span className="min-w-10 text-center font-black text-white">
+                      {qty}
+                    </span>
+                    <Plus className="m-2 h-4 w-4 text-slate-400" />
+                  </div>
+                  <p className="font-black text-emerald-300">
+                    {formatCurrency(price * qty)}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
           <div className="mt-5 border-t border-white/[0.08] pt-4 text-sm font-semibold text-slate-400">
-            <div className="flex justify-between"><span>Subtotal</span><span>{formatCurrency(subtotal)}</span></div>
-            <div className="mt-2 flex justify-between"><span>Tax 11%</span><span>{formatCurrency(tax)}</span></div>
-            <div className="mt-4 flex items-center justify-between rounded-xl bg-emerald-500/10 p-4"><span className="font-black text-emerald-300">Total</span><span className="text-xl font-black text-white">{formatCurrency(subtotal + tax)}</span></div>
+            <div className="flex justify-between">
+              <span>Subtotal</span>
+              <span>{formatCurrency(subtotal)}</span>
+            </div>
+            <div className="mt-2 flex justify-between">
+              <span>Tax 11%</span>
+              <span>{formatCurrency(tax)}</span>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-emerald-500/10 p-4">
+              <span className="font-black text-emerald-300">Total</span>
+              <span className="text-xl font-black text-white">
+                {formatCurrency(subtotal + tax)}
+              </span>
+            </div>
           </div>
         </PosPanel>
       </div>

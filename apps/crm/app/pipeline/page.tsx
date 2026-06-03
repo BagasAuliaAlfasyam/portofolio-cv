@@ -1,6 +1,11 @@
 import { CalendarClock, CircleDollarSign, Plus, Target } from "lucide-react";
 import { CrmActionButton } from "../../components/action-button";
-import { CrmBadge, CrmMetric, CrmPageShell, CrmPanel } from "../../components/feature-component";
+import {
+  CrmBadge,
+  CrmMetric,
+  CrmPageShell,
+  CrmPanel,
+} from "../../components/feature-component";
 
 const columns = [
   {
@@ -12,7 +17,9 @@ const columns = [
     value: "Rp 167M",
   },
   {
-    deals: [["PT Sinar Teknologi Nusantara", "CRM and branch analytics", "Rp 260M"]],
+    deals: [
+      ["PT Sinar Teknologi Nusantara", "CRM and branch analytics", "Rp 260M"],
+    ],
     name: "Qualified",
     value: "Rp 260M",
   },
@@ -25,7 +32,9 @@ const columns = [
     value: "Rp 205M",
   },
   {
-    deals: [["PT Patra Drilling Contractor", "Procurement workflow", "Rp 420M"]],
+    deals: [
+      ["PT Patra Drilling Contractor", "Procurement workflow", "Rp 420M"],
+    ],
     name: "Negotiation",
     value: "Rp 420M",
   },
@@ -49,27 +58,56 @@ export default function PipelinePage() {
       title="Stage-based opportunity board"
     >
       <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
-        <CrmMetric icon={CircleDollarSign} label="Open pipeline" note="Across 7 active deals" value="Rp 1.05B" />
-        <CrmMetric icon={Target} label="Weighted forecast" note="Likely close this quarter" value="Rp 681M" />
-        <CrmMetric icon={CalendarClock} label="Aging risk" note="2 deals over 21 days" value="2" />
+        <CrmMetric
+          icon={CircleDollarSign}
+          label="Open pipeline"
+          note="Across 7 active deals"
+          value="Rp 1.05B"
+        />
+        <CrmMetric
+          icon={Target}
+          label="Weighted forecast"
+          note="Likely close this quarter"
+          value="Rp 681M"
+        />
+        <CrmMetric
+          icon={CalendarClock}
+          label="Aging risk"
+          note="2 deals over 21 days"
+          value="2"
+        />
       </div>
       <CrmPanel title="Deal kanban">
-        <div className="grid gap-3 lg:grid-cols-5">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
           {columns.map((column) => (
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-3" key={column.name}>
+            <div
+              className="rounded-lg border border-slate-200 bg-slate-50 p-3"
+              key={column.name}
+            >
               <div className="mb-3 flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-black text-[#1B3A5C]">{column.name}</p>
-                  <p className="text-xs font-bold text-slate-500">{column.value}</p>
+                  <p className="text-sm font-black text-[#1B3A5C]">
+                    {column.name}
+                  </p>
+                  <p className="text-xs font-bold text-slate-500">
+                    {column.value}
+                  </p>
                 </div>
                 <CrmBadge>{column.deals.length}</CrmBadge>
               </div>
               <div className="grid gap-3">
                 {column.deals.map(([company, scope, value]) => (
-                  <article className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm" key={company}>
+                  <article
+                    className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm"
+                    key={company}
+                  >
                     <p className="font-black text-slate-900">{company}</p>
-                    <p className="mt-1 text-sm font-semibold text-slate-500">{scope}</p>
-                    <p className="mt-3 text-sm font-black text-[#E8531A]">{value}</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-500">
+                      {scope}
+                    </p>
+                    <p className="mt-3 text-sm font-black text-[#E8531A]">
+                      {value}
+                    </p>
                   </article>
                 ))}
               </div>

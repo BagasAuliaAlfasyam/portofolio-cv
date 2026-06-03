@@ -332,13 +332,13 @@ export default function POSDashboard() {
           </header>
 
           <div className="grid grid-cols-1 xl:h-[calc(100vh-4rem)] xl:grid-cols-[minmax(0,1fr)_420px] xl:overflow-hidden">
-            <section className="p-4 app-fade-in md:p-6 xl:overflow-y-auto">
+            <section className="p-4 pb-40 app-fade-in md:p-6 md:pb-44 xl:overflow-y-auto">
               <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-black uppercase tracking-[0.16em] text-emerald-300">
                     New sale
                   </p>
-                  <h1 className="mt-2 text-3xl font-black text-white">
+                  <h1 className="mt-2 text-2xl font-black text-white sm:text-3xl">
                     Fast checkout with live catalog
                   </h1>
                   <p className="mt-2 max-w-2xl text-sm font-medium text-slate-400">
@@ -402,7 +402,7 @@ export default function POSDashboard() {
                     <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
                       {product.category}
                     </p>
-                    <div className="mt-4 flex items-end justify-between gap-3">
+                    <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
                       <span className="text-lg font-black text-emerald-300">
                         {formatCurrency(product.price)}
                       </span>
@@ -469,7 +469,7 @@ export default function POSDashboard() {
               </div>
             </section>
 
-            <aside className="flex min-h-[640px] flex-col border-t border-white/[0.08] bg-surface p-4 md:p-6 xl:min-h-0 xl:border-l xl:border-t-0">
+            <aside className="flex min-h-[640px] flex-col border-t border-white/[0.08] bg-surface p-4 pb-40 md:p-6 md:pb-44 xl:min-h-0 xl:border-l xl:border-t-0">
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <p className="text-sm font-black uppercase tracking-[0.16em] text-emerald-300">

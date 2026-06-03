@@ -66,9 +66,9 @@ export function OfferPackages({ messages }: OfferPackagesProps) {
 
                 <a
                   className="mt-7 inline-flex items-center gap-2 text-base font-bold text-[#E8531A] transition hover:text-[#1B3A5C] lg:mt-auto lg:pt-7"
-                  href="#contact"
+                  href={offer.href}
                 >
-                  {messages.offers.cta}
+                  {messages.offers.detailCta}
                   <ArrowRight className="h-5 w-5" />
                 </a>
               </article>

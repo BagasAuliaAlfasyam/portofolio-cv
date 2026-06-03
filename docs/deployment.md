@@ -33,6 +33,7 @@ AI_SUPPORT_PORT=3004
 COMPANY_PORT=3005
 BACKEND_PORT=8001
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=google-site-verification-token
 NGINX_SERVER_NAME="catalystforge.web.id www.catalystforge.web.id"
 ```
 
@@ -107,6 +108,7 @@ BRANCH=main \
 NEXT_PUBLIC_API_BASE_URL=https://catalystforge.web.id \
 NEXT_PUBLIC_API_URL=https://catalystforge.web.id \
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX \
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=google-site-verification-token \
 BACKEND_CORS_ORIGINS=https://catalystforge.web.id,https://company.catalystforge.web.id,https://hris.catalystforge.web.id,https://crm.catalystforge.web.id,https://pos.catalystforge.web.id,https://ai.catalystforge.web.id,https://ai-support.catalystforge.web.id \
 CONTACT_FROM='CatalystForge <noreply@catalystforge.web.id>' \
 CONTACT_TO=catalystforgetechnology@gmail.com \

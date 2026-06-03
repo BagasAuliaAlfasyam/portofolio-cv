@@ -46,7 +46,30 @@ export default function TransactionsPage() {
         />
       </div>
       <PosPanel title="Transaction ledger">
-        <div className="overflow-x-auto rounded-lg border border-white/[0.08]">
+        <div className="grid gap-3 md:hidden">
+          {transactions.map(([id, time, total, payment, status]) => (
+            <article
+              className="rounded-lg border border-white/[0.08] bg-surface-50 p-4"
+              key={id as string}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-black text-white">{id}</p>
+                  <p className="mt-1 text-sm font-semibold text-slate-500">
+                    {time} - {payment}
+                  </p>
+                </div>
+                <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-black text-emerald-300">
+                  {status}
+                </span>
+              </div>
+              <p className="mt-4 text-lg font-black text-emerald-300">
+                {formatCurrency(total as number)}
+              </p>
+            </article>
+          ))}
+        </div>
+        <div className="hidden overflow-x-auto rounded-lg border border-white/[0.08] md:block">
           <table className="w-full min-w-[760px] text-left text-sm">
             <thead className="bg-white/[0.03] text-xs font-black uppercase tracking-[0.12em] text-slate-500">
               <tr>

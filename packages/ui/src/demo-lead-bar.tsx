@@ -43,7 +43,7 @@ export function DemoLeadBar({
   return (
     <div
       className={cn(
-        "fixed inset-x-3 bottom-3 z-[80] mx-auto max-w-5xl rounded-lg border border-white/12 bg-slate-950/94 p-3 text-white shadow-2xl backdrop-blur md:bottom-5 md:p-4",
+        "fixed inset-x-3 bottom-3 z-[80] mx-auto max-w-5xl rounded-lg border border-white/12 bg-[#020617]/95 p-3 text-white shadow-2xl backdrop-blur md:bottom-5 md:p-4",
         className,
       )}
     >

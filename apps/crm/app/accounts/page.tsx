@@ -61,7 +61,45 @@ export default function AccountsPage() {
         />
       </div>
       <CrmPanel title="Account portfolio">
-        <div className="overflow-x-auto rounded-lg border border-slate-200">
+        <div className="grid gap-3 md:hidden">
+          {accounts.map(([company, industry, contact, stage, owner]) => (
+            <article
+              className="rounded-lg border border-slate-200 bg-white p-4"
+              key={company}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="break-words font-black text-[#1B3A5C]">
+                    {company}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-slate-600">
+                    {industry}
+                  </p>
+                </div>
+                <CrmBadge>{stage}</CrmBadge>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                    Contact
+                  </p>
+                  <p className="mt-1 font-bold text-slate-700">{contact}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                    Owner
+                  </p>
+                  <p className="mt-1 font-bold text-slate-700">{owner}</p>
+                </div>
+              </div>
+              <div className="mt-4 flex gap-2 text-slate-400">
+                <Mail className="h-4 w-4" />
+                <Phone className="h-4 w-4" />
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className="hidden overflow-x-auto rounded-lg border border-slate-200 md:block">
           <table className="w-full min-w-[820px] text-left text-sm">
             <thead className="bg-slate-50 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
               <tr>

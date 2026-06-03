@@ -45,7 +45,8 @@ export default function AiSupportApp() {
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { mutate: sendMessage, isPending } = useAiChat();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [contactFeature, setContactFeature] = useState<string | null>(null);
 
   const showContact = (feature: string) => {
@@ -57,7 +58,9 @@ export default function AiSupportApp() {
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > initialMessages.length) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const handleSend = (text: string = input) => {
@@ -109,9 +112,23 @@ export default function AiSupportApp() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
+      {mobileSidebarOpen ? (
+        <button
+          aria-label="Close agent details"
+          className="fixed inset-0 z-30 bg-black/60 lg:hidden"
+          onClick={() => setMobileSidebarOpen(false)}
+          type="button"
+        />
+      ) : null}
       {/* Sidebar - Agent Details */}
       <aside
-        className={`${sidebarOpen ? "w-72" : "w-0 overflow-hidden"} border-r border-white/[0.06] bg-surface-50/50 flex flex-col transition-all duration-300 shrink-0`}
+        className={`fixed inset-y-0 left-0 z-40 flex w-[min(18rem,86vw)] shrink-0 flex-col border-r border-white/[0.06] bg-surface-50/95 backdrop-blur-xl transition-transform duration-300 lg:relative lg:z-auto lg:bg-surface-50/50 lg:backdrop-blur-none ${
+          mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } ${
+          desktopSidebarOpen
+            ? "lg:translate-x-0 lg:w-72"
+            : "lg:translate-x-0 lg:w-0 lg:overflow-hidden"
+        }`}
       >
         <div className="h-16 flex items-center px-6 border-b border-white/[0.06]">
           <div className="flex items-center gap-2.5">
@@ -174,21 +191,28 @@ export default function AiSupportApp() {
       </aside>
 
       {/* Main Chat Area */}
-      <main className="flex-1 flex flex-col relative">
-        <header className="h-16 border-b border-white/[0.06] bg-background/80 backdrop-blur-xl flex items-center justify-between px-6 z-10 shrink-0">
-          <div className="flex items-center gap-4">
+      <main className="relative flex min-w-0 flex-1 flex-col">
+        <header className="z-10 flex h-16 shrink-0 items-center justify-between gap-3 border-b border-white/[0.06] bg-background/80 px-3 backdrop-blur-xl sm:px-4 md:px-6">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
             <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 -ml-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"
+              onClick={() => {
+                if (window.matchMedia("(min-width: 1024px)").matches) {
+                  setDesktopSidebarOpen((current) => !current);
+                  return;
+                }
+
+                setMobileSidebarOpen((current) => !current);
+              }}
+              className="-ml-1 shrink-0 rounded-lg p-2 text-slate-400 hover:bg-white/[0.04] hover:text-white sm:-ml-2"
             >
               <MessageSquareText className="w-5 h-5" />
             </button>
-            <div>
+            <div className="min-w-0">
               <h1 className="text-sm font-bold text-white">Support Session</h1>
               <p className="text-[10px] text-slate-500">ID: #CS-8472-B</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
             <Link
               href="/analytics"
               className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04]"
@@ -205,15 +229,15 @@ export default function AiSupportApp() {
         </header>
 
         {/* Chat Feed */}
-        <div className="flex-1 overflow-y-auto p-6 pb-32">
-          <div className="max-w-3xl mx-auto space-y-6">
+        <div className="flex-1 overflow-y-auto p-3 pb-72 sm:p-4 md:p-6 md:pb-56">
+          <div className="mx-auto max-w-3xl space-y-5 md:space-y-6">
             <AnimatePresence>
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`flex gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
+                  className={`flex min-w-0 gap-2 sm:gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
                 >
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
@@ -230,7 +254,7 @@ export default function AiSupportApp() {
                   </div>
 
                   <div
-                    className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"} max-w-[80%]`}
+                    className={`flex min-w-0 flex-col ${msg.role === "user" ? "items-end" : "items-start"} max-w-[calc(100%-2.75rem)] sm:max-w-[80%]`}
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-medium text-slate-400">
@@ -247,7 +271,7 @@ export default function AiSupportApp() {
                     </div>
 
                     <div
-                      className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                      className={`max-w-full break-words rounded-2xl p-3 text-sm leading-relaxed sm:p-4 ${
                         msg.role === "user"
                           ? "bg-surface-100 text-slate-200 rounded-tr-sm border border-white/[0.04]"
                           : "glass rounded-tl-sm text-slate-300"
@@ -305,13 +329,13 @@ export default function AiSupportApp() {
         </div>
 
         {/* Input Area */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background via-background to-transparent pt-10">
-          <div className="max-w-3xl mx-auto relative group">
+        <div className="absolute bottom-40 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent p-3 pt-10 sm:bottom-36 sm:p-4 md:bottom-24 md:p-6">
+          <div className="group relative mx-auto max-w-3xl">
             <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 blur opacity-50 group-focus-within:opacity-100 transition duration-500" />
-            <div className="relative flex items-end gap-2 bg-surface-50 border border-white/[0.08] rounded-xl p-2 shadow-2xl">
+            <div className="relative flex items-end gap-1 rounded-xl border border-white/[0.08] bg-surface-50 p-2 shadow-2xl sm:gap-2">
               <button
                 onClick={() => showContact("AI prompt enhancer")}
-                className="p-3 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-lg transition-colors shrink-0"
+                className="shrink-0 rounded-lg p-2.5 text-indigo-400 transition-colors hover:bg-indigo-500/10 hover:text-indigo-300 sm:p-3"
               >
                 <Sparkles className="w-5 h-5" />
               </button>
@@ -326,14 +350,14 @@ export default function AiSupportApp() {
                   }
                 }}
                 placeholder="Ask me anything..."
-                className="w-full bg-transparent border-none text-sm text-slate-100 placeholder:text-slate-500 focus:ring-0 resize-none py-3 max-h-32 focus:outline-none"
+                className="max-h-28 w-full resize-none border-none bg-transparent py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-0 sm:max-h-32 sm:py-3"
                 rows={1}
               />
 
               <button
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isPending}
-                className="p-3 bg-gradient-to-r from-indigo-500 to-pink-500 text-white rounded-lg shadow-lg hover:shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all shrink-0"
+                className="shrink-0 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 p-2.5 text-white shadow-lg transition-all hover:shadow-indigo-500/25 disabled:cursor-not-allowed disabled:opacity-50 sm:p-3"
               >
                 <Send className="w-5 h-5" />
               </button>

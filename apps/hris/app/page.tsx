@@ -133,7 +133,7 @@ export default function HRISDashboard() {
             <p className="text-sm font-black uppercase tracking-[0.16em] text-brand-400">
               HRIS Command Center
             </p>
-            <h1 className="mt-2 text-3xl font-black tracking-tight text-white md:text-4xl">
+            <h1 className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl md:text-4xl">
               People operations, attendance, payroll, and structure
             </h1>
             <p className="mt-2 max-w-3xl text-sm font-medium text-slate-400">
@@ -206,7 +206,45 @@ export default function HRISDashboard() {
                 Filters
               </HrisActionButton>
             </div>
-            <div className="overflow-x-auto rounded-lg border border-white/[0.08]">
+            <div className="grid gap-3 md:hidden">
+              {filteredEmployees.map((employee) => (
+                <article
+                  className="rounded-lg border border-white/[0.08] bg-surface-50 p-4"
+                  key={employee.name}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="break-words font-black text-white">
+                        {employee.name}
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-slate-500">
+                        {employee.role}
+                      </p>
+                    </div>
+                    <StatusPill value={employee.status} />
+                  </div>
+                  <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                        Department
+                      </p>
+                      <p className="mt-1 font-bold text-slate-300">
+                        {employee.department}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                        Manager
+                      </p>
+                      <p className="mt-1 font-bold text-slate-300">
+                        {employee.manager}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="hidden overflow-x-auto rounded-lg border border-white/[0.08] md:block">
               <table className="min-w-[720px] w-full text-left text-sm">
                 <thead className="bg-white/[0.03] text-xs font-black uppercase tracking-[0.12em] text-slate-500">
                   <tr>
@@ -250,14 +288,14 @@ export default function HRISDashboard() {
                   className="rounded-lg border border-white/[0.08] bg-white/[0.03] p-4 app-card-hover"
                   key={unit.name}
                 >
-                  <div className="flex items-center justify-between">
-                    <div>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="min-w-0">
                       <p className="font-black text-white">{unit.name}</p>
                       <p className="mt-1 text-xs font-semibold text-slate-500">
                         Lead: {unit.leader}
                       </p>
                     </div>
-                    <div className="rounded-lg bg-brand-500/10 px-3 py-2 text-right">
+                    <div className="shrink-0 rounded-lg bg-brand-500/10 px-3 py-2 text-right">
                       <p className="text-lg font-black text-brand-400">
                         {unit.count}
                       </p>

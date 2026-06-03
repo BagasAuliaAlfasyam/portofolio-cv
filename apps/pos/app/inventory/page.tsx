@@ -53,7 +53,41 @@ export default function InventoryPage() {
             placeholder="Search SKU..."
           />
         </div>
-        <div className="overflow-x-auto rounded-lg border border-white/[0.08]">
+        <div className="grid gap-3 md:hidden">
+          {inventory.map(([product, category, stock, status, reorder]) => (
+            <article
+              className="rounded-lg border border-white/[0.08] bg-surface-50 p-4"
+              key={product}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="break-words font-black text-white">{product}</p>
+                  <p className="mt-1 text-sm font-semibold text-slate-500">
+                    {category}
+                  </p>
+                </div>
+                <span className="shrink-0 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-black text-emerald-300">
+                  {status}
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                    Stock
+                  </p>
+                  <p className="mt-1 font-black text-slate-200">{stock}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                    Reorder
+                  </p>
+                  <p className="mt-1 font-black text-slate-200">{reorder}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className="hidden overflow-x-auto rounded-lg border border-white/[0.08] md:block">
           <table className="w-full min-w-[760px] text-left text-sm">
             <thead className="bg-white/[0.03] text-xs font-black uppercase tracking-[0.12em] text-slate-500">
               <tr>

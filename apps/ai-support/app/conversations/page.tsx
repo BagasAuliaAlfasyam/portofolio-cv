@@ -8,12 +8,14 @@ const conversations = [
 
 export default function ConversationsPage() {
   return (
-    <main className="min-h-screen bg-background p-6 text-slate-100">
+    <main className="min-h-screen bg-background p-4 pb-40 text-slate-100 md:p-6 md:pb-44">
       <Link className="text-sm font-semibold text-indigo-400" href="/">
         Back to chat
       </Link>
-      <section className="glass mt-8 rounded-xl p-6">
-        <h1 className="text-2xl font-bold text-white">Conversations</h1>
+      <section className="glass mt-8 rounded-xl p-4 sm:p-6">
+        <h1 className="text-2xl font-bold text-white sm:text-3xl">
+          Conversations
+        </h1>
         <p className="mt-1 text-sm text-slate-500">
           Support session queue and lifecycle state.
         </p>
@@ -23,8 +25,8 @@ export default function ConversationsPage() {
               className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4"
               key={id}
             >
-              <div className="flex items-center justify-between gap-4">
-                <div>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                <div className="min-w-0">
                   <p className="font-mono text-sm text-indigo-300">{id}</p>
                   <p className="mt-1 text-sm text-slate-300">{topic}</p>
                 </div>

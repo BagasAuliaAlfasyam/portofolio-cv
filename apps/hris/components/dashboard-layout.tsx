@@ -54,8 +54,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside
         className={`${
-          sidebarOpen ? "w-64" : "w-[70px]"
-        } fixed inset-y-0 left-0 z-40 flex flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300 lg:relative lg:translate-x-0 ${
+          sidebarOpen ? "lg:w-64" : "lg:w-[70px]"
+        } fixed inset-y-0 left-0 z-40 flex w-[min(16rem,86vw)] flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300 lg:relative lg:translate-x-0 ${
           mobileSidebarOpen
             ? "translate-x-0"
             : "-translate-x-full lg:translate-x-0"
@@ -67,7 +67,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-accent-violet flex items-center justify-center shadow-lg shadow-brand-500/25">
               <Zap className="w-4 h-4 text-white" />
             </div>
-            {sidebarOpen && (
+            {(sidebarOpen || mobileSidebarOpen) && (
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-white">HRIS</span>
                 <span className="text-[9px] text-slate-500 tracking-wider">
@@ -101,14 +101,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <link.icon
                 className={`w-[18px] h-[18px] shrink-0 ${pathname === link.href ? "text-brand-400" : "text-slate-600 group-hover:text-slate-400"}`}
               />
-              {sidebarOpen && <span>{link.label}</span>}
+              {(sidebarOpen || mobileSidebarOpen) && <span>{link.label}</span>}
             </Link>
           ))}
         </nav>
 
         {/* Sidebar toggle */}
         <div className="p-3 border-t border-sidebar-border">
-          {sidebarOpen && (
+          {(sidebarOpen || mobileSidebarOpen) && (
             <div className="mb-3 rounded-xl border border-emerald-500/15 bg-emerald-500/10 px-3 py-2 text-xs font-black text-emerald-300">
               <span className="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-400" />
               Demo mode
@@ -127,7 +127,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       {/* Main content */}
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="h-16 border-b border-white/[0.06] bg-background/80 backdrop-blur-xl flex items-center justify-between gap-3 px-4 shrink-0 md:px-6">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-white/[0.06] bg-background/80 px-3 backdrop-blur-xl sm:gap-3 sm:px-4 md:px-6">
           {/* Search */}
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <button
@@ -148,7 +148,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2 md:gap-3">
             <span className="hidden items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/10 px-3 py-1.5 text-xs font-black text-emerald-300 md:inline-flex">
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
               Demo mode
@@ -168,7 +168,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <div className="relative">
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg hover:bg-surface-50 transition-all"
+                className="flex items-center gap-2 rounded-lg px-1.5 py-1.5 transition-all hover:bg-surface-50 sm:px-3"
               >
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-accent-violet flex items-center justify-center text-white text-xs font-bold">
                   AD
@@ -210,7 +210,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-4 app-fade-in md:p-6">
+        <main className="flex-1 overflow-y-auto p-4 pb-40 app-fade-in md:p-6 md:pb-44">
           {children}
         </main>
       </div>

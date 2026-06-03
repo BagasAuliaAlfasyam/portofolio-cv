@@ -106,6 +106,20 @@ def _is_rate_limited(client_ip: str) -> bool:
 
 def _build_email_html(payload: ContactRequest) -> str:
     escaped_message = html.escape(payload.message).replace("\n", "<br />")
+    tracking_rows = "\n".join(
+        _build_optional_html_row(label, value)
+        for label, value in [
+            ("Need", payload.need_type),
+            ("Budget", payload.budget_range),
+            ("Timeline", payload.timeline),
+            ("Landing page", payload.page_path),
+            ("UTM source", payload.utm_source),
+            ("UTM medium", payload.utm_medium),
+            ("UTM campaign", payload.utm_campaign),
+            ("UTM content", payload.utm_content),
+            ("UTM term", payload.utm_term),
+        ]
+    )
 
     return f"""
     <div style="font-family:Arial,sans-serif;color:#1a1a2e;line-height:1.6">
@@ -114,6 +128,7 @@ def _build_email_html(payload: ContactRequest) -> str:
       <p><strong>Email:</strong> {html.escape(str(payload.email))}</p>
       <p><strong>Phone:</strong> {html.escape(payload.phone or "-")}</p>
       <p><strong>Company:</strong> {html.escape(payload.company or "-")}</p>
+      {tracking_rows}
       <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
       <p><strong>Message:</strong></p>
       <p>{escaped_message}</p>
@@ -130,8 +145,23 @@ def _build_email_text(payload: ContactRequest) -> str:
             f"Email: {payload.email}",
             f"Phone: {payload.phone or '-'}",
             f"Company: {payload.company or '-'}",
+            f"Need: {payload.need_type or '-'}",
+            f"Budget: {payload.budget_range or '-'}",
+            f"Timeline: {payload.timeline or '-'}",
+            f"Landing page: {payload.page_path or '-'}",
+            f"UTM source: {payload.utm_source or '-'}",
+            f"UTM medium: {payload.utm_medium or '-'}",
+            f"UTM campaign: {payload.utm_campaign or '-'}",
+            f"UTM content: {payload.utm_content or '-'}",
+            f"UTM term: {payload.utm_term or '-'}",
             "",
             "Message:",
             payload.message,
         ]
     )
+
+
+def _build_optional_html_row(label: str, value: str) -> str:
+    escaped_label = html.escape(label)
+    escaped_value = html.escape(value or "-")
+    return f"<p><strong>{escaped_label}:</strong> {escaped_value}</p>"

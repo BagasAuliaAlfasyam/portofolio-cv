@@ -42,7 +42,34 @@ export default function ReportsPage() {
         />
       </div>
       <CrmPanel title="Lead source performance">
-        <div className="overflow-x-auto rounded-lg border border-slate-200">
+        <div className="grid gap-3 md:hidden">
+          {rows.map(([source, leads, pipeline, winRate]) => (
+            <article
+              className="rounded-lg border border-slate-200 bg-white p-4"
+              key={source}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <p className="font-black text-[#1B3A5C]">{source}</p>
+                <p className="font-black text-[#E8531A]">{pipeline}</p>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                    Leads
+                  </p>
+                  <p className="mt-1 font-bold text-slate-700">{leads}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                    Win rate
+                  </p>
+                  <p className="mt-1 font-bold text-slate-700">{winRate}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className="hidden overflow-x-auto rounded-lg border border-slate-200 md:block">
           <table className="min-w-[620px] w-full text-left text-sm">
             <thead className="bg-slate-50 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
               <tr>

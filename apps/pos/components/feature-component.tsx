@@ -61,13 +61,13 @@ export function PosPageShell({
             <DemoPill />
           </div>
         </aside>
-        <section className="w-full min-w-0 p-4 app-fade-in md:p-8">
+        <section className="w-full min-w-0 p-3 pb-40 app-fade-in sm:p-4 md:p-8 md:pb-44">
           <div className="mb-4 flex items-center justify-between gap-3 lg:hidden">
             <details className="relative">
               <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-lg border border-white/[0.08] bg-surface-50 text-slate-300 [&::-webkit-details-marker]:hidden">
                 <Menu className="h-5 w-5" />
               </summary>
-              <nav className="absolute left-0 top-12 z-30 grid w-64 gap-1 rounded-xl border border-white/[0.08] bg-sidebar p-2 shadow-2xl">
+              <nav className="fixed left-3 right-3 top-16 z-30 grid max-w-sm gap-1 rounded-xl border border-white/[0.08] bg-sidebar p-2 shadow-2xl">
                 {navItems.map((item) => (
                   <Link
                     className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-500 hover:bg-white/[0.04] hover:text-slate-200"
@@ -83,15 +83,15 @@ export function PosPageShell({
             <DemoPill />
           </div>
           <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-            <div>
+            <div className="min-w-0">
               <p className="text-sm font-black uppercase tracking-[0.16em] text-emerald-300">
                 {eyebrow}
               </p>
-              <h1 className="mt-2 text-3xl font-black text-white md:text-4xl">
+              <h1 className="mt-2 text-2xl font-black text-white sm:text-3xl md:text-4xl">
                 {title}
               </h1>
             </div>
-            {actions}
+            {actions ? <div className="w-full xl:w-auto">{actions}</div> : null}
           </div>
           {children}
         </section>
